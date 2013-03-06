@@ -1,4 +1,4 @@
-// Copyright (C) 2010 pdfcrowd.com
+// Copyright (C) 2010-2013 pdfcrowd.com
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -119,20 +119,32 @@ public class Client {
     }
 
     public void setHorizontalMargin(double value) {
-        fields.put("hmargin", doubleToString(value));
+        fields.put("margin_right", doubleToString(value));
+        fields.put("margin_left", doubleToString(value));
     }
 
     public void setHorizontalMargin(String value) {
-        fields.put("hmargin", value);
+        fields.put("margin_right", value);
+        fields.put("margin_left", value);
     }
 
     public void setVerticalMargin(double value) {
-        fields.put("vmargin", doubleToString(value));
+        fields.put("margin_top", doubleToString(value));
+        fields.put("margin_bottom", doubleToString(value));
     }
 
     public void setVerticalMargin(String value) {
-        fields.put("vmargin", value);
+        fields.put("margin_top", value);
+        fields.put("margin_bottom", value);
     }
+
+    public void setPageMargins(String top, String right, String bottom, String left) {
+        fields.put("margin_top", top);
+        fields.put("margin_right", right);
+        fields.put("margin_bottom", bottom);
+        fields.put("margin_left", left);
+    }
+
 
     public void setEncrypted() {
         setEncrypted(true);
