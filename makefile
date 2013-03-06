@@ -43,6 +43,5 @@ test: $(JAR)
 
 .PHONY: clean
 clean:
-	rm -rf $(ZIPFILE)
+	rm -rf $(ZIPFILE) dist/* ./test_files/out/java_*.pdf
 	find . -name '*.class' -delete
-	rm -rf dist/*
