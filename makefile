@@ -1,4 +1,4 @@
-VERSION = 2.4
+VERSION = 2.5
 JAR = pdfcrowd.jar
 ZIPSTEM = pdfcrowd-$(VERSION)-java
 ZIPFILE = dist/$(ZIPSTEM).zip
@@ -35,6 +35,10 @@ com/pdfcrowd/Client.class: com/pdfcrowd/Client.java
 
 com/pdfcrowd/PdfcrowdError.class: com/pdfcrowd/PdfcrowdError.java
 	$(JAVAC) com/pdfcrowd/PdfcrowdError.java
+
+init:
+	test -d ../test_files/out || mkdir -p ../test_files/out
+	test -e test_files || ln -s ../test_files/ test_files
 
 test: $(JAR)
 	$(JAVAC) -classpath . apitest.java
