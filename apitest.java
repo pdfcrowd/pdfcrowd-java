@@ -2,7 +2,7 @@ import com.pdfcrowd.*;
 import java.io.*;
 
 public class apitest {
-    private static String TEST_DIR = "../test_files";
+    private static String TEST_DIR = "./test_files";
     
     public static FileOutputStream getFile(String name, boolean use_ssl) {
         try
@@ -93,6 +93,12 @@ public class apitest {
                 }
                 
             }
+
+            // 4 margins
+            Client cm = new Client(args[0], args[1]);
+            cm.setPageMargins("0.25in", "0.5in", "0.75in", "1.0in");
+            cm.convertHtml("<div style='background-color:red;height:100%'>4 margins</div>", getFile("4margins", false));
+
         }
         catch(PdfcrowdError e)
         {
