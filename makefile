@@ -3,7 +3,7 @@ JAR = pdfcrowd.jar
 ZIPSTEM = pdfcrowd-$(VERSION)-java
 ZIPFILE = dist/$(ZIPSTEM).zip
 
--include .config
+-include .config.makefile
 ifeq ($(JAVA_HOME),)
 	JAVA_HOME := /usr/bin/
 endif
