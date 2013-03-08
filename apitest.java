@@ -7,7 +7,7 @@ public class apitest {
     public static FileOutputStream getFile(String name, boolean use_ssl) {
         try
         {
-            String fname = String.format("%s/out/java_client%s", TEST_DIR, name);
+            String fname = String.format("%s/out/java_client_%s", TEST_DIR, name);
             if (use_ssl) fname += "_ssl";
             return new FileOutputStream(fname + ".pdf");
         }
@@ -73,13 +73,13 @@ public class apitest {
                 try
                 {
                     FileOutputStream fileStream;
-                    fileStream = new FileOutputStream("../test_files/out/java_client_filestream.pdf");
+                    fileStream = getFile("filestream.pdf", false);
                     c.convertHtml(html, fileStream);
                     fileStream.close();
 
                     ByteArrayOutputStream memStream  = new ByteArrayOutputStream();
                     c.convertHtml(html, memStream);
-                    memStream.writeTo(new FileOutputStream("../test_files/out/java_client_from_bytestream.pdf"));
+                    memStream.writeTo(getFile("from_bytestream", false));
                 }
                 // catch(FileNotFoundException e)
                 // {
