@@ -1,4 +1,4 @@
-.config
+.config.makefile
 *.class
 *.jar
 dist/
