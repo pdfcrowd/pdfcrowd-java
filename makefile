@@ -1,4 +1,4 @@
-VERSION = 2.5
+VERSION = 2.6
 JAR = pdfcrowd.jar
 ZIPSTEM = pdfcrowd-$(VERSION)-java
 ZIPFILE = dist/$(ZIPSTEM).zip
