@@ -444,6 +444,7 @@ public class Client {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", contentType);
+            conn.setConnectTimeout(120000);
             return conn;
         }
         catch(MalformedURLException e)
