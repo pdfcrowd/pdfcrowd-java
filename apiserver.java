@@ -28,7 +28,7 @@ public class apiserver {
             }
             
             Client c = new Client(args[0], args[1], args[2]);
-            c.convertURI("http://www.web-to-pdf.com/", getFile("uri"));
+            c.convertURI("http://dl.dropboxusercontent.com/u/9346438/tests/webtopdfcom.html", getFile("uri"));
             c.convertHtml("test", getFile("content"));
             c.convertFile(TEST_DIR + "/in/simple.html", getFile("upload"));
         }
