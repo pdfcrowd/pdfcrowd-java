@@ -54,7 +54,7 @@ public class apitest {
                 c.setPageHeight(10.9*72);
                 c.setHorizontalMargin(72);
                 c.setVerticalMargin(2*72);
-                c.convertURI("http://dl.dropboxusercontent.com/u/9346438/tests/webtopdfcom.html", getFile("uri", use_ssl));
+                c.convertURI("https://storage.googleapis.com/pdfcrowd-legacy-tests/tests/webtopdfcom.html", getFile("uri", use_ssl));
 
                 c.setPageWidth("8.1in");
                 c.setPageHeight("10.1in");
