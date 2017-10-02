@@ -1,5 +1,4 @@
 .config.makefile
 *.class
 *.jar
-dist/
-test_files
+target/

@@ -1,3 +1,0 @@
-Files:
- pdfcrowd.jar            .. prebuilt java archive file
- com/pdfcrowd/*.java     .. source files
