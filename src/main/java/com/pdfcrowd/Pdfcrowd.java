@@ -27,13 +27,14 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import javax.net.ssl.*;
+import javax.xml.bind.DatatypeConverter;
 
 public final class Pdfcrowd {
     private static final String HOST = System.getenv("PDFCROWD_HOST") != null
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.0";
+    public static final String CLIENT_VERSION = "4.0.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -83,7 +84,7 @@ public final class Pdfcrowd {
         private String proxyHost;
         private int proxyPort;
         private String proxyUserName;
-        private String proxyPassword;    
+        private String proxyPassword;
 
         ConnectionHelper(String userName, String apiKey) {
             this.userName = userName;
@@ -92,7 +93,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.0.1 (http://pdfcrowd.com)");
         }
 
         private void resetResponseData() {
@@ -224,7 +225,7 @@ public final class Pdfcrowd {
                     return hostname.equals("api.pdfcrowd.com") || !HOST.equals("api.pdfcrowd.com");
                 }
             };
-    
+
         private HttpURLConnection getConnection(String contentType) throws IOException {
             try {
                 URL url = new URL(String.format("http%s://%s:%d%s",
@@ -235,7 +236,7 @@ public final class Pdfcrowd {
                 if (proxyHost != null) {
                     Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
                     conn = (HttpURLConnection) url.openConnection(proxy);
-                
+
                     if (proxyUserName != null) {
                         Authenticator authenticator = new Authenticator() {
                                 public PasswordAuthentication getPasswordAuthentication() {
@@ -261,10 +262,9 @@ public final class Pdfcrowd {
                 conn.setRequestProperty("User-Agent", userAgent);
 
                 String auth = userName + ':' + apiKey;
-                Base64.Encoder encoder = Base64.getEncoder();
-                String authEncoded = new String(encoder.encode(auth.getBytes()));
+                String authEncoded = DatatypeConverter.printBase64Binary(auth.getBytes());
                 conn.setRequestProperty("Authorization", "Basic " + authEncoded);
-            
+
                 return conn;
             }
             catch(MalformedURLException e) {
