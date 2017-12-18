@@ -34,7 +34,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.1.0";
+    public static final String CLIENT_VERSION = "4.2.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.1.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.2.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -2333,7 +2333,7 @@ public final class Pdfcrowd {
         * Perform an action on the input files.
         * @return Byte array containing the output PDF.
         */
-        public byte[] convertFiles() {
+        public byte[] convert() {
             return helper.post(fields, files, rawData, null);
         }
 
@@ -2342,7 +2342,7 @@ public final class Pdfcrowd {
         * 
         * @param outStream The output stream that will contain the output PDF.
         */
-        public void convertFilesToStream(OutputStream outStream) {
+        public void convertToStream(OutputStream outStream) {
             helper.post(fields, files, rawData, outStream);
         }
 
@@ -2351,12 +2351,12 @@ public final class Pdfcrowd {
         * 
         * @param filePath The output file path. The string must not be empty.
         */
-        public void convertFilesToFile(String filePath) throws IOException {
+        public void convertToFile(String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "pdf-to-pdf", "The string must not be empty.", "convert_files_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "file_path", "pdf-to-pdf", "The string must not be empty.", "convert_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
-            convertFilesToStream(outputFile);
+            convertToStream(outputFile);
             outputFile.close();
         }
 
@@ -2376,7 +2376,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Add in-memory raw PDF data to the list of the input PDFs.
+        * Add in-memory raw PDF data to the list of the input PDFs.<br>Typical usage is for adding PDF created by another Pdfcrowd converter.<br><br> Example in PHP:<br> <b>$clientPdf2Pdf</b>-&gt;addPdfRawData(<b>$clientHtml2Pdf</b>-&gt;convertUrl('http://www.example.com'));
         * 
         * @param pdfRawData The raw PDF data. The input data must be PDF content.
         * @return The converter object.
