@@ -34,7 +34,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.2.0";
+    public static final String CLIENT_VERSION = "4.2.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.2.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.2.1 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -255,7 +255,7 @@ public final class Pdfcrowd {
                 } else {
                     conn = (HttpURLConnection) url.openConnection();
 
-                    if (!useHttp) {
+                    if (!useHttp && (conn instanceof HttpsURLConnection)) {
                         // BUG: sun-java6-bin: missing cacerts the trustAnchors parameter must be non-empty
                         // http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=564903
                         HttpsURLConnection ssl_conn = (HttpsURLConnection)conn;

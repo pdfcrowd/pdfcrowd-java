@@ -434,7 +434,7 @@ public class Client {
             HttpURLConnection conn = (HttpURLConnection)new URL(
                 getBaseUri() + uriSuffix).openConnection();
 
-            if (m_useSSL)
+            if (m_useSSL && (conn instanceof HttpsURLConnection))
             {
                 // BUG: sun-java6-bin: missing cacerts the trustAnchors parameter must be non-empty
                 // http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=564903
