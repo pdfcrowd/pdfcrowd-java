@@ -34,7 +34,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.3.0";
+    public static final String CLIENT_VERSION = "4.3.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.3.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.3.1 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -140,35 +140,9 @@ public final class Pdfcrowd {
         }
 
         byte[] post(HashMap<String, String> fields, HashMap<String, String> files, HashMap<String, byte[]> rawData, OutputStream outStream) {
-            return files.isEmpty() && rawData.isEmpty() ?
-                postUrlEncoded(fields, outStream) :
-                postMultipart(fields, files, rawData, outStream);
-        }
-
-        private byte[] postUrlEncoded(HashMap<String, String> fields, OutputStream outStream) {
-            byte[] body = encodePostData(prepareFields(fields));
-            String contentType = "application/x-www-form-urlencoded";
-            return doPost(body, contentType, outStream);
-        }
-
-        private byte[] postMultipart(HashMap<String, String> fields, HashMap<String, String> files, HashMap<String, byte[]> rawData, OutputStream outStream) {
             ByteArrayOutputStream body = encodeMultipartPostData(prepareFields(fields), files, rawData);
             String contentType = "multipart/form-data; boundary=" + MULTIPART_BOUNDARY;
             return doPost(body, contentType, outStream);
-        }
-
-        private static byte[] encodePostData(HashMap<String, String> fields) {
-            Vector<String> body = new Vector<String>();
-            try {
-                for(Map.Entry<String, String> entry: fields.entrySet()) {
-                    body.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "=" +
-                             URLEncoder.encode(entry.getValue(), "UTF-8"));
-                }
-                return join(body, "&").getBytes("UTF-8");
-            }
-            catch(UnsupportedEncodingException e) {
-                throw new Error(e);
-            }
         }
 
         private static void beginFileField(String name, String fileName, Vector<String> body) {
@@ -1047,7 +1021,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the HTTP authentication.
+        * Set credentials to access HTTP base authentication protected websites.
         * 
         * @param userName Set the HTTP authentication user name.
         * @param password Set the HTTP authentication password.
@@ -1951,7 +1925,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the HTTP authentication.
+        * Set credentials to access HTTP base authentication protected websites.
         * 
         * @param userName Set the HTTP authentication user name.
         * @param password Set the HTTP authentication password.
