@@ -34,7 +34,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.3.1";
+    public static final String CLIENT_VERSION = "4.3.2";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.3.1 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.3.2 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -1263,6 +1263,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(headerFooterScaleFactor, "header_footer_scale_factor", "html-to-pdf", "The value must be in a range 10-500.", "set_header_footer_scale_factor"), 470);
             
             fields.put("header_footer_scale_factor", Integer.toString(headerFooterScaleFactor));
+            return this;
+        }
+
+        /**
+        * Disable the intelligent shrinking strategy that tries to optimally fit the HTML contents to a PDF page.
+        * 
+        * @param disableSmartShrinking Set to <span class='field-value'>true</span> to disable the intelligent shrinking strategy.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setDisableSmartShrinking(boolean disableSmartShrinking) {
+            fields.put("disable_smart_shrinking", disableSmartShrinking ? "true" : null);
             return this;
         }
 
