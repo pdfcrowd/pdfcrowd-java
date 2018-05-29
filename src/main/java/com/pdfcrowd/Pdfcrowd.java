@@ -343,6 +343,12 @@ public final class Pdfcrowd {
                 inStream.close();
                 return output.toByteArray();
             }
+            catch(SSLException e) {
+                throw new Error("There was a problem connecting to Pdfcrowd servers over HTTPS:\n" +
+                                e.toString() +
+                                "\nYou can still use the API over HTTP, you just need to add the following line right after Pdfcrowd client initialization:\nclient.setUseHttp(true);",
+                                481);
+            }
             catch(IOException e) {
                 throw new Error(e);
             }
