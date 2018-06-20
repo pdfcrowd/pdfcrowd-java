@@ -27,14 +27,13 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import javax.net.ssl.*;
-import javax.xml.bind.DatatypeConverter;
 
 public final class Pdfcrowd {
     private static final String HOST = System.getenv("PDFCROWD_HOST") != null
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.3.3";
+    public static final String CLIENT_VERSION = "4.3.6";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -96,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.3.5 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.3.6 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -242,7 +241,7 @@ public final class Pdfcrowd {
                 conn.setRequestProperty("User-Agent", userAgent);
 
                 String auth = userName + ':' + apiKey;
-                String authEncoded = DatatypeConverter.printBase64Binary(auth.getBytes());
+                String authEncoded = new String(Base64Utils.encodeBytes(auth.getBytes()));
                 conn.setRequestProperty("Authorization", "Basic " + authEncoded);
 
                 return conn;
