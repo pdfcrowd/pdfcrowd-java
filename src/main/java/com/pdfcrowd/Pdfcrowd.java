@@ -96,7 +96,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.3.3 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.3.5 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -1613,6 +1613,17 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        * 
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * 
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
@@ -2186,6 +2197,17 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        * 
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * 
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
@@ -2490,6 +2512,17 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        * 
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public ImageToImageClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * 
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
@@ -2694,6 +2727,17 @@ public final class Pdfcrowd {
         */
         public int getOutputSize() {
             return helper.getOutputSize();
+        }
+
+        /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        * 
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
         }
 
         /**
@@ -2984,6 +3028,17 @@ public final class Pdfcrowd {
         */
         public int getOutputSize() {
             return helper.getOutputSize();
+        }
+
+        /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        * 
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
         }
 
         /**
