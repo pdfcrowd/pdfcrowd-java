@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.3.6";
+    public static final String CLIENT_VERSION = "4.4.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.3.6 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.4.1 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -839,6 +839,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(pages, "pages", "html-to-pdf", "A comma seperated list of page numbers or ranges.", "set_print_page_range"), 470);
             
             fields.put("print_page_range", pages);
+            return this;
+        }
+
+        /**
+        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins.
+        *
+        * @param pageBackgroundColor The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageBackgroundColor(String pageBackgroundColor) {
+            if (!pageBackgroundColor.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(pageBackgroundColor, "page_background_color", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
+            
+            fields.put("page_background_color", pageBackgroundColor);
             return this;
         }
 
@@ -1623,6 +1637,59 @@ public final class Pdfcrowd {
         }
 
         /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setHttpProxy(String httpProxy) {
+            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", httpProxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setHttpsProxy(String httpsProxy) {
+            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", httpsProxy);
+            return this;
+        }
+
+        /**
+        * A client certificate to authenticate Pdfcrowd converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
+        *
+        * @param clientCertificate The file must be in PKCS12 format. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setClientCertificate(String clientCertificate) {
+            if (!(new File(clientCertificate).length() > 0))
+                throw new Error(createInvalidValueMessage(clientCertificate, "client_certificate", "html-to-pdf", "The file must exist and not be empty.", "set_client_certificate"), 470);
+            
+            files.put("client_certificate", clientCertificate);
+            return this;
+        }
+
+        /**
+        * A password for PKCS12 file with a client certificate if it's needed.
+        *
+        * @param clientCertificatePassword
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setClientCertificatePassword(String clientCertificatePassword) {
+            fields.put("client_certificate_password", clientCertificatePassword);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
@@ -2207,6 +2274,59 @@ public final class Pdfcrowd {
         }
 
         /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setHttpProxy(String httpProxy) {
+            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", httpProxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setHttpsProxy(String httpsProxy) {
+            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", httpsProxy);
+            return this;
+        }
+
+        /**
+        * A client certificate to authenticate Pdfcrowd converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
+        *
+        * @param clientCertificate The file must be in PKCS12 format. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setClientCertificate(String clientCertificate) {
+            if (!(new File(clientCertificate).length() > 0))
+                throw new Error(createInvalidValueMessage(clientCertificate, "client_certificate", "html-to-image", "The file must exist and not be empty.", "set_client_certificate"), 470);
+            
+            files.put("client_certificate", clientCertificate);
+            return this;
+        }
+
+        /**
+        * A password for PKCS12 file with a client certificate if it's needed.
+        *
+        * @param clientCertificatePassword
+        * @return The converter object.
+        */
+        public HtmlToImageClient setClientCertificatePassword(String clientCertificatePassword) {
+            fields.put("client_certificate_password", clientCertificatePassword);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
@@ -2518,6 +2638,34 @@ public final class Pdfcrowd {
         */
         public ImageToImageClient setTag(String tag) {
             fields.put("tag", tag);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public ImageToImageClient setHttpProxy(String httpProxy) {
+            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", httpProxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public ImageToImageClient setHttpsProxy(String httpsProxy) {
+            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", httpsProxy);
             return this;
         }
 
@@ -3037,6 +3185,34 @@ public final class Pdfcrowd {
         */
         public ImageToPdfClient setTag(String tag) {
             fields.put("tag", tag);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setHttpProxy(String httpProxy) {
+            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", httpProxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setHttpsProxy(String httpsProxy) {
+            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", httpsProxy);
             return this;
         }
 
