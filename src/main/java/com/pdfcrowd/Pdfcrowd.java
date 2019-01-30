@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.4.1";
+    public static final String CLIENT_VERSION = "4.4.2";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.4.1 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.4.2 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -1205,12 +1205,12 @@ public final class Pdfcrowd {
         /**
         * Set the viewport width in pixels. The viewport is the user's visible area of the page.
         *
-        * @param viewportWidth The value must be in a range 96-7680.
+        * @param viewportWidth The value must be in the range 96-7680.
         * @return The converter object.
         */
         public HtmlToPdfClient setViewportWidth(int viewportWidth) {
             if (!(viewportWidth >= 96 && viewportWidth <= 7680))
-                throw new Error(createInvalidValueMessage(viewportWidth, "viewport_width", "html-to-pdf", "The value must be in a range 96-7680.", "set_viewport_width"), 470);
+                throw new Error(createInvalidValueMessage(viewportWidth, "viewport_width", "html-to-pdf", "The value must be in the range 96-7680.", "set_viewport_width"), 470);
             
             fields.put("viewport_width", Integer.toString(viewportWidth));
             return this;
@@ -1233,7 +1233,7 @@ public final class Pdfcrowd {
         /**
         * Set the viewport size. The viewport is the user's visible area of the page.
         *
-        * @param width Set the viewport width in pixels. The viewport is the user's visible area of the page. The value must be in a range 96-7680.
+        * @param width Set the viewport width in pixels. The viewport is the user's visible area of the page. The value must be in the range 96-7680.
         * @param height Set the viewport height in pixels. The viewport is the user's visible area of the page. Must be a positive integer number.
         * @return The converter object.
         */
@@ -1244,7 +1244,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Sets the rendering mode.
+        * Set the rendering mode.
         *
         * @param renderingMode The rendering mode. Allowed values are default, viewport.
         * @return The converter object.
@@ -1260,12 +1260,12 @@ public final class Pdfcrowd {
         /**
         * Set the scaling factor (zoom) for the main page area.
         *
-        * @param scaleFactor The scale factor. The value must be in a range 10-500.
+        * @param scaleFactor The percentage value. The value must be in the range 10-500.
         * @return The converter object.
         */
         public HtmlToPdfClient setScaleFactor(int scaleFactor) {
             if (!(scaleFactor >= 10 && scaleFactor <= 500))
-                throw new Error(createInvalidValueMessage(scaleFactor, "scale_factor", "html-to-pdf", "The value must be in a range 10-500.", "set_scale_factor"), 470);
+                throw new Error(createInvalidValueMessage(scaleFactor, "scale_factor", "html-to-pdf", "The value must be in the range 10-500.", "set_scale_factor"), 470);
             
             fields.put("scale_factor", Integer.toString(scaleFactor));
             return this;
@@ -1274,12 +1274,12 @@ public final class Pdfcrowd {
         /**
         * Set the scaling factor (zoom) for the header and footer.
         *
-        * @param headerFooterScaleFactor The scale factor. The value must be in a range 10-500.
+        * @param headerFooterScaleFactor The percentage value. The value must be in the range 10-500.
         * @return The converter object.
         */
         public HtmlToPdfClient setHeaderFooterScaleFactor(int headerFooterScaleFactor) {
             if (!(headerFooterScaleFactor >= 10 && headerFooterScaleFactor <= 500))
-                throw new Error(createInvalidValueMessage(headerFooterScaleFactor, "header_footer_scale_factor", "html-to-pdf", "The value must be in a range 10-500.", "set_header_footer_scale_factor"), 470);
+                throw new Error(createInvalidValueMessage(headerFooterScaleFactor, "header_footer_scale_factor", "html-to-pdf", "The value must be in the range 10-500.", "set_header_footer_scale_factor"), 470);
             
             fields.put("header_footer_scale_factor", Integer.toString(headerFooterScaleFactor));
             return this;
@@ -1293,6 +1293,48 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setDisableSmartShrinking(boolean disableSmartShrinking) {
             fields.put("disable_smart_shrinking", disableSmartShrinking ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the quality of embedded JPEG images. Lower quality results in smaller PDF file. Lower quality affects printing or zooming in a PDF viewer.
+        *
+        * @param jpegQuality The percentage value. The value must be in the range 1-100.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setJpegQuality(int jpegQuality) {
+            if (!(jpegQuality >= 1 && jpegQuality <= 100))
+                throw new Error(createInvalidValueMessage(jpegQuality, "jpeg_quality", "html-to-pdf", "The value must be in the range 1-100.", "set_jpeg_quality"), 470);
+            
+            fields.put("jpeg_quality", Integer.toString(jpegQuality));
+            return this;
+        }
+
+        /**
+        * Set image categories to be converted into embedded JPEG images. The conversion into JPEG may result in smaller PDF file.
+        *
+        * @param convertImagesToJpeg The image category. Allowed values are none, opaque, all.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setConvertImagesToJpeg(String convertImagesToJpeg) {
+            if (!convertImagesToJpeg.matches("(?i)^(none|opaque|all)$"))
+                throw new Error(createInvalidValueMessage(convertImagesToJpeg, "convert_images_to_jpeg", "html-to-pdf", "Allowed values are none, opaque, all.", "set_convert_images_to_jpeg"), 470);
+            
+            fields.put("convert_images_to_jpeg", convertImagesToJpeg);
+            return this;
+        }
+
+        /**
+        * Set the DPI when embedded image is scaled down. Lower DPI may result in smaller PDF file. Lower DPI affects printing or zooming in a PDF viewer. Use <span class='field-value'>0</span> for no scaling down.
+        *
+        * @param imageDpi The DPI value. Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setImageDpi(int imageDpi) {
+            if (!(imageDpi >= 0))
+                throw new Error(createInvalidValueMessage(imageDpi, "image_dpi", "html-to-pdf", "Must be a positive integer number or 0.", "set_image_dpi"), 470);
+            
+            fields.put("image_dpi", Integer.toString(imageDpi));
             return this;
         }
 
@@ -1585,6 +1627,7 @@ public final class Pdfcrowd {
 
         /**
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * The number is available after calling the conversion. So use the method after convertXYZ method.
         * The returned value can differ from the actual count if you run parallel conversions.
         * The special value <span class='field-value'>999999</span> is returned if the information is not available.
         * @return The number of credits.
@@ -2184,12 +2227,12 @@ public final class Pdfcrowd {
         /**
         * Set the output image width in pixels.
         *
-        * @param screenshotWidth The value must be in a range 96-7680.
+        * @param screenshotWidth The value must be in the range 96-7680.
         * @return The converter object.
         */
         public HtmlToImageClient setScreenshotWidth(int screenshotWidth) {
             if (!(screenshotWidth >= 96 && screenshotWidth <= 7680))
-                throw new Error(createInvalidValueMessage(screenshotWidth, "screenshot_width", "html-to-image", "The value must be in a range 96-7680.", "set_screenshot_width"), 470);
+                throw new Error(createInvalidValueMessage(screenshotWidth, "screenshot_width", "html-to-image", "The value must be in the range 96-7680.", "set_screenshot_width"), 470);
             
             fields.put("screenshot_width", Integer.toString(screenshotWidth));
             return this;
@@ -2230,6 +2273,7 @@ public final class Pdfcrowd {
 
         /**
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * The number is available after calling the conversion. So use the method after convertXYZ method.
         * The returned value can differ from the actual count if you run parallel conversions.
         * The special value <span class='field-value'>999999</span> is returned if the information is not available.
         * @return The number of credits.
@@ -2598,6 +2642,7 @@ public final class Pdfcrowd {
 
         /**
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * The number is available after calling the conversion. So use the method after convertXYZ method.
         * The returned value can differ from the actual count if you run parallel conversions.
         * The special value <span class='field-value'>999999</span> is returned if the information is not available.
         * @return The number of credits.
@@ -2836,6 +2881,7 @@ public final class Pdfcrowd {
 
         /**
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * The number is available after calling the conversion. So use the method after convertXYZ method.
         * The returned value can differ from the actual count if you run parallel conversions.
         * The special value <span class='field-value'>999999</span> is returned if the information is not available.
         * @return The number of credits.
@@ -3145,6 +3191,7 @@ public final class Pdfcrowd {
 
         /**
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * The number is available after calling the conversion. So use the method after convertXYZ method.
         * The returned value can differ from the actual count if you run parallel conversions.
         * The special value <span class='field-value'>999999</span> is returned if the information is not available.
         * @return The number of credits.
