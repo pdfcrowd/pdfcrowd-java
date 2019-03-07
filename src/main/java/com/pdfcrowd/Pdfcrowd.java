@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.5.0";
+    public static final String CLIENT_VERSION = "4.6.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.5.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.6.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -185,7 +185,7 @@ public final class Pdfcrowd {
                     retval.write("\r\n".getBytes("UTF-8"));
                 }
 
-                body.add("--" + MULTIPART_BOUNDARY);
+                body.add("--" + MULTIPART_BOUNDARY + "--");
                 body.add("");
                 retval.write(join(body, "\r\n").getBytes("UTF-8"));
 
@@ -2277,6 +2277,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(screenshotHeight, "screenshot_height", "html-to-image", "Must be a positive integer number.", "set_screenshot_height"), 470);
             
             fields.put("screenshot_height", Integer.toString(screenshotHeight));
+            return this;
+        }
+
+        /**
+        * Set the scaling factor (zoom) for the output image.
+        *
+        * @param scaleFactor The percentage value. Must be a positive integer number.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setScaleFactor(int scaleFactor) {
+            if (!(scaleFactor > 0))
+                throw new Error(createInvalidValueMessage(scaleFactor, "scale_factor", "html-to-image", "Must be a positive integer number.", "set_scale_factor"), 470);
+            
+            fields.put("scale_factor", Integer.toString(scaleFactor));
             return this;
         }
 
