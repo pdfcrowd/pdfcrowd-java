@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.6.0";
+    public static final String CLIENT_VERSION = "4.7.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.6.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.7.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -1268,6 +1268,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(renderingMode, "rendering_mode", "html-to-pdf", "Allowed values are default, viewport.", "set_rendering_mode"), 470);
             
             fields.put("rendering_mode", renderingMode);
+            return this;
+        }
+
+        /**
+        * Specifies the scaling mode used for fitting the HTML contents to the print area.
+        *
+        * @param smartScalingMode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setSmartScalingMode(String smartScalingMode) {
+            if (!smartScalingMode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit)$"))
+                throw new Error(createInvalidValueMessage(smartScalingMode, "smart_scaling_mode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit.", "set_smart_scaling_mode"), 470);
+            
+            fields.put("smart_scaling_mode", smartScalingMode);
             return this;
         }
 
