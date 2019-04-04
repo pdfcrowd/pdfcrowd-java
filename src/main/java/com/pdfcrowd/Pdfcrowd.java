@@ -952,7 +952,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the top left X coordinate of the content area.
+        * Set the top left X coordinate of the content area. It's relative to the top left X coordinate of the print area.
         *
         * @param contentAreaX Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
         * @return The converter object.
@@ -966,7 +966,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the top left Y coordinate of the content area.
+        * Set the top left Y coordinate of the content area. It's relative to the top left Y coordinate of the print area.
         *
         * @param contentAreaY Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
         * @return The converter object.
@@ -1010,8 +1010,8 @@ public final class Pdfcrowd {
         /**
         * Set the content area position and size. The content area enables to specify a web page area to be converted.
         *
-        * @param x Set the top left X coordinate of the content area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
-        * @param y Set the top left Y coordinate of the content area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param x Set the top left X coordinate of the content area. It's relative to the top left X coordinate of the print area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param y Set the top left Y coordinate of the content area. It's relative to the top left Y coordinate of the print area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
         * @param width Set the width of the content area. It should be at least 1 inch. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @param height Set the height of the content area. It should be at least 1 inch. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
