@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.8.0";
+    public static final String CLIENT_VERSION = "4.9.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.8.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.9.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -843,76 +843,6 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins.
-        *
-        * @param pageBackgroundColor The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setPageBackgroundColor(String pageBackgroundColor) {
-            if (!pageBackgroundColor.matches("^[0-9a-fA-F]{6,8}$"))
-                throw new Error(createInvalidValueMessage(pageBackgroundColor, "page_background_color", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
-            
-            fields.put("page_background_color", pageBackgroundColor);
-            return this;
-        }
-
-        /**
-        * Apply the first page of the watermark PDF to every page of the output PDF.
-        *
-        * @param pageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setPageWatermark(String pageWatermark) {
-            if (!(new File(pageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(pageWatermark, "page_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
-            
-            files.put("page_watermark", pageWatermark);
-            return this;
-        }
-
-        /**
-        * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
-        *
-        * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setMultipageWatermark(String multipageWatermark) {
-            if (!(new File(multipageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
-            
-            files.put("multipage_watermark", multipageWatermark);
-            return this;
-        }
-
-        /**
-        * Apply the first page of the specified PDF to the background of every page of the output PDF.
-        *
-        * @param pageBackground The file path to a local background PDF file. The file must exist and not be empty.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setPageBackground(String pageBackground) {
-            if (!(new File(pageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(pageBackground, "page_background", "html-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
-            
-            files.put("page_background", pageBackground);
-            return this;
-        }
-
-        /**
-        * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
-        *
-        * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setMultipageBackground(String multipageBackground) {
-            if (!(new File(multipageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
-            
-            files.put("multipage_background", multipageBackground);
-            return this;
-        }
-
-        /**
         * The page header is not printed on the specified pages.
         *
         * @param pages List of physical page numbers. Negative numbers count backwards from the last page: -1 is the last page, -2 is the last but one page, and so on. A comma seperated list of page numbers.
@@ -1021,6 +951,76 @@ public final class Pdfcrowd {
             this.setContentAreaY(y);
             this.setContentAreaWidth(width);
             this.setContentAreaHeight(height);
+            return this;
+        }
+
+        /**
+        * Apply the first page of the watermark PDF to every page of the output PDF.
+        *
+        * @param pageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageWatermark(String pageWatermark) {
+            if (!(new File(pageWatermark).length() > 0))
+                throw new Error(createInvalidValueMessage(pageWatermark, "page_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
+            
+            files.put("page_watermark", pageWatermark);
+            return this;
+        }
+
+        /**
+        * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMultipageWatermark(String multipageWatermark) {
+            if (!(new File(multipageWatermark).length() > 0))
+                throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
+            
+            files.put("multipage_watermark", multipageWatermark);
+            return this;
+        }
+
+        /**
+        * Apply the first page of the specified PDF to the background of every page of the output PDF.
+        *
+        * @param pageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageBackground(String pageBackground) {
+            if (!(new File(pageBackground).length() > 0))
+                throw new Error(createInvalidValueMessage(pageBackground, "page_background", "html-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
+            
+            files.put("page_background", pageBackground);
+            return this;
+        }
+
+        /**
+        * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
+        *
+        * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMultipageBackground(String multipageBackground) {
+            if (!(new File(multipageBackground).length() > 0))
+                throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
+            
+            files.put("multipage_background", multipageBackground);
+            return this;
+        }
+
+        /**
+        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins.
+        *
+        * @param pageBackgroundColor The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageBackgroundColor(String pageBackgroundColor) {
+            if (!pageBackgroundColor.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(pageBackgroundColor, "page_background_color", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
+            
+            fields.put("page_background_color", pageBackgroundColor);
             return this;
         }
 
@@ -1206,7 +1206,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation. In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param onLoadJavascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
@@ -2256,7 +2256,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation. In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param onLoadJavascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
@@ -2986,6 +2986,286 @@ public final class Pdfcrowd {
             
             rawData.put("f_" + Integer.toString(fileId), pdfRawData);
             fileId++;
+            return this;
+        }
+
+        /**
+        * Apply the first page of the watermark PDF to every page of the output PDF.
+        *
+        * @param pageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageWatermark(String pageWatermark) {
+            if (!(new File(pageWatermark).length() > 0))
+                throw new Error(createInvalidValueMessage(pageWatermark, "page_watermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
+            
+            files.put("page_watermark", pageWatermark);
+            return this;
+        }
+
+        /**
+        * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setMultipageWatermark(String multipageWatermark) {
+            if (!(new File(multipageWatermark).length() > 0))
+                throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
+            
+            files.put("multipage_watermark", multipageWatermark);
+            return this;
+        }
+
+        /**
+        * Apply the first page of the specified PDF to the background of every page of the output PDF.
+        *
+        * @param pageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageBackground(String pageBackground) {
+            if (!(new File(pageBackground).length() > 0))
+                throw new Error(createInvalidValueMessage(pageBackground, "page_background", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
+            
+            files.put("page_background", pageBackground);
+            return this;
+        }
+
+        /**
+        * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
+        *
+        * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setMultipageBackground(String multipageBackground) {
+            if (!(new File(multipageBackground).length() > 0))
+                throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
+            
+            files.put("multipage_background", multipageBackground);
+            return this;
+        }
+
+        /**
+        * Create linearized PDF. This is also known as Fast Web View.
+        *
+        * @param linearize Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setLinearize(boolean linearize) {
+            fields.put("linearize", linearize ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Encrypt the PDF. This prevents search engines from indexing the contents.
+        *
+        * @param encrypt Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setEncrypt(boolean encrypt) {
+            fields.put("encrypt", encrypt ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
+        *
+        * @param userPassword The user password.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setUserPassword(String userPassword) {
+            fields.put("user_password", userPassword);
+            return this;
+        }
+
+        /**
+        * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
+        *
+        * @param ownerPassword The owner password.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setOwnerPassword(String ownerPassword) {
+            fields.put("owner_password", ownerPassword);
+            return this;
+        }
+
+        /**
+        * Disallow printing of the output PDF.
+        *
+        * @param noPrint Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setNoPrint(boolean noPrint) {
+            fields.put("no_print", noPrint ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Disallow modification of the ouput PDF.
+        *
+        * @param noModify Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setNoModify(boolean noModify) {
+            fields.put("no_modify", noModify ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Disallow text and graphics extraction from the output PDF.
+        *
+        * @param noCopy Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setNoCopy(boolean noCopy) {
+            fields.put("no_copy", noCopy ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify the page layout to be used when the document is opened.
+        *
+        * @param pageLayout Allowed values are single-page, one-column, two-column-left, two-column-right.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageLayout(String pageLayout) {
+            if (!pageLayout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
+                throw new Error(createInvalidValueMessage(pageLayout, "page_layout", "pdf-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
+            
+            fields.put("page_layout", pageLayout);
+            return this;
+        }
+
+        /**
+        * Specify how the document should be displayed when opened.
+        *
+        * @param pageMode Allowed values are full-screen, thumbnails, outlines.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageMode(String pageMode) {
+            if (!pageMode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
+                throw new Error(createInvalidValueMessage(pageMode, "page_mode", "pdf-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
+            
+            fields.put("page_mode", pageMode);
+            return this;
+        }
+
+        /**
+        * Specify how the page should be displayed when opened.
+        *
+        * @param initialZoomType Allowed values are fit-width, fit-height, fit-page.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setInitialZoomType(String initialZoomType) {
+            if (!initialZoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
+                throw new Error(createInvalidValueMessage(initialZoomType, "initial_zoom_type", "pdf-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
+            
+            fields.put("initial_zoom_type", initialZoomType);
+            return this;
+        }
+
+        /**
+        * Display the specified page when the document is opened.
+        *
+        * @param initialPage Must be a positive integer number.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setInitialPage(int initialPage) {
+            if (!(initialPage > 0))
+                throw new Error(createInvalidValueMessage(initialPage, "initial_page", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
+            
+            fields.put("initial_page", Integer.toString(initialPage));
+            return this;
+        }
+
+        /**
+        * Specify the initial page zoom in percents when the document is opened.
+        *
+        * @param initialZoom Must be a positive integer number.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setInitialZoom(int initialZoom) {
+            if (!(initialZoom > 0))
+                throw new Error(createInvalidValueMessage(initialZoom, "initial_zoom", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
+            
+            fields.put("initial_zoom", Integer.toString(initialZoom));
+            return this;
+        }
+
+        /**
+        * Specify whether to hide the viewer application's tool bars when the document is active.
+        *
+        * @param hideToolbar Set to <span class='field-value'>true</span> to hide tool bars.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setHideToolbar(boolean hideToolbar) {
+            fields.put("hide_toolbar", hideToolbar ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to hide the viewer application's menu bar when the document is active.
+        *
+        * @param hideMenubar Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setHideMenubar(boolean hideMenubar) {
+            fields.put("hide_menubar", hideMenubar ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
+        *
+        * @param hideWindowUi Set to <span class='field-value'>true</span> to hide ui elements.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setHideWindowUi(boolean hideWindowUi) {
+            fields.put("hide_window_ui", hideWindowUi ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to resize the document's window to fit the size of the first displayed page.
+        *
+        * @param fitWindow Set to <span class='field-value'>true</span> to resize the window.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setFitWindow(boolean fitWindow) {
+            fields.put("fit_window", fitWindow ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to position the document's window in the center of the screen.
+        *
+        * @param centerWindow Set to <span class='field-value'>true</span> to center the window.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setCenterWindow(boolean centerWindow) {
+            fields.put("center_window", centerWindow ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
+        *
+        * @param displayTitle Set to <span class='field-value'>true</span> to display the title.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setDisplayTitle(boolean displayTitle) {
+            fields.put("display_title", displayTitle ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
+        *
+        * @param rightToLeft Set to <span class='field-value'>true</span> to set right-to-left reading order.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setRightToLeft(boolean rightToLeft) {
+            fields.put("right_to_left", rightToLeft ? "true" : null);
             return this;
         }
 
