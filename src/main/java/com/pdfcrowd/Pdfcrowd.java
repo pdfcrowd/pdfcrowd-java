@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.10.0";
+    public static final String CLIENT_VERSION = "4.11.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.10.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/4.11.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
         }
@@ -959,6 +959,20 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Load a watermark PDF from the specified URL and apply the first page of the watermark PDF to every page of the output PDF.
+        *
+        * @param pageWatermarkUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageWatermarkUrl(String pageWatermarkUrl) {
+            if (!pageWatermarkUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(pageWatermarkUrl, "page_watermark_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
+            
+            fields.put("page_watermark_url", pageWatermarkUrl);
+            return this;
+        }
+
+        /**
         * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
         * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
@@ -969,6 +983,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
             
             files.put("multipage_watermark", multipageWatermark);
+            return this;
+        }
+
+        /**
+        * Load a watermark PDF from the specified URL and apply each page of the specified watermark PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageWatermarkUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMultipageWatermarkUrl(String multipageWatermarkUrl) {
+            if (!multipageWatermarkUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(multipageWatermarkUrl, "multipage_watermark_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
+            
+            fields.put("multipage_watermark_url", multipageWatermarkUrl);
             return this;
         }
 
@@ -987,6 +1015,20 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Load a background PDF from the specified URL and apply the first page of the background PDF to every page of the output PDF.
+        *
+        * @param pageBackgroundUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageBackgroundUrl(String pageBackgroundUrl) {
+            if (!pageBackgroundUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(pageBackgroundUrl, "page_background_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
+            
+            fields.put("page_background_url", pageBackgroundUrl);
+            return this;
+        }
+
+        /**
         * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
         *
         * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
@@ -997,6 +1039,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
             
             files.put("multipage_background", multipageBackground);
+            return this;
+        }
+
+        /**
+        * Load a background PDF from the specified URL and apply each page of the specified background PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageBackgroundUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMultipageBackgroundUrl(String multipageBackgroundUrl) {
+            if (!multipageBackgroundUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(multipageBackgroundUrl, "multipage_background_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
+            
+            fields.put("multipage_background_url", multipageBackgroundUrl);
             return this;
         }
 
@@ -2988,6 +3044,20 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Load a watermark PDF from the specified URL and apply the first page of the watermark PDF to every page of the output PDF.
+        *
+        * @param pageWatermarkUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageWatermarkUrl(String pageWatermarkUrl) {
+            if (!pageWatermarkUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(pageWatermarkUrl, "page_watermark_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
+            
+            fields.put("page_watermark_url", pageWatermarkUrl);
+            return this;
+        }
+
+        /**
         * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
         * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
@@ -2998,6 +3068,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
             
             files.put("multipage_watermark", multipageWatermark);
+            return this;
+        }
+
+        /**
+        * Load a watermark PDF from the specified URL and apply each page of the specified watermark PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageWatermarkUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setMultipageWatermarkUrl(String multipageWatermarkUrl) {
+            if (!multipageWatermarkUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(multipageWatermarkUrl, "multipage_watermark_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
+            
+            fields.put("multipage_watermark_url", multipageWatermarkUrl);
             return this;
         }
 
@@ -3016,6 +3100,20 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Load a background PDF from the specified URL and apply the first page of the background PDF to every page of the output PDF.
+        *
+        * @param pageBackgroundUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageBackgroundUrl(String pageBackgroundUrl) {
+            if (!pageBackgroundUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(pageBackgroundUrl, "page_background_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
+            
+            fields.put("page_background_url", pageBackgroundUrl);
+            return this;
+        }
+
+        /**
         * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
         *
         * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
@@ -3026,6 +3124,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
             
             files.put("multipage_background", multipageBackground);
+            return this;
+        }
+
+        /**
+        * Load a background PDF from the specified URL and apply each page of the specified background PDF to the corresponding page of the output PDF.
+        *
+        * @param multipageBackgroundUrl The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setMultipageBackgroundUrl(String multipageBackgroundUrl) {
+            if (!multipageBackgroundUrl.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(multipageBackgroundUrl, "multipage_background_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
+            
+            fields.put("multipage_background_url", multipageBackgroundUrl);
             return this;
         }
 
