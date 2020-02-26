@@ -1880,7 +1880,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API. <div class='doc-warning'>Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.</div>
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
@@ -2540,7 +2541,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API. <div class='doc-warning'>Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.</div>
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
@@ -2884,7 +2886,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API. <div class='doc-warning'>Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.</div>
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
@@ -3439,7 +3442,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API. <div class='doc-warning'>Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.</div>
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
@@ -3769,7 +3773,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API. <div class='doc-warning'>Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.</div>
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
         * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
