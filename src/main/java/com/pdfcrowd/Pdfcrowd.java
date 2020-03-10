@@ -399,7 +399,7 @@ public final class Pdfcrowd {
     }
 
     static String createInvalidValueMessage(Object value, String field, String converter, String hint, String id) {
-        String message = String.format("Invalid value '%s' for a field '%s'.", value, field);
+        String message = String.format("Invalid value '%s' for the field '%s'.", value, field);
         if(hint != null)
             {
                 message += " " + hint;
