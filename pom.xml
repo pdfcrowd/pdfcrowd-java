@@ -30,7 +30,7 @@
   <scm>
     <connection>scm:git:git@github.com:pdfcrowd/pdfcrowd-java.git</connection>
     <developerConnection>scm:git:git@github.com:pdfcrowd/pdfcrowd-java.git</developerConnection>
-    <url>git@github.com:pdfcrowd/pdfcrowd-java.git</url>
+    <url>https://github.com/pdfcrowd/pdfcrowd-java</url>
   </scm>
 
   <properties>
