@@ -1983,7 +1983,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be usefull if you are behind some proxy or firewall.
+        * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
         * @param userAgent The user agent string.
         * @return The converter object.
@@ -2735,7 +2735,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be usefull if you are behind some proxy or firewall.
+        * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
         * @param userAgent The user agent string.
         * @return The converter object.
@@ -3080,7 +3080,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be usefull if you are behind some proxy or firewall.
+        * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
         * @param userAgent The user agent string.
         * @return The converter object.
@@ -3636,7 +3636,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be usefull if you are behind some proxy or firewall.
+        * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
         * @param userAgent The user agent string.
         * @return The converter object.
@@ -3967,7 +3967,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be usefull if you are behind some proxy or firewall.
+        * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
         * @param userAgent The user agent string.
         * @return The converter object.
