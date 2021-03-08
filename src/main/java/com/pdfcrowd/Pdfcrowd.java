@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "4.12.0";
+    public static final String CLIENT_VERSION = "5.0.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -87,6 +87,7 @@ public final class Pdfcrowd {
 
         private int retryCount;
         private int retry;
+        private String converterVersion;
 
         ConnectionHelper(String userName, String apiKey) {
             this.userName = userName;
@@ -95,9 +96,10 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/4.12.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.0.0 (http://pdfcrowd.com)");
 
             retryCount = 1;
+            converterVersion = "20.10";
         }
 
         private void resetResponseData() {
@@ -207,9 +209,11 @@ public final class Pdfcrowd {
 
         private HttpURLConnection getConnection(String contentType) throws IOException {
             try {
-                URL url = new URL(String.format("http%s://%s:%d%s",
+                URL url = new URL(String.format("http%s://%s:%d%s%s/",
                                                 useHttp ? "": "s",
-                                                HOST, port, "/convert/"));
+                                                HOST, port,
+                                                "/convert/",
+                                                this.converterVersion));
                 HttpURLConnection conn = null;
 
                 if (proxyHost != null) {
@@ -366,6 +370,10 @@ public final class Pdfcrowd {
             this.retryCount = retryCount;
         }
 
+        void setConverterVersion(String converterVersion) {
+            this.converterVersion = converterVersion;
+        }
+
         void setProxy(String host, int port, String userName, String password) {
             proxyHost = host;
             proxyPort = port;
@@ -396,10 +404,14 @@ public final class Pdfcrowd {
         int getOutputSize() {
             return outputSize;
         }
+
+        String getConverterVersion() {
+            return converterVersion;
+        }
     }
 
     static String createInvalidValueMessage(Object value, String field, String converter, String hint, String id) {
-        String message = String.format("Invalid value '%s' for the field '%s'.", value, field);
+        String message = String.format("Invalid value '%s' for %s.", value, field);
         if(hint != null)
             {
                 message += " " + hint;
@@ -439,7 +451,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "html-to-pdf", "The supported protocols are http:// and https://.", "convert_url"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "convert_url"), 470);
             
             fields.put("url", url);
             return helper.post(fields, files, rawData, null);
@@ -453,7 +465,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "html-to-pdf", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "html-to-pdf", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
             
             fields.put("url", url);
             helper.post(fields, files, rawData, outStream);
@@ -467,7 +479,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -489,7 +501,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "html-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFile", "html-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
             
             files.put("file", file);
             return helper.post(fields, files, rawData, null);
@@ -503,7 +515,7 @@ public final class Pdfcrowd {
         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "html-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "html-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
             
             files.put("file", file);
             helper.post(fields, files, rawData, outStream);
@@ -517,7 +529,7 @@ public final class Pdfcrowd {
         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -539,7 +551,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertString(String text) {
             if (!(text != null && !text.isEmpty()))
-                throw new Error(createInvalidValueMessage(text, "text", "html-to-pdf", "The string must not be empty.", "convert_string"), 470);
+                throw new Error(createInvalidValueMessage(text, "convertString", "html-to-pdf", "The string must not be empty.", "convert_string"), 470);
             
             fields.put("text", text);
             return helper.post(fields, files, rawData, null);
@@ -553,7 +565,7 @@ public final class Pdfcrowd {
         */
         public void convertStringToStream(String text, OutputStream outStream) {
             if (!(text != null && !text.isEmpty()))
-                throw new Error(createInvalidValueMessage(text, "text", "html-to-pdf", "The string must not be empty.", "convert_string_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(text, "convertStringToStream::text", "html-to-pdf", "The string must not be empty.", "convert_string_to_stream"), 470);
             
             fields.put("text", text);
             helper.post(fields, files, rawData, outStream);
@@ -567,7 +579,7 @@ public final class Pdfcrowd {
         */
         public void convertStringToFile(String text, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-pdf", "The string must not be empty.", "convert_string_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertStringToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_string_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -584,42 +596,42 @@ public final class Pdfcrowd {
         /**
         * Set the output page size.
         *
-        * @param pageSize Allowed values are A2, A3, A4, A5, A6, Letter.
+        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageSize(String pageSize) {
-            if (!pageSize.matches("(?i)^(A2|A3|A4|A5|A6|Letter)$"))
-                throw new Error(createInvalidValueMessage(pageSize, "page_size", "html-to-pdf", "Allowed values are A2, A3, A4, A5, A6, Letter.", "set_page_size"), 470);
+        public HtmlToPdfClient setPageSize(String size) {
+            if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
+                throw new Error(createInvalidValueMessage(size, "setPageSize", "html-to-pdf", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_page_size"), 470);
             
-            fields.put("page_size", pageSize);
+            fields.put("page_size", size);
             return this;
         }
 
         /**
         * Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
         *
-        * @param pageWidth Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param width Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageWidth(String pageWidth) {
-            if (!pageWidth.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(pageWidth, "page_width", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_width"), 470);
+        public HtmlToPdfClient setPageWidth(String width) {
+            if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(width, "setPageWidth", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_width"), 470);
             
-            fields.put("page_width", pageWidth);
+            fields.put("page_width", width);
             return this;
         }
 
         /**
         * Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
         *
-        * @param pageHeight Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageHeight(String pageHeight) {
-            if (!pageHeight.matches("(?i)^\\-1$|^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(pageHeight, "page_height", "html-to-pdf", "Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_height"), 470);
+        public HtmlToPdfClient setPageHeight(String height) {
+            if (!height.matches("(?i)^0$|^\\-1$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setPageHeight", "html-to-pdf", "Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_height"), 470);
             
-            fields.put("page_height", pageHeight);
+            fields.put("page_height", height);
             return this;
         }
 
@@ -644,7 +656,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setOrientation(String orientation) {
             if (!orientation.matches("(?i)^(landscape|portrait)$"))
-                throw new Error(createInvalidValueMessage(orientation, "orientation", "html-to-pdf", "Allowed values are landscape, portrait.", "set_orientation"), 470);
+                throw new Error(createInvalidValueMessage(orientation, "setOrientation", "html-to-pdf", "Allowed values are landscape, portrait.", "set_orientation"), 470);
             
             fields.put("orientation", orientation);
             return this;
@@ -653,67 +665,67 @@ public final class Pdfcrowd {
         /**
         * Set the output page top margin.
         *
-        * @param marginTop Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param top Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setMarginTop(String marginTop) {
-            if (!marginTop.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(marginTop, "margin_top", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_top"), 470);
+        public HtmlToPdfClient setMarginTop(String top) {
+            if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(top, "setMarginTop", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_top"), 470);
             
-            fields.put("margin_top", marginTop);
+            fields.put("margin_top", top);
             return this;
         }
 
         /**
         * Set the output page right margin.
         *
-        * @param marginRight Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param right Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setMarginRight(String marginRight) {
-            if (!marginRight.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(marginRight, "margin_right", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_right"), 470);
+        public HtmlToPdfClient setMarginRight(String right) {
+            if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(right, "setMarginRight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_right"), 470);
             
-            fields.put("margin_right", marginRight);
+            fields.put("margin_right", right);
             return this;
         }
 
         /**
         * Set the output page bottom margin.
         *
-        * @param marginBottom Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param bottom Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setMarginBottom(String marginBottom) {
-            if (!marginBottom.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(marginBottom, "margin_bottom", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_bottom"), 470);
+        public HtmlToPdfClient setMarginBottom(String bottom) {
+            if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_bottom"), 470);
             
-            fields.put("margin_bottom", marginBottom);
+            fields.put("margin_bottom", bottom);
             return this;
         }
 
         /**
         * Set the output page left margin.
         *
-        * @param marginLeft Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param left Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setMarginLeft(String marginLeft) {
-            if (!marginLeft.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(marginLeft, "margin_left", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_left"), 470);
+        public HtmlToPdfClient setMarginLeft(String left) {
+            if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(left, "setMarginLeft", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_left"), 470);
             
-            fields.put("margin_left", marginLeft);
+            fields.put("margin_left", left);
             return this;
         }
 
         /**
         * Disable page margins.
         *
-        * @param noMargins Set to <span class='field-value'>true</span> to disable margins.
+        * @param value Set to <span class='field-value'>true</span> to disable margins.
         * @return The converter object.
         */
-        public HtmlToPdfClient setNoMargins(boolean noMargins) {
-            fields.put("no_margins", noMargins ? "true" : null);
+        public HtmlToPdfClient setNoMargins(boolean value) {
+            fields.put("no_margins", value ? "true" : null);
             return this;
         }
 
@@ -737,84 +749,95 @@ public final class Pdfcrowd {
         /**
         * Load an HTML code from the specified URL and use it as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of a converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals <ul> <li>Arabic numerals are used by default.</li> <li>Roman numerals can be generated by the <span class='field-value'>roman</span> and <span class='field-value'>roman-lowercase</span> values <ul> <li> Example: &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> </ul> </li> </ul> </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL, allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
         *
-        * @param headerUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHeaderUrl(String headerUrl) {
-            if (!headerUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(headerUrl, "header_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_header_url"), 470);
+        public HtmlToPdfClient setHeaderUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setHeaderUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_header_url"), 470);
             
-            fields.put("header_url", headerUrl);
+            fields.put("header_url", url);
             return this;
         }
 
         /**
         * Use the specified HTML code as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of a converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals <ul> <li>Arabic numerals are used by default.</li> <li>Roman numerals can be generated by the <span class='field-value'>roman</span> and <span class='field-value'>roman-lowercase</span> values <ul> <li> Example: &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> </ul> </li> </ul> </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL, allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
         *
-        * @param headerHtml The string must not be empty.
+        * @param html The string must not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHeaderHtml(String headerHtml) {
-            if (!(headerHtml != null && !headerHtml.isEmpty()))
-                throw new Error(createInvalidValueMessage(headerHtml, "header_html", "html-to-pdf", "The string must not be empty.", "set_header_html"), 470);
+        public HtmlToPdfClient setHeaderHtml(String html) {
+            if (!(html != null && !html.isEmpty()))
+                throw new Error(createInvalidValueMessage(html, "setHeaderHtml", "html-to-pdf", "The string must not be empty.", "set_header_html"), 470);
             
-            fields.put("header_html", headerHtml);
+            fields.put("header_html", html);
             return this;
         }
 
         /**
         * Set the header height.
         *
-        * @param headerHeight Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setHeaderHeight(String headerHeight) {
-            if (!headerHeight.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(headerHeight, "header_height", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_header_height"), 470);
+        public HtmlToPdfClient setHeaderHeight(String height) {
+            if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setHeaderHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_header_height"), 470);
             
-            fields.put("header_height", headerHeight);
+            fields.put("header_height", height);
             return this;
         }
 
         /**
         * Load an HTML code from the specified URL and use it as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of a converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals <ul> <li>Arabic numerals are used by default.</li> <li>Roman numerals can be generated by the <span class='field-value'>roman</span> and <span class='field-value'>roman-lowercase</span> values <ul> <li> Example: &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> </ul> </li> </ul> </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL, allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
         *
-        * @param footerUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setFooterUrl(String footerUrl) {
-            if (!footerUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(footerUrl, "footer_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_footer_url"), 470);
+        public HtmlToPdfClient setFooterUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setFooterUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_footer_url"), 470);
             
-            fields.put("footer_url", footerUrl);
+            fields.put("footer_url", url);
             return this;
         }
 
         /**
         * Use the specified HTML as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of a converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals <ul> <li>Arabic numerals are used by default.</li> <li>Roman numerals can be generated by the <span class='field-value'>roman</span> and <span class='field-value'>roman-lowercase</span> values <ul> <li> Example: &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> </ul> </li> </ul> </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL, allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
         *
-        * @param footerHtml The string must not be empty.
+        * @param html The string must not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setFooterHtml(String footerHtml) {
-            if (!(footerHtml != null && !footerHtml.isEmpty()))
-                throw new Error(createInvalidValueMessage(footerHtml, "footer_html", "html-to-pdf", "The string must not be empty.", "set_footer_html"), 470);
+        public HtmlToPdfClient setFooterHtml(String html) {
+            if (!(html != null && !html.isEmpty()))
+                throw new Error(createInvalidValueMessage(html, "setFooterHtml", "html-to-pdf", "The string must not be empty.", "set_footer_html"), 470);
             
-            fields.put("footer_html", footerHtml);
+            fields.put("footer_html", html);
             return this;
         }
 
         /**
         * Set the footer height.
         *
-        * @param footerHeight Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setFooterHeight(String footerHeight) {
-            if (!footerHeight.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(footerHeight, "footer_height", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_footer_height"), 470);
+        public HtmlToPdfClient setFooterHeight(String height) {
+            if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setFooterHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_footer_height"), 470);
             
-            fields.put("footer_height", footerHeight);
+            fields.put("footer_height", height);
+            return this;
+        }
+
+        /**
+        * Disable horizontal page margins for header and footer. The header/footer contents width will be equal to the physical page width.
+        *
+        * @param value Set to <span class='field-value'>true</span> to disable horizontal margins for header and footer.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setNoHeaderFooterHorizontalMargins(boolean value) {
+            fields.put("no_header_footer_horizontal_margins", value ? "true" : null);
             return this;
         }
 
@@ -826,7 +849,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setPrintPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
-                throw new Error(createInvalidValueMessage(pages, "pages", "html-to-pdf", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
+                throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "html-to-pdf", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
             
             fields.put("print_page_range", pages);
             return this;
@@ -840,7 +863,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setExcludeHeaderOnPages(String pages) {
             if (!pages.matches("^(?:\\s*\\-?\\d+\\s*,)*\\s*\\-?\\d+\\s*$"))
-                throw new Error(createInvalidValueMessage(pages, "pages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_header_on_pages"), 470);
+                throw new Error(createInvalidValueMessage(pages, "setExcludeHeaderOnPages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_header_on_pages"), 470);
             
             fields.put("exclude_header_on_pages", pages);
             return this;
@@ -854,7 +877,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setExcludeFooterOnPages(String pages) {
             if (!pages.matches("^(?:\\s*\\-?\\d+\\s*,)*\\s*\\-?\\d+\\s*$"))
-                throw new Error(createInvalidValueMessage(pages, "pages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_footer_on_pages"), 470);
+                throw new Error(createInvalidValueMessage(pages, "setExcludeFooterOnPages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_footer_on_pages"), 470);
             
             fields.put("exclude_footer_on_pages", pages);
             return this;
@@ -874,56 +897,56 @@ public final class Pdfcrowd {
         /**
         * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
         *
-        * @param contentAreaX Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param x Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
         * @return The converter object.
         */
-        public HtmlToPdfClient setContentAreaX(String contentAreaX) {
-            if (!contentAreaX.matches("(?i)^\\-?[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(contentAreaX, "content_area_x", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_x"), 470);
+        public HtmlToPdfClient setContentAreaX(String x) {
+            if (!x.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(x, "setContentAreaX", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_x"), 470);
             
-            fields.put("content_area_x", contentAreaX);
+            fields.put("content_area_x", x);
             return this;
         }
 
         /**
         * Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area.
         *
-        * @param contentAreaY Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param y Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
         * @return The converter object.
         */
-        public HtmlToPdfClient setContentAreaY(String contentAreaY) {
-            if (!contentAreaY.matches("(?i)^\\-?[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(contentAreaY, "content_area_y", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_y"), 470);
+        public HtmlToPdfClient setContentAreaY(String y) {
+            if (!y.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(y, "setContentAreaY", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_y"), 470);
             
-            fields.put("content_area_y", contentAreaY);
+            fields.put("content_area_y", y);
             return this;
         }
 
         /**
         * Set the width of the content area. It should be at least 1 inch.
         *
-        * @param contentAreaWidth Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param width Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setContentAreaWidth(String contentAreaWidth) {
-            if (!contentAreaWidth.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(contentAreaWidth, "content_area_width", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_width"), 470);
+        public HtmlToPdfClient setContentAreaWidth(String width) {
+            if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(width, "setContentAreaWidth", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_width"), 470);
             
-            fields.put("content_area_width", contentAreaWidth);
+            fields.put("content_area_width", width);
             return this;
         }
 
         /**
         * Set the height of the content area. It should be at least 1 inch.
         *
-        * @param contentAreaHeight Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
         * @return The converter object.
         */
-        public HtmlToPdfClient setContentAreaHeight(String contentAreaHeight) {
-            if (!contentAreaHeight.matches("(?i)^[0-9]*(\\.[0-9]+)?(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(contentAreaHeight, "content_area_height", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_height"), 470);
+        public HtmlToPdfClient setContentAreaHeight(String height) {
+            if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setContentAreaHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_height"), 470);
             
-            fields.put("content_area_height", contentAreaHeight);
+            fields.put("content_area_height", height);
             return this;
         }
 
@@ -941,6 +964,20 @@ public final class Pdfcrowd {
             this.setContentAreaY(y);
             this.setContentAreaWidth(width);
             this.setContentAreaHeight(height);
+            return this;
+        }
+
+        /**
+        * Specifies behavior in presence of CSS @page rules. It may affect the page size, margins and orientation.
+        *
+        * @param mode The page rule mode. Allowed values are default, mode1, mode2.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setCssPageRuleMode(String mode) {
+            if (!mode.matches("(?i)^(default|mode1|mode2)$"))
+                throw new Error(createInvalidValueMessage(mode, "setCssPageRuleMode", "html-to-pdf", "Allowed values are default, mode1, mode2.", "set_css_page_rule_mode"), 470);
+            
+            fields.put("css_page_rule_mode", mode);
             return this;
         }
 
@@ -974,7 +1011,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setDataFormat(String dataFormat) {
             if (!dataFormat.matches("(?i)^(auto|json|xml|yaml|csv)$"))
-                throw new Error(createInvalidValueMessage(dataFormat, "data_format", "html-to-pdf", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
+                throw new Error(createInvalidValueMessage(dataFormat, "setDataFormat", "html-to-pdf", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
             
             fields.put("data_format", dataFormat);
             return this;
@@ -983,247 +1020,283 @@ public final class Pdfcrowd {
         /**
         * Set the encoding of the data file set by <a href='#set_data_file'>setDataFile</a>.
         *
-        * @param dataEncoding The data file encoding.
+        * @param encoding The data file encoding.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDataEncoding(String dataEncoding) {
-            fields.put("data_encoding", dataEncoding);
+        public HtmlToPdfClient setDataEncoding(String encoding) {
+            fields.put("data_encoding", encoding);
             return this;
         }
 
         /**
         * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
         *
-        * @param dataIgnoreUndefined Set to <span class='field-value'>true</span> to ignore undefined variables.
+        * @param value Set to <span class='field-value'>true</span> to ignore undefined variables.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDataIgnoreUndefined(boolean dataIgnoreUndefined) {
-            fields.put("data_ignore_undefined", dataIgnoreUndefined ? "true" : null);
+        public HtmlToPdfClient setDataIgnoreUndefined(boolean value) {
+            fields.put("data_ignore_undefined", value ? "true" : null);
             return this;
         }
 
         /**
         * Auto escape HTML symbols in the input data before placing them into the output.
         *
-        * @param dataAutoEscape Set to <span class='field-value'>true</span> to turn auto escaping on.
+        * @param value Set to <span class='field-value'>true</span> to turn auto escaping on.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDataAutoEscape(boolean dataAutoEscape) {
-            fields.put("data_auto_escape", dataAutoEscape ? "true" : null);
+        public HtmlToPdfClient setDataAutoEscape(boolean value) {
+            fields.put("data_auto_escape", value ? "true" : null);
             return this;
         }
 
         /**
         * Auto trim whitespace around each template command block.
         *
-        * @param dataTrimBlocks Set to <span class='field-value'>true</span> to turn auto trimming on.
+        * @param value Set to <span class='field-value'>true</span> to turn auto trimming on.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDataTrimBlocks(boolean dataTrimBlocks) {
-            fields.put("data_trim_blocks", dataTrimBlocks ? "true" : null);
+        public HtmlToPdfClient setDataTrimBlocks(boolean value) {
+            fields.put("data_trim_blocks", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the advanced data options:<ul><li><span class='field-value'>csv_delimiter</span> - The CSV data delimiter, the default is <span class='field-value'>,</span>.</li><li><span class='field-value'>xml_remove_root</span> - Remove the root XML element from the input data.</li><li><span class='field-value'>data_root</span> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <span class='field-value'>data</span>.</li></ul>
         *
-        * @param dataOptions Comma separated list of options.
+        * @param options Comma separated list of options.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDataOptions(String dataOptions) {
-            fields.put("data_options", dataOptions);
+        public HtmlToPdfClient setDataOptions(String options) {
+            fields.put("data_options", options);
             return this;
         }
 
         /**
         * Apply the first page of the watermark PDF to every page of the output PDF.
         *
-        * @param pageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @param watermark The file path to a local watermark PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageWatermark(String pageWatermark) {
-            if (!(new File(pageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(pageWatermark, "page_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
+        public HtmlToPdfClient setPageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "html-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
             
-            files.put("page_watermark", pageWatermark);
+            files.put("page_watermark", watermark);
             return this;
         }
 
         /**
         * Load a watermark PDF from the specified URL and apply the first page of the watermark PDF to every page of the output PDF.
         *
-        * @param pageWatermarkUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageWatermarkUrl(String pageWatermarkUrl) {
-            if (!pageWatermarkUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(pageWatermarkUrl, "page_watermark_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
+        public HtmlToPdfClient setPageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
             
-            fields.put("page_watermark_url", pageWatermarkUrl);
+            fields.put("page_watermark_url", url);
             return this;
         }
 
         /**
         * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
-        * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @param watermark The file path to a local watermark PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setMultipageWatermark(String multipageWatermark) {
-            if (!(new File(multipageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
+        public HtmlToPdfClient setMultipageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
             
-            files.put("multipage_watermark", multipageWatermark);
+            files.put("multipage_watermark", watermark);
             return this;
         }
 
         /**
         * Load a watermark PDF from the specified URL and apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
-        * @param multipageWatermarkUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setMultipageWatermarkUrl(String multipageWatermarkUrl) {
-            if (!multipageWatermarkUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(multipageWatermarkUrl, "multipage_watermark_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
+        public HtmlToPdfClient setMultipageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
             
-            fields.put("multipage_watermark_url", multipageWatermarkUrl);
+            fields.put("multipage_watermark_url", url);
             return this;
         }
 
         /**
         * Apply the first page of the specified PDF to the background of every page of the output PDF.
         *
-        * @param pageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @param background The file path to a local background PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageBackground(String pageBackground) {
-            if (!(new File(pageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(pageBackground, "page_background", "html-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
+        public HtmlToPdfClient setPageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setPageBackground", "html-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
             
-            files.put("page_background", pageBackground);
+            files.put("page_background", background);
             return this;
         }
 
         /**
         * Load a background PDF from the specified URL and apply the first page of the background PDF to every page of the output PDF.
         *
-        * @param pageBackgroundUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageBackgroundUrl(String pageBackgroundUrl) {
-            if (!pageBackgroundUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(pageBackgroundUrl, "page_background_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
+        public HtmlToPdfClient setPageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
             
-            fields.put("page_background_url", pageBackgroundUrl);
+            fields.put("page_background_url", url);
             return this;
         }
 
         /**
         * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
         *
-        * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @param background The file path to a local background PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setMultipageBackground(String multipageBackground) {
-            if (!(new File(multipageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
+        public HtmlToPdfClient setMultipageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
             
-            files.put("multipage_background", multipageBackground);
+            files.put("multipage_background", background);
             return this;
         }
 
         /**
         * Load a background PDF from the specified URL and apply each page of the specified background PDF to the corresponding page of the output PDF.
         *
-        * @param multipageBackgroundUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public HtmlToPdfClient setMultipageBackgroundUrl(String multipageBackgroundUrl) {
-            if (!multipageBackgroundUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(multipageBackgroundUrl, "multipage_background_url", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
+        public HtmlToPdfClient setMultipageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "html-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
             
-            fields.put("multipage_background_url", multipageBackgroundUrl);
+            fields.put("multipage_background_url", url);
             return this;
         }
 
         /**
         * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins.
         *
-        * @param pageBackgroundColor The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageBackgroundColor(String pageBackgroundColor) {
-            if (!pageBackgroundColor.matches("^[0-9a-fA-F]{6,8}$"))
-                throw new Error(createInvalidValueMessage(pageBackgroundColor, "page_background_color", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
+        public HtmlToPdfClient setPageBackgroundColor(String color) {
+            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(color, "setPageBackgroundColor", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
             
-            fields.put("page_background_color", pageBackgroundColor);
+            fields.put("page_background_color", color);
+            return this;
+        }
+
+        /**
+        * Use the print version of the page if available (@media print).
+        *
+        * @param value Set to <span class='field-value'>true</span> to use the print version of the page.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setUsePrintMedia(boolean value) {
+            fields.put("use_print_media", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not print the background graphics.
         *
-        * @param noBackground Set to <span class='field-value'>true</span> to disable the background graphics.
+        * @param value Set to <span class='field-value'>true</span> to disable the background graphics.
         * @return The converter object.
         */
-        public HtmlToPdfClient setNoBackground(boolean noBackground) {
-            fields.put("no_background", noBackground ? "true" : null);
+        public HtmlToPdfClient setNoBackground(boolean value) {
+            fields.put("no_background", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not execute JavaScript.
         *
-        * @param disableJavascript Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
+        * @param value Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDisableJavascript(boolean disableJavascript) {
-            fields.put("disable_javascript", disableJavascript ? "true" : null);
+        public HtmlToPdfClient setDisableJavascript(boolean value) {
+            fields.put("disable_javascript", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not load images.
         *
-        * @param disableImageLoading Set to <span class='field-value'>true</span> to disable loading of images.
+        * @param value Set to <span class='field-value'>true</span> to disable loading of images.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDisableImageLoading(boolean disableImageLoading) {
-            fields.put("disable_image_loading", disableImageLoading ? "true" : null);
+        public HtmlToPdfClient setDisableImageLoading(boolean value) {
+            fields.put("disable_image_loading", value ? "true" : null);
             return this;
         }
 
         /**
         * Disable loading fonts from remote sources.
         *
-        * @param disableRemoteFonts Set to <span class='field-value'>true</span> disable loading remote fonts.
+        * @param value Set to <span class='field-value'>true</span> disable loading remote fonts.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDisableRemoteFonts(boolean disableRemoteFonts) {
-            fields.put("disable_remote_fonts", disableRemoteFonts ? "true" : null);
+        public HtmlToPdfClient setDisableRemoteFonts(boolean value) {
+            fields.put("disable_remote_fonts", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specifies how iframes are handled.
+        *
+        * @param iframes Allowed values are all, same-origin, none.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setLoadIframes(String iframes) {
+            if (!iframes.matches("(?i)^(all|same-origin|none)$"))
+                throw new Error(createInvalidValueMessage(iframes, "setLoadIframes", "html-to-pdf", "Allowed values are all, same-origin, none.", "set_load_iframes"), 470);
+            
+            fields.put("load_iframes", iframes);
             return this;
         }
 
         /**
         * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
         *
-        * @param blockAds Set to <span class='field-value'>true</span> to block ads in web pages.
+        * @param value Set to <span class='field-value'>true</span> to block ads in web pages.
         * @return The converter object.
         */
-        public HtmlToPdfClient setBlockAds(boolean blockAds) {
-            fields.put("block_ads", blockAds ? "true" : null);
+        public HtmlToPdfClient setBlockAds(boolean value) {
+            fields.put("block_ads", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the default HTML content text encoding.
         *
-        * @param defaultEncoding The text encoding of the HTML content.
+        * @param encoding The text encoding of the HTML content.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDefaultEncoding(String defaultEncoding) {
-            fields.put("default_encoding", defaultEncoding);
+        public HtmlToPdfClient setDefaultEncoding(String encoding) {
+            fields.put("default_encoding", encoding);
+            return this;
+        }
+
+        /**
+        * Set the locale for the conversion. This may affect the output format of dates, times and numbers.
+        *
+        * @param locale The locale code according to ISO 639.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setLocale(String locale) {
+            fields.put("locale", locale);
             return this;
         }
 
@@ -1263,28 +1336,6 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the print version of the page if available (@media print).
-        *
-        * @param usePrintMedia Set to <span class='field-value'>true</span> to use the print version of the page.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setUsePrintMedia(boolean usePrintMedia) {
-            fields.put("use_print_media", usePrintMedia ? "true" : null);
-            return this;
-        }
-
-        /**
-        * Do not send the X-Pdfcrowd HTTP header in Pdfcrowd HTTP requests.
-        *
-        * @param noXpdfcrowdHeader Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setNoXpdfcrowdHeader(boolean noXpdfcrowdHeader) {
-            fields.put("no_xpdfcrowd_header", noXpdfcrowdHeader ? "true" : null);
-            return this;
-        }
-
-        /**
         * Set cookies that are sent in Pdfcrowd HTTP requests.
         *
         * @param cookies The cookie string.
@@ -1298,11 +1349,11 @@ public final class Pdfcrowd {
         /**
         * Do not allow insecure HTTPS connections.
         *
-        * @param verifySslCertificates Set to <span class='field-value'>true</span> to enable SSL certificate verification.
+        * @param value Set to <span class='field-value'>true</span> to enable SSL certificate verification.
         * @return The converter object.
         */
-        public HtmlToPdfClient setVerifySslCertificates(boolean verifySslCertificates) {
-            fields.put("verify_ssl_certificates", verifySslCertificates ? "true" : null);
+        public HtmlToPdfClient setVerifySslCertificates(boolean value) {
+            fields.put("verify_ssl_certificates", value ? "true" : null);
             return this;
         }
 
@@ -1329,58 +1380,69 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Do not send the X-Pdfcrowd HTTP header in Pdfcrowd HTTP requests.
         *
-        * @param customJavascript A string containing a JavaScript code. The string must not be empty.
+        * @param value Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
         * @return The converter object.
         */
-        public HtmlToPdfClient setCustomJavascript(String customJavascript) {
-            if (!(customJavascript != null && !customJavascript.isEmpty()))
-                throw new Error(createInvalidValueMessage(customJavascript, "custom_javascript", "html-to-pdf", "The string must not be empty.", "set_custom_javascript"), 470);
+        public HtmlToPdfClient setNoXpdfcrowdHeader(boolean value) {
+            fields.put("no_xpdfcrowd_header", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        *
+        * @param javascript A string containing a JavaScript code. The string must not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setCustomJavascript(String javascript) {
+            if (!(javascript != null && !javascript.isEmpty()))
+                throw new Error(createInvalidValueMessage(javascript, "setCustomJavascript", "html-to-pdf", "The string must not be empty.", "set_custom_javascript"), 470);
             
-            fields.put("custom_javascript", customJavascript);
+            fields.put("custom_javascript", javascript);
             return this;
         }
 
         /**
         * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
         *
-        * @param onLoadJavascript A string containing a JavaScript code. The string must not be empty.
+        * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setOnLoadJavascript(String onLoadJavascript) {
-            if (!(onLoadJavascript != null && !onLoadJavascript.isEmpty()))
-                throw new Error(createInvalidValueMessage(onLoadJavascript, "on_load_javascript", "html-to-pdf", "The string must not be empty.", "set_on_load_javascript"), 470);
+        public HtmlToPdfClient setOnLoadJavascript(String javascript) {
+            if (!(javascript != null && !javascript.isEmpty()))
+                throw new Error(createInvalidValueMessage(javascript, "setOnLoadJavascript", "html-to-pdf", "The string must not be empty.", "set_on_load_javascript"), 470);
             
-            fields.put("on_load_javascript", onLoadJavascript);
+            fields.put("on_load_javascript", javascript);
             return this;
         }
 
         /**
         * Set a custom HTTP header that is sent in Pdfcrowd HTTP requests.
         *
-        * @param customHttpHeader A string containing the header name and value separated by a colon.
+        * @param header A string containing the header name and value separated by a colon.
         * @return The converter object.
         */
-        public HtmlToPdfClient setCustomHttpHeader(String customHttpHeader) {
-            if (!customHttpHeader.matches("^.+:.+$"))
-                throw new Error(createInvalidValueMessage(customHttpHeader, "custom_http_header", "html-to-pdf", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
+        public HtmlToPdfClient setCustomHttpHeader(String header) {
+            if (!header.matches("^.+:.+$"))
+                throw new Error(createInvalidValueMessage(header, "setCustomHttpHeader", "html-to-pdf", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
             
-            fields.put("custom_http_header", customHttpHeader);
+            fields.put("custom_http_header", header);
             return this;
         }
 
         /**
         * Wait the specified number of milliseconds to finish all JavaScript after the document is loaded. Your API license defines the maximum wait time by "Max Delay" parameter.
         *
-        * @param javascriptDelay The number of milliseconds to wait. Must be a positive integer number or 0.
+        * @param delay The number of milliseconds to wait. Must be a positive integer number or 0.
         * @return The converter object.
         */
-        public HtmlToPdfClient setJavascriptDelay(int javascriptDelay) {
-            if (!(javascriptDelay >= 0))
-                throw new Error(createInvalidValueMessage(javascriptDelay, "javascript_delay", "html-to-pdf", "Must be a positive integer number or 0.", "set_javascript_delay"), 470);
+        public HtmlToPdfClient setJavascriptDelay(int delay) {
+            if (!(delay >= 0))
+                throw new Error(createInvalidValueMessage(delay, "setJavascriptDelay", "html-to-pdf", "Must be a positive integer number or 0.", "set_javascript_delay"), 470);
             
-            fields.put("javascript_delay", Integer.toString(javascriptDelay));
+            fields.put("javascript_delay", Integer.toString(delay));
             return this;
         }
 
@@ -1392,7 +1454,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setElementToConvert(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
-                throw new Error(createInvalidValueMessage(selectors, "selectors", "html-to-pdf", "The string must not be empty.", "set_element_to_convert"), 470);
+                throw new Error(createInvalidValueMessage(selectors, "setElementToConvert", "html-to-pdf", "The string must not be empty.", "set_element_to_convert"), 470);
             
             fields.put("element_to_convert", selectors);
             return this;
@@ -1406,7 +1468,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setElementToConvertMode(String mode) {
             if (!mode.matches("(?i)^(cut-out|remove-siblings|hide-siblings)$"))
-                throw new Error(createInvalidValueMessage(mode, "mode", "html-to-pdf", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
+                throw new Error(createInvalidValueMessage(mode, "setElementToConvertMode", "html-to-pdf", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
             
             fields.put("element_to_convert_mode", mode);
             return this;
@@ -1420,7 +1482,7 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setWaitForElement(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
-                throw new Error(createInvalidValueMessage(selectors, "selectors", "html-to-pdf", "The string must not be empty.", "set_wait_for_element"), 470);
+                throw new Error(createInvalidValueMessage(selectors, "setWaitForElement", "html-to-pdf", "The string must not be empty.", "set_wait_for_element"), 470);
             
             fields.put("wait_for_element", selectors);
             return this;
@@ -1429,28 +1491,28 @@ public final class Pdfcrowd {
         /**
         * Set the viewport width in pixels. The viewport is the user's visible area of the page.
         *
-        * @param viewportWidth The value must be in the range 96-65000.
+        * @param width The value must be in the range 96-65000.
         * @return The converter object.
         */
-        public HtmlToPdfClient setViewportWidth(int viewportWidth) {
-            if (!(viewportWidth >= 96 && viewportWidth <= 65000))
-                throw new Error(createInvalidValueMessage(viewportWidth, "viewport_width", "html-to-pdf", "The value must be in the range 96-65000.", "set_viewport_width"), 470);
+        public HtmlToPdfClient setViewportWidth(int width) {
+            if (!(width >= 96 && width <= 65000))
+                throw new Error(createInvalidValueMessage(width, "setViewportWidth", "html-to-pdf", "The value must be in the range 96-65000.", "set_viewport_width"), 470);
             
-            fields.put("viewport_width", Integer.toString(viewportWidth));
+            fields.put("viewport_width", Integer.toString(width));
             return this;
         }
 
         /**
         * Set the viewport height in pixels. The viewport is the user's visible area of the page.
         *
-        * @param viewportHeight Must be a positive integer number.
+        * @param height Must be a positive integer number.
         * @return The converter object.
         */
-        public HtmlToPdfClient setViewportHeight(int viewportHeight) {
-            if (!(viewportHeight > 0))
-                throw new Error(createInvalidValueMessage(viewportHeight, "viewport_height", "html-to-pdf", "Must be a positive integer number.", "set_viewport_height"), 470);
+        public HtmlToPdfClient setViewportHeight(int height) {
+            if (!(height > 0))
+                throw new Error(createInvalidValueMessage(height, "setViewportHeight", "html-to-pdf", "Must be a positive integer number.", "set_viewport_height"), 470);
             
-            fields.put("viewport_height", Integer.toString(viewportHeight));
+            fields.put("viewport_height", Integer.toString(height));
             return this;
         }
 
@@ -1470,186 +1532,175 @@ public final class Pdfcrowd {
         /**
         * Set the rendering mode.
         *
-        * @param renderingMode The rendering mode. Allowed values are default, viewport.
+        * @param mode The rendering mode. Allowed values are default, viewport.
         * @return The converter object.
         */
-        public HtmlToPdfClient setRenderingMode(String renderingMode) {
-            if (!renderingMode.matches("(?i)^(default|viewport)$"))
-                throw new Error(createInvalidValueMessage(renderingMode, "rendering_mode", "html-to-pdf", "Allowed values are default, viewport.", "set_rendering_mode"), 470);
+        public HtmlToPdfClient setRenderingMode(String mode) {
+            if (!mode.matches("(?i)^(default|viewport)$"))
+                throw new Error(createInvalidValueMessage(mode, "setRenderingMode", "html-to-pdf", "Allowed values are default, viewport.", "set_rendering_mode"), 470);
             
-            fields.put("rendering_mode", renderingMode);
+            fields.put("rendering_mode", mode);
             return this;
         }
 
         /**
         * Specifies the scaling mode used for fitting the HTML contents to the print area.
         *
-        * @param smartScalingMode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit.
+        * @param mode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, mode1.
         * @return The converter object.
         */
-        public HtmlToPdfClient setSmartScalingMode(String smartScalingMode) {
-            if (!smartScalingMode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit)$"))
-                throw new Error(createInvalidValueMessage(smartScalingMode, "smart_scaling_mode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit.", "set_smart_scaling_mode"), 470);
+        public HtmlToPdfClient setSmartScalingMode(String mode) {
+            if (!mode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit|mode1)$"))
+                throw new Error(createInvalidValueMessage(mode, "setSmartScalingMode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, mode1.", "set_smart_scaling_mode"), 470);
             
-            fields.put("smart_scaling_mode", smartScalingMode);
+            fields.put("smart_scaling_mode", mode);
             return this;
         }
 
         /**
         * Set the scaling factor (zoom) for the main page area.
         *
-        * @param scaleFactor The percentage value. The value must be in the range 10-500.
+        * @param factor The percentage value. The value must be in the range 10-500.
         * @return The converter object.
         */
-        public HtmlToPdfClient setScaleFactor(int scaleFactor) {
-            if (!(scaleFactor >= 10 && scaleFactor <= 500))
-                throw new Error(createInvalidValueMessage(scaleFactor, "scale_factor", "html-to-pdf", "The value must be in the range 10-500.", "set_scale_factor"), 470);
+        public HtmlToPdfClient setScaleFactor(int factor) {
+            if (!(factor >= 10 && factor <= 500))
+                throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-pdf", "The value must be in the range 10-500.", "set_scale_factor"), 470);
             
-            fields.put("scale_factor", Integer.toString(scaleFactor));
+            fields.put("scale_factor", Integer.toString(factor));
             return this;
         }
 
         /**
         * Set the scaling factor (zoom) for the header and footer.
         *
-        * @param headerFooterScaleFactor The percentage value. The value must be in the range 10-500.
+        * @param factor The percentage value. The value must be in the range 10-500.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHeaderFooterScaleFactor(int headerFooterScaleFactor) {
-            if (!(headerFooterScaleFactor >= 10 && headerFooterScaleFactor <= 500))
-                throw new Error(createInvalidValueMessage(headerFooterScaleFactor, "header_footer_scale_factor", "html-to-pdf", "The value must be in the range 10-500.", "set_header_footer_scale_factor"), 470);
+        public HtmlToPdfClient setHeaderFooterScaleFactor(int factor) {
+            if (!(factor >= 10 && factor <= 500))
+                throw new Error(createInvalidValueMessage(factor, "setHeaderFooterScaleFactor", "html-to-pdf", "The value must be in the range 10-500.", "set_header_footer_scale_factor"), 470);
             
-            fields.put("header_footer_scale_factor", Integer.toString(headerFooterScaleFactor));
-            return this;
-        }
-
-        /**
-        * Disable the intelligent shrinking strategy that tries to optimally fit the HTML contents to a PDF page.
-        *
-        * @param disableSmartShrinking Set to <span class='field-value'>true</span> to disable the intelligent shrinking strategy.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setDisableSmartShrinking(boolean disableSmartShrinking) {
-            fields.put("disable_smart_shrinking", disableSmartShrinking ? "true" : null);
+            fields.put("header_footer_scale_factor", Integer.toString(factor));
             return this;
         }
 
         /**
         * Set the quality of embedded JPEG images. A lower quality results in a smaller PDF file but can lead to compression artifacts.
         *
-        * @param jpegQuality The percentage value. The value must be in the range 1-100.
+        * @param quality The percentage value. The value must be in the range 1-100.
         * @return The converter object.
         */
-        public HtmlToPdfClient setJpegQuality(int jpegQuality) {
-            if (!(jpegQuality >= 1 && jpegQuality <= 100))
-                throw new Error(createInvalidValueMessage(jpegQuality, "jpeg_quality", "html-to-pdf", "The value must be in the range 1-100.", "set_jpeg_quality"), 470);
+        public HtmlToPdfClient setJpegQuality(int quality) {
+            if (!(quality >= 1 && quality <= 100))
+                throw new Error(createInvalidValueMessage(quality, "setJpegQuality", "html-to-pdf", "The value must be in the range 1-100.", "set_jpeg_quality"), 470);
             
-            fields.put("jpeg_quality", Integer.toString(jpegQuality));
+            fields.put("jpeg_quality", Integer.toString(quality));
             return this;
         }
 
         /**
         * Specify which image types will be converted to JPEG. Converting lossless compression image formats (PNG, GIF, ...) to JPEG may result in a smaller PDF file.
         *
-        * @param convertImagesToJpeg The image category. Allowed values are none, opaque, all.
+        * @param images The image category. Allowed values are none, opaque, all.
         * @return The converter object.
         */
-        public HtmlToPdfClient setConvertImagesToJpeg(String convertImagesToJpeg) {
-            if (!convertImagesToJpeg.matches("(?i)^(none|opaque|all)$"))
-                throw new Error(createInvalidValueMessage(convertImagesToJpeg, "convert_images_to_jpeg", "html-to-pdf", "Allowed values are none, opaque, all.", "set_convert_images_to_jpeg"), 470);
+        public HtmlToPdfClient setConvertImagesToJpeg(String images) {
+            if (!images.matches("(?i)^(none|opaque|all)$"))
+                throw new Error(createInvalidValueMessage(images, "setConvertImagesToJpeg", "html-to-pdf", "Allowed values are none, opaque, all.", "set_convert_images_to_jpeg"), 470);
             
-            fields.put("convert_images_to_jpeg", convertImagesToJpeg);
+            fields.put("convert_images_to_jpeg", images);
             return this;
         }
 
         /**
         * Set the DPI of images in PDF. A lower DPI may result in a smaller PDF file.  If the specified DPI is higher than the actual image DPI, the original image DPI is retained (no upscaling is performed). Use <span class='field-value'>0</span> to leave the images unaltered.
         *
-        * @param imageDpi The DPI value. Must be a positive integer number or 0.
+        * @param dpi The DPI value. Must be a positive integer number or 0.
         * @return The converter object.
         */
-        public HtmlToPdfClient setImageDpi(int imageDpi) {
-            if (!(imageDpi >= 0))
-                throw new Error(createInvalidValueMessage(imageDpi, "image_dpi", "html-to-pdf", "Must be a positive integer number or 0.", "set_image_dpi"), 470);
+        public HtmlToPdfClient setImageDpi(int dpi) {
+            if (!(dpi >= 0))
+                throw new Error(createInvalidValueMessage(dpi, "setImageDpi", "html-to-pdf", "Must be a positive integer number or 0.", "set_image_dpi"), 470);
             
-            fields.put("image_dpi", Integer.toString(imageDpi));
+            fields.put("image_dpi", Integer.toString(dpi));
             return this;
         }
 
         /**
         * Create linearized PDF. This is also known as Fast Web View.
         *
-        * @param linearize Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
         * @return The converter object.
         */
-        public HtmlToPdfClient setLinearize(boolean linearize) {
-            fields.put("linearize", linearize ? "true" : null);
+        public HtmlToPdfClient setLinearize(boolean value) {
+            fields.put("linearize", value ? "true" : null);
             return this;
         }
 
         /**
         * Encrypt the PDF. This prevents search engines from indexing the contents.
         *
-        * @param encrypt Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
         * @return The converter object.
         */
-        public HtmlToPdfClient setEncrypt(boolean encrypt) {
-            fields.put("encrypt", encrypt ? "true" : null);
+        public HtmlToPdfClient setEncrypt(boolean value) {
+            fields.put("encrypt", value ? "true" : null);
             return this;
         }
 
         /**
         * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
         *
-        * @param userPassword The user password.
+        * @param password The user password.
         * @return The converter object.
         */
-        public HtmlToPdfClient setUserPassword(String userPassword) {
-            fields.put("user_password", userPassword);
+        public HtmlToPdfClient setUserPassword(String password) {
+            fields.put("user_password", password);
             return this;
         }
 
         /**
         * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
         *
-        * @param ownerPassword The owner password.
+        * @param password The owner password.
         * @return The converter object.
         */
-        public HtmlToPdfClient setOwnerPassword(String ownerPassword) {
-            fields.put("owner_password", ownerPassword);
+        public HtmlToPdfClient setOwnerPassword(String password) {
+            fields.put("owner_password", password);
             return this;
         }
 
         /**
         * Disallow printing of the output PDF.
         *
-        * @param noPrint Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
         * @return The converter object.
         */
-        public HtmlToPdfClient setNoPrint(boolean noPrint) {
-            fields.put("no_print", noPrint ? "true" : null);
+        public HtmlToPdfClient setNoPrint(boolean value) {
+            fields.put("no_print", value ? "true" : null);
             return this;
         }
 
         /**
         * Disallow modification of the output PDF.
         *
-        * @param noModify Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
         * @return The converter object.
         */
-        public HtmlToPdfClient setNoModify(boolean noModify) {
-            fields.put("no_modify", noModify ? "true" : null);
+        public HtmlToPdfClient setNoModify(boolean value) {
+            fields.put("no_modify", value ? "true" : null);
             return this;
         }
 
         /**
         * Disallow text and graphics extraction from the output PDF.
         *
-        * @param noCopy Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
         * @return The converter object.
         */
-        public HtmlToPdfClient setNoCopy(boolean noCopy) {
-            fields.put("no_copy", noCopy ? "true" : null);
+        public HtmlToPdfClient setNoCopy(boolean value) {
+            fields.put("no_copy", value ? "true" : null);
             return this;
         }
 
@@ -1700,158 +1751,158 @@ public final class Pdfcrowd {
         /**
         * Specify the page layout to be used when the document is opened.
         *
-        * @param pageLayout Allowed values are single-page, one-column, two-column-left, two-column-right.
+        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageLayout(String pageLayout) {
-            if (!pageLayout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
-                throw new Error(createInvalidValueMessage(pageLayout, "page_layout", "html-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
+        public HtmlToPdfClient setPageLayout(String layout) {
+            if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
+                throw new Error(createInvalidValueMessage(layout, "setPageLayout", "html-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
             
-            fields.put("page_layout", pageLayout);
+            fields.put("page_layout", layout);
             return this;
         }
 
         /**
         * Specify how the document should be displayed when opened.
         *
-        * @param pageMode Allowed values are full-screen, thumbnails, outlines.
+        * @param mode Allowed values are full-screen, thumbnails, outlines.
         * @return The converter object.
         */
-        public HtmlToPdfClient setPageMode(String pageMode) {
-            if (!pageMode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
-                throw new Error(createInvalidValueMessage(pageMode, "page_mode", "html-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
+        public HtmlToPdfClient setPageMode(String mode) {
+            if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPageMode", "html-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
             
-            fields.put("page_mode", pageMode);
+            fields.put("page_mode", mode);
             return this;
         }
 
         /**
         * Specify how the page should be displayed when opened.
         *
-        * @param initialZoomType Allowed values are fit-width, fit-height, fit-page.
+        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
         * @return The converter object.
         */
-        public HtmlToPdfClient setInitialZoomType(String initialZoomType) {
-            if (!initialZoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
-                throw new Error(createInvalidValueMessage(initialZoomType, "initial_zoom_type", "html-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
+        public HtmlToPdfClient setInitialZoomType(String zoomType) {
+            if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
+                throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "html-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
             
-            fields.put("initial_zoom_type", initialZoomType);
+            fields.put("initial_zoom_type", zoomType);
             return this;
         }
 
         /**
         * Display the specified page when the document is opened.
         *
-        * @param initialPage Must be a positive integer number.
+        * @param page Must be a positive integer number.
         * @return The converter object.
         */
-        public HtmlToPdfClient setInitialPage(int initialPage) {
-            if (!(initialPage > 0))
-                throw new Error(createInvalidValueMessage(initialPage, "initial_page", "html-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
+        public HtmlToPdfClient setInitialPage(int page) {
+            if (!(page > 0))
+                throw new Error(createInvalidValueMessage(page, "setInitialPage", "html-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
             
-            fields.put("initial_page", Integer.toString(initialPage));
+            fields.put("initial_page", Integer.toString(page));
             return this;
         }
 
         /**
         * Specify the initial page zoom in percents when the document is opened.
         *
-        * @param initialZoom Must be a positive integer number.
+        * @param zoom Must be a positive integer number.
         * @return The converter object.
         */
-        public HtmlToPdfClient setInitialZoom(int initialZoom) {
-            if (!(initialZoom > 0))
-                throw new Error(createInvalidValueMessage(initialZoom, "initial_zoom", "html-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
+        public HtmlToPdfClient setInitialZoom(int zoom) {
+            if (!(zoom > 0))
+                throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "html-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
             
-            fields.put("initial_zoom", Integer.toString(initialZoom));
+            fields.put("initial_zoom", Integer.toString(zoom));
             return this;
         }
 
         /**
         * Specify whether to hide the viewer application's tool bars when the document is active.
         *
-        * @param hideToolbar Set to <span class='field-value'>true</span> to hide tool bars.
+        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHideToolbar(boolean hideToolbar) {
-            fields.put("hide_toolbar", hideToolbar ? "true" : null);
+        public HtmlToPdfClient setHideToolbar(boolean value) {
+            fields.put("hide_toolbar", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to hide the viewer application's menu bar when the document is active.
         *
-        * @param hideMenubar Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHideMenubar(boolean hideMenubar) {
-            fields.put("hide_menubar", hideMenubar ? "true" : null);
+        public HtmlToPdfClient setHideMenubar(boolean value) {
+            fields.put("hide_menubar", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
         *
-        * @param hideWindowUi Set to <span class='field-value'>true</span> to hide ui elements.
+        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHideWindowUi(boolean hideWindowUi) {
-            fields.put("hide_window_ui", hideWindowUi ? "true" : null);
+        public HtmlToPdfClient setHideWindowUi(boolean value) {
+            fields.put("hide_window_ui", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to resize the document's window to fit the size of the first displayed page.
         *
-        * @param fitWindow Set to <span class='field-value'>true</span> to resize the window.
+        * @param value Set to <span class='field-value'>true</span> to resize the window.
         * @return The converter object.
         */
-        public HtmlToPdfClient setFitWindow(boolean fitWindow) {
-            fields.put("fit_window", fitWindow ? "true" : null);
+        public HtmlToPdfClient setFitWindow(boolean value) {
+            fields.put("fit_window", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to position the document's window in the center of the screen.
         *
-        * @param centerWindow Set to <span class='field-value'>true</span> to center the window.
+        * @param value Set to <span class='field-value'>true</span> to center the window.
         * @return The converter object.
         */
-        public HtmlToPdfClient setCenterWindow(boolean centerWindow) {
-            fields.put("center_window", centerWindow ? "true" : null);
+        public HtmlToPdfClient setCenterWindow(boolean value) {
+            fields.put("center_window", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
         *
-        * @param displayTitle Set to <span class='field-value'>true</span> to display the title.
+        * @param value Set to <span class='field-value'>true</span> to display the title.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDisplayTitle(boolean displayTitle) {
-            fields.put("display_title", displayTitle ? "true" : null);
+        public HtmlToPdfClient setDisplayTitle(boolean value) {
+            fields.put("display_title", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
         *
-        * @param rightToLeft Set to <span class='field-value'>true</span> to set right-to-left reading order.
+        * @param value Set to <span class='field-value'>true</span> to set right-to-left reading order.
         * @return The converter object.
         */
-        public HtmlToPdfClient setRightToLeft(boolean rightToLeft) {
-            fields.put("right_to_left", rightToLeft ? "true" : null);
+        public HtmlToPdfClient setRightToLeft(boolean value) {
+            fields.put("right_to_left", value ? "true" : null);
             return this;
         }
 
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param debugLog Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
         * @return The converter object.
         */
-        public HtmlToPdfClient setDebugLog(boolean debugLog) {
-            fields.put("debug_log", debugLog ? "true" : null);
+        public HtmlToPdfClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
@@ -1907,6 +1958,14 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
         * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
         *
         * @param tag A string with the custom tag.
@@ -1920,53 +1979,161 @@ public final class Pdfcrowd {
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHttpProxy(String httpProxy) {
-            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+        public HtmlToPdfClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
             
-            fields.put("http_proxy", httpProxy);
+            fields.put("http_proxy", proxy);
             return this;
         }
 
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public HtmlToPdfClient setHttpsProxy(String httpsProxy) {
-            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+        public HtmlToPdfClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
             
-            fields.put("https_proxy", httpsProxy);
+            fields.put("https_proxy", proxy);
             return this;
         }
 
         /**
         * A client certificate to authenticate Pdfcrowd converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
         *
-        * @param clientCertificate The file must be in PKCS12 format. The file must exist and not be empty.
+        * @param certificate The file must be in PKCS12 format. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToPdfClient setClientCertificate(String clientCertificate) {
-            if (!(new File(clientCertificate).length() > 0))
-                throw new Error(createInvalidValueMessage(clientCertificate, "client_certificate", "html-to-pdf", "The file must exist and not be empty.", "set_client_certificate"), 470);
+        public HtmlToPdfClient setClientCertificate(String certificate) {
+            if (!(new File(certificate).length() > 0))
+                throw new Error(createInvalidValueMessage(certificate, "setClientCertificate", "html-to-pdf", "The file must exist and not be empty.", "set_client_certificate"), 470);
             
-            files.put("client_certificate", clientCertificate);
+            files.put("client_certificate", certificate);
             return this;
         }
 
         /**
         * A password for PKCS12 file with a client certificate if it is needed.
         *
-        * @param clientCertificatePassword
+        * @param password
         * @return The converter object.
         */
-        public HtmlToPdfClient setClientCertificatePassword(String clientCertificatePassword) {
-            fields.put("client_certificate_password", clientCertificatePassword);
+        public HtmlToPdfClient setClientCertificatePassword(String password) {
+            fields.put("client_certificate_password", password);
+            return this;
+        }
+
+        /**
+        * Set the internal DPI resolution used for positioning of PDF contents. It can help in situations when there are small inaccuracies in the PDF. It is recommended to use values that are a multiple of 72, such as 288 or 360.
+        *
+        * @param dpi The DPI value. The value must be in the range of 72-600.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setLayoutDpi(int dpi) {
+            if (!(dpi >= 72 && dpi <= 600))
+                throw new Error(createInvalidValueMessage(dpi, "setLayoutDpi", "html-to-pdf", "The value must be in the range of 72-600.", "set_layout_dpi"), 470);
+            
+            fields.put("layout_dpi", Integer.toString(dpi));
+            return this;
+        }
+
+        /**
+        * A 2D transformation matrix applied to the main contents on each page. The origin [0,0] is located at the top-left corner of the contents. The resolution is 72 dpi.
+        *
+        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setContentsMatrix(String matrix) {
+            fields.put("contents_matrix", matrix);
+            return this;
+        }
+
+        /**
+        * A 2D transformation matrix applied to the page header contents. The origin [0,0] is located at the top-left corner of the header. The resolution is 72 dpi.
+        *
+        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setHeaderMatrix(String matrix) {
+            fields.put("header_matrix", matrix);
+            return this;
+        }
+
+        /**
+        * A 2D transformation matrix applied to the page footer contents. The origin [0,0] is located at the top-left corner of the footer. The resolution is 72 dpi.
+        *
+        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setFooterMatrix(String matrix) {
+            fields.put("footer_matrix", matrix);
+            return this;
+        }
+
+        /**
+        * Disable automatic height adjustment that compensates for pixel to point rounding errors.
+        *
+        * @param value Set to <span class='field-value'>true</span> to disable automatic height scale.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setDisablePageHeightOptimization(boolean value) {
+            fields.put("disable_page_height_optimization", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Add special CSS classes to the main document's body element. This allows applying custom styling based on these classes:
+  <ul>
+    <li><span class='field-value'>pdfcrowd-page-X</span> - where X is the current page number</li>
+    <li><span class='field-value'>pdfcrowd-page-odd</span> - odd page</li>
+    <li><span class='field-value'>pdfcrowd-page-even</span> - even page</li>
+  </ul>
+        * Warning: If your custom styling affects the contents area size (e.g. by using different margins, padding, border width), the resulting PDF may contain duplicit contents or some contents may be missing.
+        *
+        * @param value Set to <span class='field-value'>true</span> to add the special CSS classes.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMainDocumentCssAnnotation(boolean value) {
+            fields.put("main_document_css_annotation", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Add special CSS classes to the header/footer's body element. This allows applying custom styling based on these classes:
+  <ul>
+    <li><span class='field-value'>pdfcrowd-page-X</span> - where X is the current page number</li>
+    <li><span class='field-value'>pdfcrowd-page-count-X</span> - where X is the total page count</li>
+    <li><span class='field-value'>pdfcrowd-page-first</span> - the first page</li>
+    <li><span class='field-value'>pdfcrowd-page-last</span> - the last page</li>
+    <li><span class='field-value'>pdfcrowd-page-odd</span> - odd page</li>
+    <li><span class='field-value'>pdfcrowd-page-even</span> - even page</li>
+  </ul>
+        *
+        * @param value Set to <span class='field-value'>true</span> to add the special CSS classes.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setHeaderFooterCssAnnotation(boolean value) {
+            fields.put("header_footer_css_annotation", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
             return this;
         }
 
@@ -1974,22 +2141,22 @@ public final class Pdfcrowd {
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
         */
-        public HtmlToPdfClient setUseHttp(boolean useHttp) {
-            this.helper.setUseHttp(useHttp);
+        public HtmlToPdfClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
             return this;
         }
 
         /**
         * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
-        * @param userAgent The user agent string.
+        * @param agent The user agent string.
         * @return The converter object.
         */
-        public HtmlToPdfClient setUserAgent(String userAgent) {
-            helper.setUserAgent(userAgent);
+        public HtmlToPdfClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -2010,11 +2177,11 @@ public final class Pdfcrowd {
         /**
         * Specifies the number of retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
         *
-        * @param retryCount Number of retries wanted.
+        * @param count Number of retries wanted.
         * @return The converter object.
         */
-        public HtmlToPdfClient setRetryCount(int retryCount) {
-            this.helper.setRetryCount(retryCount);
+        public HtmlToPdfClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
             return this;
         }
 
@@ -2050,7 +2217,7 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setOutputFormat(String outputFormat) {
             if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
-                throw new Error(createInvalidValueMessage(outputFormat, "output_format", "html-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
+                throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "html-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
             
             fields.put("output_format", outputFormat);
             return this;
@@ -2064,7 +2231,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "html-to-image", "The supported protocols are http:// and https://.", "convert_url"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "html-to-image", "The supported protocols are http:// and https://.", "convert_url"), 470);
             
             fields.put("url", url);
             return helper.post(fields, files, rawData, null);
@@ -2078,7 +2245,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "html-to-image", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "html-to-image", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
             
             fields.put("url", url);
             helper.post(fields, files, rawData, outStream);
@@ -2092,7 +2259,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "html-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2114,7 +2281,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "html-to-image", "The file must exist and not be empty.", "convert_file"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFile", "html-to-image", "The file must exist and not be empty.", "convert_file"), 470);
             
             files.put("file", file);
             return helper.post(fields, files, rawData, null);
@@ -2128,7 +2295,7 @@ public final class Pdfcrowd {
         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "html-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "html-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
             
             files.put("file", file);
             helper.post(fields, files, rawData, outStream);
@@ -2142,7 +2309,7 @@ public final class Pdfcrowd {
         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "html-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2164,7 +2331,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertString(String text) {
             if (!(text != null && !text.isEmpty()))
-                throw new Error(createInvalidValueMessage(text, "text", "html-to-image", "The string must not be empty.", "convert_string"), 470);
+                throw new Error(createInvalidValueMessage(text, "convertString", "html-to-image", "The string must not be empty.", "convert_string"), 470);
             
             fields.put("text", text);
             return helper.post(fields, files, rawData, null);
@@ -2178,7 +2345,7 @@ public final class Pdfcrowd {
         */
         public void convertStringToStream(String text, OutputStream outStream) {
             if (!(text != null && !text.isEmpty()))
-                throw new Error(createInvalidValueMessage(text, "text", "html-to-image", "The string must not be empty.", "convert_string_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(text, "convertStringToStream::text", "html-to-image", "The string must not be empty.", "convert_string_to_stream"), 470);
             
             fields.put("text", text);
             helper.post(fields, files, rawData, outStream);
@@ -2192,7 +2359,7 @@ public final class Pdfcrowd {
         */
         public void convertStringToFile(String text, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "html-to-image", "The string must not be empty.", "convert_string_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertStringToFile::file_path", "html-to-image", "The string must not be empty.", "convert_string_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2236,7 +2403,7 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setDataFormat(String dataFormat) {
             if (!dataFormat.matches("(?i)^(auto|json|xml|yaml|csv)$"))
-                throw new Error(createInvalidValueMessage(dataFormat, "data_format", "html-to-image", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
+                throw new Error(createInvalidValueMessage(dataFormat, "setDataFormat", "html-to-image", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
             
             fields.put("data_format", dataFormat);
             return this;
@@ -2245,121 +2412,157 @@ public final class Pdfcrowd {
         /**
         * Set the encoding of the data file set by <a href='#set_data_file'>setDataFile</a>.
         *
-        * @param dataEncoding The data file encoding.
+        * @param encoding The data file encoding.
         * @return The converter object.
         */
-        public HtmlToImageClient setDataEncoding(String dataEncoding) {
-            fields.put("data_encoding", dataEncoding);
+        public HtmlToImageClient setDataEncoding(String encoding) {
+            fields.put("data_encoding", encoding);
             return this;
         }
 
         /**
         * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
         *
-        * @param dataIgnoreUndefined Set to <span class='field-value'>true</span> to ignore undefined variables.
+        * @param value Set to <span class='field-value'>true</span> to ignore undefined variables.
         * @return The converter object.
         */
-        public HtmlToImageClient setDataIgnoreUndefined(boolean dataIgnoreUndefined) {
-            fields.put("data_ignore_undefined", dataIgnoreUndefined ? "true" : null);
+        public HtmlToImageClient setDataIgnoreUndefined(boolean value) {
+            fields.put("data_ignore_undefined", value ? "true" : null);
             return this;
         }
 
         /**
         * Auto escape HTML symbols in the input data before placing them into the output.
         *
-        * @param dataAutoEscape Set to <span class='field-value'>true</span> to turn auto escaping on.
+        * @param value Set to <span class='field-value'>true</span> to turn auto escaping on.
         * @return The converter object.
         */
-        public HtmlToImageClient setDataAutoEscape(boolean dataAutoEscape) {
-            fields.put("data_auto_escape", dataAutoEscape ? "true" : null);
+        public HtmlToImageClient setDataAutoEscape(boolean value) {
+            fields.put("data_auto_escape", value ? "true" : null);
             return this;
         }
 
         /**
         * Auto trim whitespace around each template command block.
         *
-        * @param dataTrimBlocks Set to <span class='field-value'>true</span> to turn auto trimming on.
+        * @param value Set to <span class='field-value'>true</span> to turn auto trimming on.
         * @return The converter object.
         */
-        public HtmlToImageClient setDataTrimBlocks(boolean dataTrimBlocks) {
-            fields.put("data_trim_blocks", dataTrimBlocks ? "true" : null);
+        public HtmlToImageClient setDataTrimBlocks(boolean value) {
+            fields.put("data_trim_blocks", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the advanced data options:<ul><li><span class='field-value'>csv_delimiter</span> - The CSV data delimiter, the default is <span class='field-value'>,</span>.</li><li><span class='field-value'>xml_remove_root</span> - Remove the root XML element from the input data.</li><li><span class='field-value'>data_root</span> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <span class='field-value'>data</span>.</li></ul>
         *
-        * @param dataOptions Comma separated list of options.
+        * @param options Comma separated list of options.
         * @return The converter object.
         */
-        public HtmlToImageClient setDataOptions(String dataOptions) {
-            fields.put("data_options", dataOptions);
+        public HtmlToImageClient setDataOptions(String options) {
+            fields.put("data_options", options);
+            return this;
+        }
+
+        /**
+        * Use the print version of the page if available (@media print).
+        *
+        * @param value Set to <span class='field-value'>true</span> to use the print version of the page.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setUsePrintMedia(boolean value) {
+            fields.put("use_print_media", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not print the background graphics.
         *
-        * @param noBackground Set to <span class='field-value'>true</span> to disable the background graphics.
+        * @param value Set to <span class='field-value'>true</span> to disable the background graphics.
         * @return The converter object.
         */
-        public HtmlToImageClient setNoBackground(boolean noBackground) {
-            fields.put("no_background", noBackground ? "true" : null);
+        public HtmlToImageClient setNoBackground(boolean value) {
+            fields.put("no_background", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not execute JavaScript.
         *
-        * @param disableJavascript Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
+        * @param value Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
         * @return The converter object.
         */
-        public HtmlToImageClient setDisableJavascript(boolean disableJavascript) {
-            fields.put("disable_javascript", disableJavascript ? "true" : null);
+        public HtmlToImageClient setDisableJavascript(boolean value) {
+            fields.put("disable_javascript", value ? "true" : null);
             return this;
         }
 
         /**
         * Do not load images.
         *
-        * @param disableImageLoading Set to <span class='field-value'>true</span> to disable loading of images.
+        * @param value Set to <span class='field-value'>true</span> to disable loading of images.
         * @return The converter object.
         */
-        public HtmlToImageClient setDisableImageLoading(boolean disableImageLoading) {
-            fields.put("disable_image_loading", disableImageLoading ? "true" : null);
+        public HtmlToImageClient setDisableImageLoading(boolean value) {
+            fields.put("disable_image_loading", value ? "true" : null);
             return this;
         }
 
         /**
         * Disable loading fonts from remote sources.
         *
-        * @param disableRemoteFonts Set to <span class='field-value'>true</span> disable loading remote fonts.
+        * @param value Set to <span class='field-value'>true</span> disable loading remote fonts.
         * @return The converter object.
         */
-        public HtmlToImageClient setDisableRemoteFonts(boolean disableRemoteFonts) {
-            fields.put("disable_remote_fonts", disableRemoteFonts ? "true" : null);
+        public HtmlToImageClient setDisableRemoteFonts(boolean value) {
+            fields.put("disable_remote_fonts", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specifies how iframes are handled.
+        *
+        * @param iframes Allowed values are all, same-origin, none.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setLoadIframes(String iframes) {
+            if (!iframes.matches("(?i)^(all|same-origin|none)$"))
+                throw new Error(createInvalidValueMessage(iframes, "setLoadIframes", "html-to-image", "Allowed values are all, same-origin, none.", "set_load_iframes"), 470);
+            
+            fields.put("load_iframes", iframes);
             return this;
         }
 
         /**
         * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
         *
-        * @param blockAds Set to <span class='field-value'>true</span> to block ads in web pages.
+        * @param value Set to <span class='field-value'>true</span> to block ads in web pages.
         * @return The converter object.
         */
-        public HtmlToImageClient setBlockAds(boolean blockAds) {
-            fields.put("block_ads", blockAds ? "true" : null);
+        public HtmlToImageClient setBlockAds(boolean value) {
+            fields.put("block_ads", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the default HTML content text encoding.
         *
-        * @param defaultEncoding The text encoding of the HTML content.
+        * @param encoding The text encoding of the HTML content.
         * @return The converter object.
         */
-        public HtmlToImageClient setDefaultEncoding(String defaultEncoding) {
-            fields.put("default_encoding", defaultEncoding);
+        public HtmlToImageClient setDefaultEncoding(String encoding) {
+            fields.put("default_encoding", encoding);
+            return this;
+        }
+
+        /**
+        * Set the locale for the conversion. This may affect the output format of dates, times and numbers.
+        *
+        * @param locale The locale code according to ISO 639.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setLocale(String locale) {
+            fields.put("locale", locale);
             return this;
         }
 
@@ -2399,28 +2602,6 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the print version of the page if available (@media print).
-        *
-        * @param usePrintMedia Set to <span class='field-value'>true</span> to use the print version of the page.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setUsePrintMedia(boolean usePrintMedia) {
-            fields.put("use_print_media", usePrintMedia ? "true" : null);
-            return this;
-        }
-
-        /**
-        * Do not send the X-Pdfcrowd HTTP header in Pdfcrowd HTTP requests.
-        *
-        * @param noXpdfcrowdHeader Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setNoXpdfcrowdHeader(boolean noXpdfcrowdHeader) {
-            fields.put("no_xpdfcrowd_header", noXpdfcrowdHeader ? "true" : null);
-            return this;
-        }
-
-        /**
         * Set cookies that are sent in Pdfcrowd HTTP requests.
         *
         * @param cookies The cookie string.
@@ -2434,11 +2615,11 @@ public final class Pdfcrowd {
         /**
         * Do not allow insecure HTTPS connections.
         *
-        * @param verifySslCertificates Set to <span class='field-value'>true</span> to enable SSL certificate verification.
+        * @param value Set to <span class='field-value'>true</span> to enable SSL certificate verification.
         * @return The converter object.
         */
-        public HtmlToImageClient setVerifySslCertificates(boolean verifySslCertificates) {
-            fields.put("verify_ssl_certificates", verifySslCertificates ? "true" : null);
+        public HtmlToImageClient setVerifySslCertificates(boolean value) {
+            fields.put("verify_ssl_certificates", value ? "true" : null);
             return this;
         }
 
@@ -2465,58 +2646,69 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Do not send the X-Pdfcrowd HTTP header in Pdfcrowd HTTP requests.
         *
-        * @param customJavascript A string containing a JavaScript code. The string must not be empty.
+        * @param value Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
         * @return The converter object.
         */
-        public HtmlToImageClient setCustomJavascript(String customJavascript) {
-            if (!(customJavascript != null && !customJavascript.isEmpty()))
-                throw new Error(createInvalidValueMessage(customJavascript, "custom_javascript", "html-to-image", "The string must not be empty.", "set_custom_javascript"), 470);
+        public HtmlToImageClient setNoXpdfcrowdHeader(boolean value) {
+            fields.put("no_xpdfcrowd_header", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        *
+        * @param javascript A string containing a JavaScript code. The string must not be empty.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setCustomJavascript(String javascript) {
+            if (!(javascript != null && !javascript.isEmpty()))
+                throw new Error(createInvalidValueMessage(javascript, "setCustomJavascript", "html-to-image", "The string must not be empty.", "set_custom_javascript"), 470);
             
-            fields.put("custom_javascript", customJavascript);
+            fields.put("custom_javascript", javascript);
             return this;
         }
 
         /**
         * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
         *
-        * @param onLoadJavascript A string containing a JavaScript code. The string must not be empty.
+        * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
         */
-        public HtmlToImageClient setOnLoadJavascript(String onLoadJavascript) {
-            if (!(onLoadJavascript != null && !onLoadJavascript.isEmpty()))
-                throw new Error(createInvalidValueMessage(onLoadJavascript, "on_load_javascript", "html-to-image", "The string must not be empty.", "set_on_load_javascript"), 470);
+        public HtmlToImageClient setOnLoadJavascript(String javascript) {
+            if (!(javascript != null && !javascript.isEmpty()))
+                throw new Error(createInvalidValueMessage(javascript, "setOnLoadJavascript", "html-to-image", "The string must not be empty.", "set_on_load_javascript"), 470);
             
-            fields.put("on_load_javascript", onLoadJavascript);
+            fields.put("on_load_javascript", javascript);
             return this;
         }
 
         /**
         * Set a custom HTTP header that is sent in Pdfcrowd HTTP requests.
         *
-        * @param customHttpHeader A string containing the header name and value separated by a colon.
+        * @param header A string containing the header name and value separated by a colon.
         * @return The converter object.
         */
-        public HtmlToImageClient setCustomHttpHeader(String customHttpHeader) {
-            if (!customHttpHeader.matches("^.+:.+$"))
-                throw new Error(createInvalidValueMessage(customHttpHeader, "custom_http_header", "html-to-image", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
+        public HtmlToImageClient setCustomHttpHeader(String header) {
+            if (!header.matches("^.+:.+$"))
+                throw new Error(createInvalidValueMessage(header, "setCustomHttpHeader", "html-to-image", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
             
-            fields.put("custom_http_header", customHttpHeader);
+            fields.put("custom_http_header", header);
             return this;
         }
 
         /**
         * Wait the specified number of milliseconds to finish all JavaScript after the document is loaded. Your API license defines the maximum wait time by "Max Delay" parameter.
         *
-        * @param javascriptDelay The number of milliseconds to wait. Must be a positive integer number or 0.
+        * @param delay The number of milliseconds to wait. Must be a positive integer number or 0.
         * @return The converter object.
         */
-        public HtmlToImageClient setJavascriptDelay(int javascriptDelay) {
-            if (!(javascriptDelay >= 0))
-                throw new Error(createInvalidValueMessage(javascriptDelay, "javascript_delay", "html-to-image", "Must be a positive integer number or 0.", "set_javascript_delay"), 470);
+        public HtmlToImageClient setJavascriptDelay(int delay) {
+            if (!(delay >= 0))
+                throw new Error(createInvalidValueMessage(delay, "setJavascriptDelay", "html-to-image", "Must be a positive integer number or 0.", "set_javascript_delay"), 470);
             
-            fields.put("javascript_delay", Integer.toString(javascriptDelay));
+            fields.put("javascript_delay", Integer.toString(delay));
             return this;
         }
 
@@ -2528,7 +2720,7 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setElementToConvert(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
-                throw new Error(createInvalidValueMessage(selectors, "selectors", "html-to-image", "The string must not be empty.", "set_element_to_convert"), 470);
+                throw new Error(createInvalidValueMessage(selectors, "setElementToConvert", "html-to-image", "The string must not be empty.", "set_element_to_convert"), 470);
             
             fields.put("element_to_convert", selectors);
             return this;
@@ -2542,7 +2734,7 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setElementToConvertMode(String mode) {
             if (!mode.matches("(?i)^(cut-out|remove-siblings|hide-siblings)$"))
-                throw new Error(createInvalidValueMessage(mode, "mode", "html-to-image", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
+                throw new Error(createInvalidValueMessage(mode, "setElementToConvertMode", "html-to-image", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
             
             fields.put("element_to_convert_mode", mode);
             return this;
@@ -2556,7 +2748,7 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setWaitForElement(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
-                throw new Error(createInvalidValueMessage(selectors, "selectors", "html-to-image", "The string must not be empty.", "set_wait_for_element"), 470);
+                throw new Error(createInvalidValueMessage(selectors, "setWaitForElement", "html-to-image", "The string must not be empty.", "set_wait_for_element"), 470);
             
             fields.put("wait_for_element", selectors);
             return this;
@@ -2565,53 +2757,67 @@ public final class Pdfcrowd {
         /**
         * Set the output image width in pixels.
         *
-        * @param screenshotWidth The value must be in the range 96-65000.
+        * @param width The value must be in the range 96-65000.
         * @return The converter object.
         */
-        public HtmlToImageClient setScreenshotWidth(int screenshotWidth) {
-            if (!(screenshotWidth >= 96 && screenshotWidth <= 65000))
-                throw new Error(createInvalidValueMessage(screenshotWidth, "screenshot_width", "html-to-image", "The value must be in the range 96-65000.", "set_screenshot_width"), 470);
+        public HtmlToImageClient setScreenshotWidth(int width) {
+            if (!(width >= 96 && width <= 65000))
+                throw new Error(createInvalidValueMessage(width, "setScreenshotWidth", "html-to-image", "The value must be in the range 96-65000.", "set_screenshot_width"), 470);
             
-            fields.put("screenshot_width", Integer.toString(screenshotWidth));
+            fields.put("screenshot_width", Integer.toString(width));
             return this;
         }
 
         /**
         * Set the output image height in pixels. If it is not specified, actual document height is used.
         *
-        * @param screenshotHeight Must be a positive integer number.
+        * @param height Must be a positive integer number.
         * @return The converter object.
         */
-        public HtmlToImageClient setScreenshotHeight(int screenshotHeight) {
-            if (!(screenshotHeight > 0))
-                throw new Error(createInvalidValueMessage(screenshotHeight, "screenshot_height", "html-to-image", "Must be a positive integer number.", "set_screenshot_height"), 470);
+        public HtmlToImageClient setScreenshotHeight(int height) {
+            if (!(height > 0))
+                throw new Error(createInvalidValueMessage(height, "setScreenshotHeight", "html-to-image", "Must be a positive integer number.", "set_screenshot_height"), 470);
             
-            fields.put("screenshot_height", Integer.toString(screenshotHeight));
+            fields.put("screenshot_height", Integer.toString(height));
             return this;
         }
 
         /**
         * Set the scaling factor (zoom) for the output image.
         *
-        * @param scaleFactor The percentage value. Must be a positive integer number.
+        * @param factor The percentage value. Must be a positive integer number.
         * @return The converter object.
         */
-        public HtmlToImageClient setScaleFactor(int scaleFactor) {
-            if (!(scaleFactor > 0))
-                throw new Error(createInvalidValueMessage(scaleFactor, "scale_factor", "html-to-image", "Must be a positive integer number.", "set_scale_factor"), 470);
+        public HtmlToImageClient setScaleFactor(int factor) {
+            if (!(factor > 0))
+                throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-image", "Must be a positive integer number.", "set_scale_factor"), 470);
             
-            fields.put("scale_factor", Integer.toString(scaleFactor));
+            fields.put("scale_factor", Integer.toString(factor));
+            return this;
+        }
+
+        /**
+        * The output image background color.
+        *
+        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setBackgroundColor(String color) {
+            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(color, "setBackgroundColor", "html-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_background_color"), 470);
+            
+            fields.put("background_color", color);
             return this;
         }
 
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param debugLog Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
         * @return The converter object.
         */
-        public HtmlToImageClient setDebugLog(boolean debugLog) {
-            fields.put("debug_log", debugLog ? "true" : null);
+        public HtmlToImageClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
@@ -2659,6 +2865,14 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
         * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
         *
         * @param tag A string with the custom tag.
@@ -2672,53 +2886,67 @@ public final class Pdfcrowd {
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public HtmlToImageClient setHttpProxy(String httpProxy) {
-            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+        public HtmlToImageClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
             
-            fields.put("http_proxy", httpProxy);
+            fields.put("http_proxy", proxy);
             return this;
         }
 
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public HtmlToImageClient setHttpsProxy(String httpsProxy) {
-            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+        public HtmlToImageClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
             
-            fields.put("https_proxy", httpsProxy);
+            fields.put("https_proxy", proxy);
             return this;
         }
 
         /**
         * A client certificate to authenticate Pdfcrowd converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
         *
-        * @param clientCertificate The file must be in PKCS12 format. The file must exist and not be empty.
+        * @param certificate The file must be in PKCS12 format. The file must exist and not be empty.
         * @return The converter object.
         */
-        public HtmlToImageClient setClientCertificate(String clientCertificate) {
-            if (!(new File(clientCertificate).length() > 0))
-                throw new Error(createInvalidValueMessage(clientCertificate, "client_certificate", "html-to-image", "The file must exist and not be empty.", "set_client_certificate"), 470);
+        public HtmlToImageClient setClientCertificate(String certificate) {
+            if (!(new File(certificate).length() > 0))
+                throw new Error(createInvalidValueMessage(certificate, "setClientCertificate", "html-to-image", "The file must exist and not be empty.", "set_client_certificate"), 470);
             
-            files.put("client_certificate", clientCertificate);
+            files.put("client_certificate", certificate);
             return this;
         }
 
         /**
         * A password for PKCS12 file with a client certificate if it is needed.
         *
-        * @param clientCertificatePassword
+        * @param password
         * @return The converter object.
         */
-        public HtmlToImageClient setClientCertificatePassword(String clientCertificatePassword) {
-            fields.put("client_certificate_password", clientCertificatePassword);
+        public HtmlToImageClient setClientCertificatePassword(String password) {
+            fields.put("client_certificate_password", password);
+            return this;
+        }
+
+        /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
             return this;
         }
 
@@ -2726,22 +2954,22 @@ public final class Pdfcrowd {
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
         */
-        public HtmlToImageClient setUseHttp(boolean useHttp) {
-            this.helper.setUseHttp(useHttp);
+        public HtmlToImageClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
             return this;
         }
 
         /**
         * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
-        * @param userAgent The user agent string.
+        * @param agent The user agent string.
         * @return The converter object.
         */
-        public HtmlToImageClient setUserAgent(String userAgent) {
-            helper.setUserAgent(userAgent);
+        public HtmlToImageClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -2762,11 +2990,11 @@ public final class Pdfcrowd {
         /**
         * Specifies the number of retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
         *
-        * @param retryCount Number of retries wanted.
+        * @param count Number of retries wanted.
         * @return The converter object.
         */
-        public HtmlToImageClient setRetryCount(int retryCount) {
-            this.helper.setRetryCount(retryCount);
+        public HtmlToImageClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
             return this;
         }
 
@@ -2802,7 +3030,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "image-to-image", "The supported protocols are http:// and https://.", "convert_url"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "image-to-image", "The supported protocols are http:// and https://.", "convert_url"), 470);
             
             fields.put("url", url);
             return helper.post(fields, files, rawData, null);
@@ -2816,7 +3044,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "image-to-image", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "image-to-image", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
             
             fields.put("url", url);
             helper.post(fields, files, rawData, outStream);
@@ -2830,7 +3058,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "image-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2847,12 +3075,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @return Byte array containing the conversion output.
         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "image-to-image", "The file must exist and not be empty.", "convert_file"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFile", "image-to-image", "The file must exist and not be empty.", "convert_file"), 470);
             
             files.put("file", file);
             return helper.post(fields, files, rawData, null);
@@ -2861,12 +3089,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file and write the result to an output stream.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @param outStream The output stream that will contain the conversion output.
         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "image-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "image-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
             
             files.put("file", file);
             helper.post(fields, files, rawData, outStream);
@@ -2875,12 +3103,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file and write the result to a local file.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @param filePath The output file path. The string must not be empty.
         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "image-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2924,7 +3152,7 @@ public final class Pdfcrowd {
         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-image", "The string must not be empty.", "convert_raw_data_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "image-to-image", "The string must not be empty.", "convert_raw_data_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -2946,7 +3174,7 @@ public final class Pdfcrowd {
         */
         public ImageToImageClient setOutputFormat(String outputFormat) {
             if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
-                throw new Error(createInvalidValueMessage(outputFormat, "output_format", "image-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
+                throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "image-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
             
             fields.put("output_format", outputFormat);
             return this;
@@ -2977,11 +3205,11 @@ public final class Pdfcrowd {
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param debugLog Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
         * @return The converter object.
         */
-        public ImageToImageClient setDebugLog(boolean debugLog) {
-            fields.put("debug_log", debugLog ? "true" : null);
+        public ImageToImageClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
@@ -3029,6 +3257,14 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
         * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
         *
         * @param tag A string with the custom tag.
@@ -3042,28 +3278,42 @@ public final class Pdfcrowd {
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public ImageToImageClient setHttpProxy(String httpProxy) {
-            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+        public ImageToImageClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
             
-            fields.put("http_proxy", httpProxy);
+            fields.put("http_proxy", proxy);
             return this;
         }
 
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public ImageToImageClient setHttpsProxy(String httpsProxy) {
-            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+        public ImageToImageClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
             
-            fields.put("https_proxy", httpsProxy);
+            fields.put("https_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @return The converter object.
+        */
+        public ImageToImageClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
             return this;
         }
 
@@ -3071,22 +3321,22 @@ public final class Pdfcrowd {
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
         */
-        public ImageToImageClient setUseHttp(boolean useHttp) {
-            this.helper.setUseHttp(useHttp);
+        public ImageToImageClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
             return this;
         }
 
         /**
         * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
-        * @param userAgent The user agent string.
+        * @param agent The user agent string.
         * @return The converter object.
         */
-        public ImageToImageClient setUserAgent(String userAgent) {
-            helper.setUserAgent(userAgent);
+        public ImageToImageClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -3107,11 +3357,11 @@ public final class Pdfcrowd {
         /**
         * Specifies the number of retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
         *
-        * @param retryCount Number of retries wanted.
+        * @param count Number of retries wanted.
         * @return The converter object.
         */
-        public ImageToImageClient setRetryCount(int retryCount) {
-            this.helper.setRetryCount(retryCount);
+        public ImageToImageClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
             return this;
         }
 
@@ -3147,7 +3397,7 @@ public final class Pdfcrowd {
         */
         public PdfToPdfClient setAction(String action) {
             if (!action.matches("(?i)^(join|shuffle)$"))
-                throw new Error(createInvalidValueMessage(action, "action", "pdf-to-pdf", "Allowed values are join, shuffle.", "set_action"), 470);
+                throw new Error(createInvalidValueMessage(action, "setAction", "pdf-to-pdf", "Allowed values are join, shuffle.", "set_action"), 470);
             
             fields.put("action", action);
             return this;
@@ -3177,7 +3427,7 @@ public final class Pdfcrowd {
         */
         public void convertToFile(String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "pdf-to-pdf", "The string must not be empty.", "convert_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertToFile", "pdf-to-pdf", "The string must not be empty.", "convert_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             convertToStream(outputFile);
@@ -3192,7 +3442,7 @@ public final class Pdfcrowd {
         */
         public PdfToPdfClient addPdfFile(String filePath) {
             if (!(new File(filePath).length() > 0))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "pdf-to-pdf", "The file must exist and not be empty.", "add_pdf_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "addPdfFile", "pdf-to-pdf", "The file must exist and not be empty.", "add_pdf_file"), 470);
             
             files.put("f_" + Integer.toString(fileId), filePath);
             fileId++;
@@ -3202,14 +3452,14 @@ public final class Pdfcrowd {
         /**
         * Add in-memory raw PDF data to the list of the input PDFs.<br>Typical usage is for adding PDF created by another Pdfcrowd converter.<br><br> Example in PHP:<br> <b>$clientPdf2Pdf</b>-&gt;addPdfRawData(<b>$clientHtml2Pdf</b>-&gt;convertUrl('http://www.example.com'));
         *
-        * @param pdfRawData The raw PDF data. The input data must be PDF content.
+        * @param data The raw PDF data. The input data must be PDF content.
         * @return The converter object.
         */
-        public PdfToPdfClient addPdfRawData(byte[] pdfRawData) {
-            if (!(pdfRawData != null && pdfRawData.length > 300 && (new String(pdfRawData, 0, 4).equals("%PDF"))))
-                throw new Error(createInvalidValueMessage("raw PDF data", "pdf_raw_data", "pdf-to-pdf", "The input data must be PDF content.", "add_pdf_raw_data"), 470);
+        public PdfToPdfClient addPdfRawData(byte[] data) {
+            if (!(data != null && data.length > 300 && (new String(data, 0, 4).equals("%PDF"))))
+                throw new Error(createInvalidValueMessage("raw PDF data", "addPdfRawData", "pdf-to-pdf", "The input data must be PDF content.", "add_pdf_raw_data"), 470);
             
-            rawData.put("f_" + Integer.toString(fileId), pdfRawData);
+            rawData.put("f_" + Integer.toString(fileId), data);
             fileId++;
             return this;
         }
@@ -3217,347 +3467,347 @@ public final class Pdfcrowd {
         /**
         * Apply the first page of the watermark PDF to every page of the output PDF.
         *
-        * @param pageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @param watermark The file path to a local watermark PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageWatermark(String pageWatermark) {
-            if (!(new File(pageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(pageWatermark, "page_watermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
+        public PdfToPdfClient setPageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
             
-            files.put("page_watermark", pageWatermark);
+            files.put("page_watermark", watermark);
             return this;
         }
 
         /**
         * Load a watermark PDF from the specified URL and apply the first page of the watermark PDF to every page of the output PDF.
         *
-        * @param pageWatermarkUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageWatermarkUrl(String pageWatermarkUrl) {
-            if (!pageWatermarkUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(pageWatermarkUrl, "page_watermark_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
+        public PdfToPdfClient setPageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
             
-            fields.put("page_watermark_url", pageWatermarkUrl);
+            fields.put("page_watermark_url", url);
             return this;
         }
 
         /**
         * Apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
-        * @param multipageWatermark The file path to a local watermark PDF file. The file must exist and not be empty.
+        * @param watermark The file path to a local watermark PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public PdfToPdfClient setMultipageWatermark(String multipageWatermark) {
-            if (!(new File(multipageWatermark).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageWatermark, "multipage_watermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
+        public PdfToPdfClient setMultipageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
             
-            files.put("multipage_watermark", multipageWatermark);
+            files.put("multipage_watermark", watermark);
             return this;
         }
 
         /**
         * Load a watermark PDF from the specified URL and apply each page of the specified watermark PDF to the corresponding page of the output PDF.
         *
-        * @param multipageWatermarkUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public PdfToPdfClient setMultipageWatermarkUrl(String multipageWatermarkUrl) {
-            if (!multipageWatermarkUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(multipageWatermarkUrl, "multipage_watermark_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
+        public PdfToPdfClient setMultipageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
             
-            fields.put("multipage_watermark_url", multipageWatermarkUrl);
+            fields.put("multipage_watermark_url", url);
             return this;
         }
 
         /**
         * Apply the first page of the specified PDF to the background of every page of the output PDF.
         *
-        * @param pageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @param background The file path to a local background PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageBackground(String pageBackground) {
-            if (!(new File(pageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(pageBackground, "page_background", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
+        public PdfToPdfClient setPageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setPageBackground", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
             
-            files.put("page_background", pageBackground);
+            files.put("page_background", background);
             return this;
         }
 
         /**
         * Load a background PDF from the specified URL and apply the first page of the background PDF to every page of the output PDF.
         *
-        * @param pageBackgroundUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageBackgroundUrl(String pageBackgroundUrl) {
-            if (!pageBackgroundUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(pageBackgroundUrl, "page_background_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
+        public PdfToPdfClient setPageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
             
-            fields.put("page_background_url", pageBackgroundUrl);
+            fields.put("page_background_url", url);
             return this;
         }
 
         /**
         * Apply each page of the specified PDF to the background of the corresponding page of the output PDF.
         *
-        * @param multipageBackground The file path to a local background PDF file. The file must exist and not be empty.
+        * @param background The file path to a local background PDF file. The file must exist and not be empty.
         * @return The converter object.
         */
-        public PdfToPdfClient setMultipageBackground(String multipageBackground) {
-            if (!(new File(multipageBackground).length() > 0))
-                throw new Error(createInvalidValueMessage(multipageBackground, "multipage_background", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
+        public PdfToPdfClient setMultipageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
             
-            files.put("multipage_background", multipageBackground);
+            files.put("multipage_background", background);
             return this;
         }
 
         /**
         * Load a background PDF from the specified URL and apply each page of the specified background PDF to the corresponding page of the output PDF.
         *
-        * @param multipageBackgroundUrl The supported protocols are http:// and https://.
+        * @param url The supported protocols are http:// and https://.
         * @return The converter object.
         */
-        public PdfToPdfClient setMultipageBackgroundUrl(String multipageBackgroundUrl) {
-            if (!multipageBackgroundUrl.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(multipageBackgroundUrl, "multipage_background_url", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
+        public PdfToPdfClient setMultipageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "pdf-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
             
-            fields.put("multipage_background_url", multipageBackgroundUrl);
+            fields.put("multipage_background_url", url);
             return this;
         }
 
         /**
         * Create linearized PDF. This is also known as Fast Web View.
         *
-        * @param linearize Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
         * @return The converter object.
         */
-        public PdfToPdfClient setLinearize(boolean linearize) {
-            fields.put("linearize", linearize ? "true" : null);
+        public PdfToPdfClient setLinearize(boolean value) {
+            fields.put("linearize", value ? "true" : null);
             return this;
         }
 
         /**
         * Encrypt the PDF. This prevents search engines from indexing the contents.
         *
-        * @param encrypt Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
         * @return The converter object.
         */
-        public PdfToPdfClient setEncrypt(boolean encrypt) {
-            fields.put("encrypt", encrypt ? "true" : null);
+        public PdfToPdfClient setEncrypt(boolean value) {
+            fields.put("encrypt", value ? "true" : null);
             return this;
         }
 
         /**
         * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
         *
-        * @param userPassword The user password.
+        * @param password The user password.
         * @return The converter object.
         */
-        public PdfToPdfClient setUserPassword(String userPassword) {
-            fields.put("user_password", userPassword);
+        public PdfToPdfClient setUserPassword(String password) {
+            fields.put("user_password", password);
             return this;
         }
 
         /**
         * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
         *
-        * @param ownerPassword The owner password.
+        * @param password The owner password.
         * @return The converter object.
         */
-        public PdfToPdfClient setOwnerPassword(String ownerPassword) {
-            fields.put("owner_password", ownerPassword);
+        public PdfToPdfClient setOwnerPassword(String password) {
+            fields.put("owner_password", password);
             return this;
         }
 
         /**
         * Disallow printing of the output PDF.
         *
-        * @param noPrint Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
         * @return The converter object.
         */
-        public PdfToPdfClient setNoPrint(boolean noPrint) {
-            fields.put("no_print", noPrint ? "true" : null);
+        public PdfToPdfClient setNoPrint(boolean value) {
+            fields.put("no_print", value ? "true" : null);
             return this;
         }
 
         /**
         * Disallow modification of the output PDF.
         *
-        * @param noModify Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
         * @return The converter object.
         */
-        public PdfToPdfClient setNoModify(boolean noModify) {
-            fields.put("no_modify", noModify ? "true" : null);
+        public PdfToPdfClient setNoModify(boolean value) {
+            fields.put("no_modify", value ? "true" : null);
             return this;
         }
 
         /**
         * Disallow text and graphics extraction from the output PDF.
         *
-        * @param noCopy Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
         * @return The converter object.
         */
-        public PdfToPdfClient setNoCopy(boolean noCopy) {
-            fields.put("no_copy", noCopy ? "true" : null);
+        public PdfToPdfClient setNoCopy(boolean value) {
+            fields.put("no_copy", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify the page layout to be used when the document is opened.
         *
-        * @param pageLayout Allowed values are single-page, one-column, two-column-left, two-column-right.
+        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageLayout(String pageLayout) {
-            if (!pageLayout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
-                throw new Error(createInvalidValueMessage(pageLayout, "page_layout", "pdf-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
+        public PdfToPdfClient setPageLayout(String layout) {
+            if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
+                throw new Error(createInvalidValueMessage(layout, "setPageLayout", "pdf-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
             
-            fields.put("page_layout", pageLayout);
+            fields.put("page_layout", layout);
             return this;
         }
 
         /**
         * Specify how the document should be displayed when opened.
         *
-        * @param pageMode Allowed values are full-screen, thumbnails, outlines.
+        * @param mode Allowed values are full-screen, thumbnails, outlines.
         * @return The converter object.
         */
-        public PdfToPdfClient setPageMode(String pageMode) {
-            if (!pageMode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
-                throw new Error(createInvalidValueMessage(pageMode, "page_mode", "pdf-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
+        public PdfToPdfClient setPageMode(String mode) {
+            if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPageMode", "pdf-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
             
-            fields.put("page_mode", pageMode);
+            fields.put("page_mode", mode);
             return this;
         }
 
         /**
         * Specify how the page should be displayed when opened.
         *
-        * @param initialZoomType Allowed values are fit-width, fit-height, fit-page.
+        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
         * @return The converter object.
         */
-        public PdfToPdfClient setInitialZoomType(String initialZoomType) {
-            if (!initialZoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
-                throw new Error(createInvalidValueMessage(initialZoomType, "initial_zoom_type", "pdf-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
+        public PdfToPdfClient setInitialZoomType(String zoomType) {
+            if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
+                throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "pdf-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
             
-            fields.put("initial_zoom_type", initialZoomType);
+            fields.put("initial_zoom_type", zoomType);
             return this;
         }
 
         /**
         * Display the specified page when the document is opened.
         *
-        * @param initialPage Must be a positive integer number.
+        * @param page Must be a positive integer number.
         * @return The converter object.
         */
-        public PdfToPdfClient setInitialPage(int initialPage) {
-            if (!(initialPage > 0))
-                throw new Error(createInvalidValueMessage(initialPage, "initial_page", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
+        public PdfToPdfClient setInitialPage(int page) {
+            if (!(page > 0))
+                throw new Error(createInvalidValueMessage(page, "setInitialPage", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
             
-            fields.put("initial_page", Integer.toString(initialPage));
+            fields.put("initial_page", Integer.toString(page));
             return this;
         }
 
         /**
         * Specify the initial page zoom in percents when the document is opened.
         *
-        * @param initialZoom Must be a positive integer number.
+        * @param zoom Must be a positive integer number.
         * @return The converter object.
         */
-        public PdfToPdfClient setInitialZoom(int initialZoom) {
-            if (!(initialZoom > 0))
-                throw new Error(createInvalidValueMessage(initialZoom, "initial_zoom", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
+        public PdfToPdfClient setInitialZoom(int zoom) {
+            if (!(zoom > 0))
+                throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "pdf-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
             
-            fields.put("initial_zoom", Integer.toString(initialZoom));
+            fields.put("initial_zoom", Integer.toString(zoom));
             return this;
         }
 
         /**
         * Specify whether to hide the viewer application's tool bars when the document is active.
         *
-        * @param hideToolbar Set to <span class='field-value'>true</span> to hide tool bars.
+        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
         * @return The converter object.
         */
-        public PdfToPdfClient setHideToolbar(boolean hideToolbar) {
-            fields.put("hide_toolbar", hideToolbar ? "true" : null);
+        public PdfToPdfClient setHideToolbar(boolean value) {
+            fields.put("hide_toolbar", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to hide the viewer application's menu bar when the document is active.
         *
-        * @param hideMenubar Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
         * @return The converter object.
         */
-        public PdfToPdfClient setHideMenubar(boolean hideMenubar) {
-            fields.put("hide_menubar", hideMenubar ? "true" : null);
+        public PdfToPdfClient setHideMenubar(boolean value) {
+            fields.put("hide_menubar", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
         *
-        * @param hideWindowUi Set to <span class='field-value'>true</span> to hide ui elements.
+        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
         * @return The converter object.
         */
-        public PdfToPdfClient setHideWindowUi(boolean hideWindowUi) {
-            fields.put("hide_window_ui", hideWindowUi ? "true" : null);
+        public PdfToPdfClient setHideWindowUi(boolean value) {
+            fields.put("hide_window_ui", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to resize the document's window to fit the size of the first displayed page.
         *
-        * @param fitWindow Set to <span class='field-value'>true</span> to resize the window.
+        * @param value Set to <span class='field-value'>true</span> to resize the window.
         * @return The converter object.
         */
-        public PdfToPdfClient setFitWindow(boolean fitWindow) {
-            fields.put("fit_window", fitWindow ? "true" : null);
+        public PdfToPdfClient setFitWindow(boolean value) {
+            fields.put("fit_window", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether to position the document's window in the center of the screen.
         *
-        * @param centerWindow Set to <span class='field-value'>true</span> to center the window.
+        * @param value Set to <span class='field-value'>true</span> to center the window.
         * @return The converter object.
         */
-        public PdfToPdfClient setCenterWindow(boolean centerWindow) {
-            fields.put("center_window", centerWindow ? "true" : null);
+        public PdfToPdfClient setCenterWindow(boolean value) {
+            fields.put("center_window", value ? "true" : null);
             return this;
         }
 
         /**
         * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
         *
-        * @param displayTitle Set to <span class='field-value'>true</span> to display the title.
+        * @param value Set to <span class='field-value'>true</span> to display the title.
         * @return The converter object.
         */
-        public PdfToPdfClient setDisplayTitle(boolean displayTitle) {
-            fields.put("display_title", displayTitle ? "true" : null);
+        public PdfToPdfClient setDisplayTitle(boolean value) {
+            fields.put("display_title", value ? "true" : null);
             return this;
         }
 
         /**
         * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
         *
-        * @param rightToLeft Set to <span class='field-value'>true</span> to set right-to-left reading order.
+        * @param value Set to <span class='field-value'>true</span> to set right-to-left reading order.
         * @return The converter object.
         */
-        public PdfToPdfClient setRightToLeft(boolean rightToLeft) {
-            fields.put("right_to_left", rightToLeft ? "true" : null);
+        public PdfToPdfClient setRightToLeft(boolean value) {
+            fields.put("right_to_left", value ? "true" : null);
             return this;
         }
 
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param debugLog Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
         * @return The converter object.
         */
-        public PdfToPdfClient setDebugLog(boolean debugLog) {
-            fields.put("debug_log", debugLog ? "true" : null);
+        public PdfToPdfClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
@@ -3613,6 +3863,14 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
         * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
         *
         * @param tag A string with the custom tag.
@@ -3624,25 +3882,39 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
+            return this;
+        }
+
+        /**
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
         */
-        public PdfToPdfClient setUseHttp(boolean useHttp) {
-            this.helper.setUseHttp(useHttp);
+        public PdfToPdfClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
             return this;
         }
 
         /**
         * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
-        * @param userAgent The user agent string.
+        * @param agent The user agent string.
         * @return The converter object.
         */
-        public PdfToPdfClient setUserAgent(String userAgent) {
-            helper.setUserAgent(userAgent);
+        public PdfToPdfClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -3663,11 +3935,11 @@ public final class Pdfcrowd {
         /**
         * Specifies the number of retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
         *
-        * @param retryCount Number of retries wanted.
+        * @param count Number of retries wanted.
         * @return The converter object.
         */
-        public PdfToPdfClient setRetryCount(int retryCount) {
-            this.helper.setRetryCount(retryCount);
+        public PdfToPdfClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
             return this;
         }
 
@@ -3703,7 +3975,7 @@ public final class Pdfcrowd {
         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "image-to-pdf", "The supported protocols are http:// and https://.", "convert_url"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "image-to-pdf", "The supported protocols are http:// and https://.", "convert_url"), 470);
             
             fields.put("url", url);
             return helper.post(fields, files, rawData, null);
@@ -3717,7 +3989,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
-                throw new Error(createInvalidValueMessage(url, "url", "image-to-pdf", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "image-to-pdf", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
             
             fields.put("url", url);
             helper.post(fields, files, rawData, outStream);
@@ -3731,7 +4003,7 @@ public final class Pdfcrowd {
         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -3748,12 +4020,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @return Byte array containing the conversion output.
         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "image-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFile", "image-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
             
             files.put("file", file);
             return helper.post(fields, files, rawData, null);
@@ -3762,12 +4034,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file and write the result to an output stream.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @param outStream The output stream that will contain the conversion output.
         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
-                throw new Error(createInvalidValueMessage(file, "file", "image-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "image-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
             
             files.put("file", file);
             helper.post(fields, files, rawData, outStream);
@@ -3776,12 +4048,12 @@ public final class Pdfcrowd {
         /**
         * Convert a local file and write the result to a local file.
         *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip). The file must exist and not be empty.
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
         * @param filePath The output file path. The string must not be empty.
         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -3825,7 +4097,7 @@ public final class Pdfcrowd {
         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
-                throw new Error(createInvalidValueMessage(filePath, "file_path", "image-to-pdf", "The string must not be empty.", "convert_raw_data_to_file"), 470);
+                throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_raw_data_to_file"), 470);
             
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
@@ -3864,11 +4136,11 @@ public final class Pdfcrowd {
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param debugLog Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
         * @return The converter object.
         */
-        public ImageToPdfClient setDebugLog(boolean debugLog) {
-            fields.put("debug_log", debugLog ? "true" : null);
+        public ImageToPdfClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
@@ -3916,6 +4188,14 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
         * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
         *
         * @param tag A string with the custom tag.
@@ -3929,28 +4209,42 @@ public final class Pdfcrowd {
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public ImageToPdfClient setHttpProxy(String httpProxy) {
-            if (!httpProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpProxy, "http_proxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+        public ImageToPdfClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
             
-            fields.put("http_proxy", httpProxy);
+            fields.put("http_proxy", proxy);
             return this;
         }
 
         /**
         * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
         *
-        * @param httpsProxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
         * @return The converter object.
         */
-        public ImageToPdfClient setHttpsProxy(String httpsProxy) {
-            if (!httpsProxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
-                throw new Error(createInvalidValueMessage(httpsProxy, "https_proxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+        public ImageToPdfClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
             
-            fields.put("https_proxy", httpsProxy);
+            fields.put("https_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
             return this;
         }
 
@@ -3958,22 +4252,22 @@ public final class Pdfcrowd {
         * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param useHttp Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
         * @return The converter object.
         */
-        public ImageToPdfClient setUseHttp(boolean useHttp) {
-            this.helper.setUseHttp(useHttp);
+        public ImageToPdfClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
             return this;
         }
 
         /**
         * Set a custom user agent HTTP header. It can be useful if you are behind some proxy or firewall.
         *
-        * @param userAgent The user agent string.
+        * @param agent The user agent string.
         * @return The converter object.
         */
-        public ImageToPdfClient setUserAgent(String userAgent) {
-            helper.setUserAgent(userAgent);
+        public ImageToPdfClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -3994,11 +4288,11 @@ public final class Pdfcrowd {
         /**
         * Specifies the number of retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
         *
-        * @param retryCount Number of retries wanted.
+        * @param count Number of retries wanted.
         * @return The converter object.
         */
-        public ImageToPdfClient setRetryCount(int retryCount) {
-            this.helper.setRetryCount(retryCount);
+        public ImageToPdfClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
             return this;
         }
 
