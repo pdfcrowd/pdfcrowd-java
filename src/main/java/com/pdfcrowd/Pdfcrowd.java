@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.0.0";
+    public static final String CLIENT_VERSION = "5.1.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -67,6 +67,22 @@ public final class Pdfcrowd {
         }
     }
 
+    // helper class to use just single array in memory for ZipOutputStream
+    public static class ByteArrayIOStream extends InputStream {
+        private ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
+
+        public OutputStream getOutputStream() {
+            return bytesStream;
+        }
+
+        public byte[] getBytes() {
+            return bytesStream.toByteArray();
+        }
+
+        // InputStream noop implementation
+        public int read() { return -1; }
+    }
+
     private static final class ConnectionHelper {
         private String userName;
         private String apiKey;
@@ -96,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.0.0 (http://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.1.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -112,11 +128,25 @@ public final class Pdfcrowd {
             retry = 0;
         }
 
-        private static void copyStream(InputStream in, OutputStream out) throws IOException {
+        private static byte[] getBytes(InputStream in) throws IOException {
+            if (in instanceof ByteArrayIOStream) {
+                return ((ByteArrayIOStream) in).getBytes();
+            }
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            int bytesRead;
             byte[] buffer = new byte[8192];
-            while (true) {
-                int bytesRead = in.read(buffer, 0, 8192);
-                if (bytesRead == -1) break;
+            while ((bytesRead = in.read(buffer, 0, buffer.length)) != -1) {
+                bytes.write(buffer, 0, bytesRead);
+            }
+            bytes.flush();
+            return bytes.toByteArray();
+        }
+
+        private static void copyStream(InputStream in, OutputStream out) throws IOException {
+            int bytesRead;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = in.read(buffer, 0, buffer.length)) != -1) {
                 out.write(buffer, 0, bytesRead);
             }
         }
@@ -584,6 +614,50 @@ public final class Pdfcrowd {
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
                 convertStringToStream(text, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert an input stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with the source data.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
                 outputFile.close();
             }
             catch(Error why) {
@@ -2374,6 +2448,50 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Convert an input stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with the source data.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "html-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
         * Set the input data for template rendering. The data format can be JSON, XML, YAML or CSV.
         *
         * @param dataString The input data string.
@@ -3157,6 +3275,50 @@ public final class Pdfcrowd {
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
                 convertRawDataToStream(data, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert an input stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with the source data.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "image-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
                 outputFile.close();
             }
             catch(Error why) {
@@ -4102,6 +4264,50 @@ public final class Pdfcrowd {
             FileOutputStream outputFile = new FileOutputStream(filePath);
             try {
                 convertRawDataToStream(data, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert an input stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with the source data.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with the source data.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
                 outputFile.close();
             }
             catch(Error why) {
