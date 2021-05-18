@@ -1458,7 +1458,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify the DOM handling when only a part of the document is converted.
+        * Specify the DOM handling when only a part of the document is converted. This can affect the CSS rules used.
         *
         * @param mode Allowed values are cut-out, remove-siblings, hide-siblings.
         * @return The converter object.
@@ -2754,7 +2754,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify the DOM handling when only a part of the document is converted.
+        * Specify the DOM handling when only a part of the document is converted. This can affect the CSS rules used.
         *
         * @param mode Allowed values are cut-out, remove-siblings, hide-siblings.
         * @return The converter object.
