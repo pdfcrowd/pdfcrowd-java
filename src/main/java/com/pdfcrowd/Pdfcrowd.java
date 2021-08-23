@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.1.1";
+    public static final String CLIENT_VERSION = "5.2.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.1.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.2.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -668,6 +668,17 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the file name of the main HTML document stored in the input archive. If not specified, the first HTML file in the archive is used for conversion. Use this method if the input archive contains multiple HTML documents.
+        *
+        * @param filename The file name.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setZipMainFilename(String filename) {
+            fields.put("zip_main_filename", filename);
+            return this;
+        }
+
+        /**
         * Set the output page size.
         *
         * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
@@ -975,6 +986,17 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the file name of the header HTML document stored in the input archive. Use this method if the input archive contains multiple HTML documents.
+        *
+        * @param filename The file name.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setZipHeaderFilename(String filename) {
+            fields.put("zip_header_filename", filename);
+            return this;
+        }
+
+        /**
         * Load an HTML code from the specified URL and use it as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of a converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals. Allowed values: <ul> <li><span class='field-value'>arabic</span> - Arabic numerals, they are used by default</li> <li><span class='field-value'>roman</span> - Roman numerals</li> <li><span class='field-value'>eastern-arabic</span> - Eastern Arabic numerals</li> <li><span class='field-value'>bengali</span> - Bengali numerals</li> <li><span class='field-value'>devanagari</span> - Devanagari numerals</li> <li><span class='field-value'>thai</span> - Thai numerals</li> <li><span class='field-value'>east-asia</span> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><span class='field-value'>chinese-formal</span> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
         *
         * @param url The supported protocols are http:// and https://.
@@ -1013,6 +1035,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(height, "setFooterHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_footer_height"), 470);
             
             fields.put("footer_height", height);
+            return this;
+        }
+
+        /**
+        * Set the file name of the footer HTML document stored in the input archive. Use this method if the input archive contains multiple HTML documents.
+        *
+        * @param filename The file name.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setZipFooterFilename(String filename) {
+            fields.put("zip_footer_filename", filename);
             return this;
         }
 
@@ -1728,6 +1761,17 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
+            return this;
+        }
+
+        /**
+        * Extract meta tags (author, keywords and description) from the input HTML and use them in the output PDF.
+        *
+        * @param value Set to <span class='field-value'>true</span> to extract meta tags.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setExtractMetaTags(boolean value) {
+            fields.put("extract_meta_tags", value ? "true" : null);
             return this;
         }
 
@@ -2489,6 +2533,17 @@ public final class Pdfcrowd {
                 new File(filePath).delete();
                 throw why;
             }
+        }
+
+        /**
+        * Set the file name of the main HTML document stored in the input archive. If not specified, the first HTML file in the archive is used for conversion. Use this method if the input archive contains multiple HTML documents.
+        *
+        * @param filename The file name.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setZipMainFilename(String filename) {
+            fields.put("zip_main_filename", filename);
+            return this;
         }
 
         /**
@@ -3812,6 +3867,64 @@ public final class Pdfcrowd {
         */
         public PdfToPdfClient setNoCopy(boolean value) {
             fields.put("no_copy", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the title of the PDF.
+        *
+        * @param title The title.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setTitle(String title) {
+            fields.put("title", title);
+            return this;
+        }
+
+        /**
+        * Set the subject of the PDF.
+        *
+        * @param subject The subject.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setSubject(String subject) {
+            fields.put("subject", subject);
+            return this;
+        }
+
+        /**
+        * Set the author of the PDF.
+        *
+        * @param author The author.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setAuthor(String author) {
+            fields.put("author", author);
+            return this;
+        }
+
+        /**
+        * Associate keywords with the document.
+        *
+        * @param keywords The string with the keywords.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setKeywords(String keywords) {
+            fields.put("keywords", keywords);
+            return this;
+        }
+
+        /**
+        * Use metadata (title, subject, author and keywords) from the n-th input PDF.
+        *
+        * @param index Set the index of the input PDF file from which to use the metadata. 0 means no metadata. Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setUseMetadataFrom(int index) {
+            if (!(index >= 0))
+                throw new Error(createInvalidValueMessage(index, "setUseMetadataFrom", "pdf-to-pdf", "Must be a positive integer number or 0.", "set_use_metadata_from"), 470);
+            
+            fields.put("use_metadata_from", Integer.toString(index));
             return this;
         }
 
