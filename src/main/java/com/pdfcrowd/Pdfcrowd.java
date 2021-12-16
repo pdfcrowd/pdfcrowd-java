@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.2.0";
+    public static final String CLIENT_VERSION = "5.2.2";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.2.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.2.2 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -446,7 +446,7 @@ public final class Pdfcrowd {
             {
                 message += " " + hint;
             }
-        return message + " " + String.format("Details: https://www.pdfcrowd.com/doc/api/%s/java/#%s", converter, id);
+        return message + " " + String.format("Details: https://www.pdfcrowd.com/doc/api/%s/java/ref/#%s", converter, id);
     }
 
 // generated code

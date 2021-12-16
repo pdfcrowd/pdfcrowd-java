@@ -1,6 +1,7 @@
 .PHONY : dist clean
 
-DIR_NAME := pdfcrowd-5.2.0
+VERSION = 5.2.2
+DIR_NAME := pdfcrowd-5.2.2
 
 compile:
 	@mvn clean verify
@@ -8,9 +9,11 @@ compile:
 clean:
 	@rm -rf dist
 
-dist:
+dist: dist/pdfcrowd-$(VERSION)-java.zip
+
+dist/pdfcrowd-$(VERSION)-java.zip:
 	@mkdir -p dist
-	@cd dist && mkdir -p $(DIR_NAME) && cp ../target/pdfcrowd*.jar $(DIR_NAME) && zip pdfcrowd.zip $(DIR_NAME)/*
+	@cd dist && mkdir -p $(DIR_NAME) && cp ../target/pdfcrowd*.jar $(DIR_NAME) && zip pdfcrowd-$(VERSION)-java.zip $(DIR_NAME)/* $(DIR_NAME)/*
 
 publish: clean compile dist
 	@mvn install
