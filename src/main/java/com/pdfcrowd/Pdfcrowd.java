@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.2.2";
+    public static final String CLIENT_VERSION = "5.3.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.2.2 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.3.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1280,6 +1280,17 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setDisableRemoteFonts(boolean value) {
             fields.put("disable_remote_fonts", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Use a mobile user agent.
+        *
+        * @param value Set to <span class='field-value'>true</span> to use a mobile user agent.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setUseMobileUserAgent(boolean value) {
+            fields.put("use_mobile_user_agent", value ? "true" : null);
             return this;
         }
 
@@ -2598,6 +2609,17 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setDisableRemoteFonts(boolean value) {
             fields.put("disable_remote_fonts", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Use a mobile user agent.
+        *
+        * @param value Set to <span class='field-value'>true</span> to use a mobile user agent.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setUseMobileUserAgent(boolean value) {
+            fields.put("use_mobile_user_agent", value ? "true" : null);
             return this;
         }
 
