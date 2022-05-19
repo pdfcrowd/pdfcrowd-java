@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.5.0";
+    public static final String CLIENT_VERSION = "5.6.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.5.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.6.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1676,6 +1676,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(dpi, "setImageDpi", "html-to-pdf", "Must be a positive integer number or 0.", "set_image_dpi"), 470);
             
             fields.put("image_dpi", Integer.toString(dpi));
+            return this;
+        }
+
+        /**
+        * Convert HTML forms to fillable PDF forms. Details can be found in the <a href='https://pdfcrowd.com/blog/create-fillable-pdf-form/'>blog post</a>.
+        *
+        * @param value Set to <span class='field-value'>true</span> to make fillable PDF forms.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setEnablePdfForms(boolean value) {
+            fields.put("enable_pdf_forms", value ? "true" : null);
             return this;
         }
 
