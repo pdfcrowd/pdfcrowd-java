@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.6.0";
+    public static final String CLIENT_VERSION = "5.6.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.6.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.6.1 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -695,12 +695,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
         *
-        * @param width Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param width The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setPageWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(width, "setPageWidth", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_width"), 470);
+                throw new Error(createInvalidValueMessage(width, "setPageWidth", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_page_width"), 470);
             
             fields.put("page_width", width);
             return this;
@@ -709,12 +709,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
         *
-        * @param height Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height The value must be -1 or specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setPageHeight(String height) {
             if (!height.matches("(?i)^0$|^\\-1$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(height, "setPageHeight", "html-to-pdf", "Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_page_height"), 470);
+                throw new Error(createInvalidValueMessage(height, "setPageHeight", "html-to-pdf", "The value must be -1 or specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_page_height"), 470);
             
             fields.put("page_height", height);
             return this;
@@ -723,8 +723,8 @@ public final class Pdfcrowd {
         /**
         * Set the output page dimensions.
         *
-        * @param width Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
-        * @param height Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. Can be -1 or specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param width Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param height Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. The value must be -1 or specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setPageDimensions(String width, String height) {
@@ -750,12 +750,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page top margin.
         *
-        * @param top Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param top The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setMarginTop(String top) {
             if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(top, "setMarginTop", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_top"), 470);
+                throw new Error(createInvalidValueMessage(top, "setMarginTop", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_top"), 470);
             
             fields.put("margin_top", top);
             return this;
@@ -764,12 +764,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page right margin.
         *
-        * @param right Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param right The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setMarginRight(String right) {
             if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(right, "setMarginRight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_right"), 470);
+                throw new Error(createInvalidValueMessage(right, "setMarginRight", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_right"), 470);
             
             fields.put("margin_right", right);
             return this;
@@ -778,12 +778,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page bottom margin.
         *
-        * @param bottom Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param bottom The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setMarginBottom(String bottom) {
             if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_bottom"), 470);
+                throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_bottom"), 470);
             
             fields.put("margin_bottom", bottom);
             return this;
@@ -792,12 +792,12 @@ public final class Pdfcrowd {
         /**
         * Set the output page left margin.
         *
-        * @param left Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param left The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setMarginLeft(String left) {
             if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(left, "setMarginLeft", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_margin_left"), 470);
+                throw new Error(createInvalidValueMessage(left, "setMarginLeft", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_left"), 470);
             
             fields.put("margin_left", left);
             return this;
@@ -817,10 +817,10 @@ public final class Pdfcrowd {
         /**
         * Set the output page margins.
         *
-        * @param top Set the output page top margin. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
-        * @param right Set the output page right margin. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
-        * @param bottom Set the output page bottom margin. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
-        * @param left Set the output page left margin. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param top Set the output page top margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param right Set the output page right margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param bottom Set the output page bottom margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param left Set the output page left margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setPageMargins(String top, String right, String bottom, String left) {
@@ -859,12 +859,12 @@ public final class Pdfcrowd {
         /**
         * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
         *
-        * @param x Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param x The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt". It may contain a negative value.
         * @return The converter object.
         */
         public HtmlToPdfClient setContentAreaX(String x) {
             if (!x.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(x, "setContentAreaX", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_x"), 470);
+                throw new Error(createInvalidValueMessage(x, "setContentAreaX", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\". It may contain a negative value.", "set_content_area_x"), 470);
             
             fields.put("content_area_x", x);
             return this;
@@ -873,12 +873,12 @@ public final class Pdfcrowd {
         /**
         * Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area.
         *
-        * @param y Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
+        * @param y The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt". It may contain a negative value.
         * @return The converter object.
         */
         public HtmlToPdfClient setContentAreaY(String y) {
             if (!y.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(y, "setContentAreaY", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.", "set_content_area_y"), 470);
+                throw new Error(createInvalidValueMessage(y, "setContentAreaY", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\". It may contain a negative value.", "set_content_area_y"), 470);
             
             fields.put("content_area_y", y);
             return this;
@@ -887,12 +887,12 @@ public final class Pdfcrowd {
         /**
         * Set the width of the content area. It should be at least 1 inch.
         *
-        * @param width Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param width The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setContentAreaWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(width, "setContentAreaWidth", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_width"), 470);
+                throw new Error(createInvalidValueMessage(width, "setContentAreaWidth", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_content_area_width"), 470);
             
             fields.put("content_area_width", width);
             return this;
@@ -901,12 +901,12 @@ public final class Pdfcrowd {
         /**
         * Set the height of the content area. It should be at least 1 inch.
         *
-        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setContentAreaHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(height, "setContentAreaHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_content_area_height"), 470);
+                throw new Error(createInvalidValueMessage(height, "setContentAreaHeight", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_content_area_height"), 470);
             
             fields.put("content_area_height", height);
             return this;
@@ -915,10 +915,10 @@ public final class Pdfcrowd {
         /**
         * Set the content area position and size. The content area enables to specify a web page area to be converted.
         *
-        * @param x Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
-        * @param y Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt). It may contain a negative value.
-        * @param width Set the width of the content area. It should be at least 1 inch. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
-        * @param height Set the height of the content area. It should be at least 1 inch. Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param x Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt". It may contain a negative value.
+        * @param y Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt". It may contain a negative value.
+        * @param width Set the width of the content area. It should be at least 1 inch. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param height Set the height of the content area. It should be at least 1 inch. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setContentArea(String x, String y, String width, String height) {
@@ -974,12 +974,12 @@ public final class Pdfcrowd {
         /**
         * Set the header height.
         *
-        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setHeaderHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(height, "setHeaderHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_header_height"), 470);
+                throw new Error(createInvalidValueMessage(height, "setHeaderHeight", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_header_height"), 470);
             
             fields.put("header_height", height);
             return this;
@@ -1027,12 +1027,12 @@ public final class Pdfcrowd {
         /**
         * Set the footer height.
         *
-        * @param height Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).
+        * @param height The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
         * @return The converter object.
         */
         public HtmlToPdfClient setFooterHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
-                throw new Error(createInvalidValueMessage(height, "setFooterHeight", "html-to-pdf", "Can be specified in inches (in), millimeters (mm), centimeters (cm), or points (pt).", "set_footer_height"), 470);
+                throw new Error(createInvalidValueMessage(height, "setFooterHeight", "html-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_footer_height"), 470);
             
             fields.put("footer_height", height);
             return this;
