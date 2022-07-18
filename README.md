@@ -9,8 +9,8 @@ can sign up [here](https://pdfcrowd.com/pricing/api/).
 
 ## Learn more
 
-* API Home:  <https://pdfcrowd.com/doc/api/>
-* API Reference:  <https://pdfcrowd.com/doc/api/html-to-pdf/java/>
+* API Home:  <https://pdfcrowd.com/api/>
+* API Reference:  <https://pdfcrowd.com/api/html-to-pdf-java/>
 * Interactive API Playground:
   * Java: <https://pdfcrowd.com/playground/html-to-pdf/?lang=java>
   * Spring: <https://pdfcrowd.com/playground/html-to-pdf/?lang=wf-spring>

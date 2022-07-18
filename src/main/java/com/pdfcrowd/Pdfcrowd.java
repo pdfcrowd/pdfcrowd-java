@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.6.1";
+    public static final String CLIENT_VERSION = "5.6.2";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.6.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.6.2 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -446,7 +446,7 @@ public final class Pdfcrowd {
             {
                 message += " " + hint;
             }
-        return message + " " + String.format("Details: https://www.pdfcrowd.com/doc/api/%s/java/ref/#%s", converter, id);
+        return message + " " + String.format("Details: https://www.pdfcrowd.com/api/%s-java/ref/#%s", converter, id);
     }
 
 // generated code
@@ -1432,7 +1432,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
@@ -1446,7 +1446,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
@@ -2797,7 +2797,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
@@ -2811,7 +2811,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/doc/api/libpdfcrowd/'>JavaScript library</a>.
+        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
         *
         * @param javascript A string containing a JavaScript code. The string must not be empty.
         * @return The converter object.
