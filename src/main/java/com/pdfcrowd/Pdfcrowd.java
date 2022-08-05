@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.6.2";
+    public static final String CLIENT_VERSION = "5.7.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -112,7 +112,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.6.2 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.7.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1543,12 +1543,12 @@ public final class Pdfcrowd {
         /**
         * The input HTML is automatically enhanced to improve the readability.
         *
-        * @param enhancements Allowed values are none, readability-v1.
+        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3.
         * @return The converter object.
         */
         public HtmlToPdfClient setReadabilityEnhancements(String enhancements) {
-            if (!enhancements.matches("(?i)^(none|readability-v1)$"))
-                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-pdf", "Allowed values are none, readability-v1.", "set_readability_enhancements"), 470);
+            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3)$"))
+                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-pdf", "Allowed values are none, readability-v1, readability-v2, readability-v3.", "set_readability_enhancements"), 470);
             
             fields.put("readability_enhancements", enhancements);
             return this;
@@ -2908,12 +2908,12 @@ public final class Pdfcrowd {
         /**
         * The input HTML is automatically enhanced to improve the readability.
         *
-        * @param enhancements Allowed values are none, readability-v1.
+        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3.
         * @return The converter object.
         */
         public HtmlToImageClient setReadabilityEnhancements(String enhancements) {
-            if (!enhancements.matches("(?i)^(none|readability-v1)$"))
-                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-image", "Allowed values are none, readability-v1.", "set_readability_enhancements"), 470);
+            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3)$"))
+                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-image", "Allowed values are none, readability-v1, readability-v2, readability-v3.", "set_readability_enhancements"), 470);
             
             fields.put("readability_enhancements", enhancements);
             return this;
