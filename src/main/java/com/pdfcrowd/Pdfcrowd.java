@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.8.0";
+    public static final String CLIENT_VERSION = "5.9.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -94,6 +94,7 @@ public final class Pdfcrowd {
         private int consumedCredits;
         private String jobId;
         private int pageCount;
+        private int totalPageCount;
         private int outputSize;
 
         private String proxyHost;
@@ -112,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.8.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.9.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -124,6 +125,7 @@ public final class Pdfcrowd {
             consumedCredits = 0;
             jobId = "";
             pageCount = 0;
+            totalPageCount = 0;
             outputSize = 0;
             retry = 0;
         }
@@ -339,6 +341,7 @@ public final class Pdfcrowd {
                 consumedCredits = getIntHeader(conn, "X-Pdfcrowd-Consumed-Credits", 0);
                 jobId = getStringHeader(conn, "X-Pdfcrowd-Job-Id", "");
                 pageCount = getIntHeader(conn, "X-Pdfcrowd-Pages", 0);
+                totalPageCount = getIntHeader(conn, "X-Pdfcrowd-Total-Pages", 0);
                 outputSize = getIntHeader(conn, "X-Pdfcrowd-Output-Size", 0);
 
                 if (System.getenv("PDFCROWD_UNIT_TEST_MODE") != null &&
@@ -429,6 +432,10 @@ public final class Pdfcrowd {
 
         int getPageCount() {
             return pageCount;
+        }
+
+        int getTotalPageCount() {
+            return totalPageCount;
         }
 
         int getOutputSize() {
@@ -1543,12 +1550,12 @@ public final class Pdfcrowd {
         /**
         * The input HTML is automatically enhanced to improve the readability.
         *
-        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3.
+        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.
         * @return The converter object.
         */
         public HtmlToPdfClient setReadabilityEnhancements(String enhancements) {
-            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3)$"))
-                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-pdf", "Allowed values are none, readability-v1, readability-v2, readability-v3.", "set_readability_enhancements"), 470);
+            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3|readability-v4)$"))
+                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-pdf", "Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.", "set_readability_enhancements"), 470);
             
             fields.put("readability_enhancements", enhancements);
             return this;
@@ -2107,11 +2114,19 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Get the total number of pages in the output document.
+        * Get the number of pages in the output document.
         * @return The page count.
         */
         public int getPageCount() {
             return helper.getPageCount();
+        }
+
+        /**
+        * Get the total number of pages in the original output document, including the pages excluded by <a href='#set_print_page_range'>setPrintPageRange()</a>.
+        * @return The total page count.
+        */
+        public int getTotalPageCount() {
+            return helper.getTotalPageCount();
         }
 
         /**
@@ -2908,12 +2923,12 @@ public final class Pdfcrowd {
         /**
         * The input HTML is automatically enhanced to improve the readability.
         *
-        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3.
+        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.
         * @return The converter object.
         */
         public HtmlToImageClient setReadabilityEnhancements(String enhancements) {
-            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3)$"))
-                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-image", "Allowed values are none, readability-v1, readability-v2, readability-v3.", "set_readability_enhancements"), 470);
+            if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3|readability-v4)$"))
+                throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-image", "Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.", "set_readability_enhancements"), 470);
             
             fields.put("readability_enhancements", enhancements);
             return this;
@@ -4216,7 +4231,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Get the total number of pages in the output document.
+        * Get the number of pages in the output document.
         * @return The page count.
         */
         public int getPageCount() {
@@ -5124,7 +5139,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Get the total number of pages in the output document.
+        * Get the number of pages in the output document.
         * @return The page count.
         */
         public int getPageCount() {
