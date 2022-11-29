@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.9.0";
+    public static final String CLIENT_VERSION = "5.10.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.9.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.10.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1619,12 +1619,12 @@ public final class Pdfcrowd {
         /**
         * Specifies the scaling mode used for fitting the HTML contents to the print area.
         *
-        * @param mode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, mode1.
+        * @param mode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, single-page-fit-ex, mode1.
         * @return The converter object.
         */
         public HtmlToPdfClient setSmartScalingMode(String mode) {
-            if (!mode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit|mode1)$"))
-                throw new Error(createInvalidValueMessage(mode, "setSmartScalingMode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, mode1.", "set_smart_scaling_mode"), 470);
+            if (!mode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit|single-page-fit-ex|mode1)$"))
+                throw new Error(createInvalidValueMessage(mode, "setSmartScalingMode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, single-page-fit-ex, mode1.", "set_smart_scaling_mode"), 470);
             
             fields.put("smart_scaling_mode", mode);
             return this;
@@ -4562,6 +4562,375 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Apply a watermark to each page of the output PDF file. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
+        *
+        * @param watermark The file path to a local file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "image-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
+            
+            files.put("page_watermark", watermark);
+            return this;
+        }
+
+        /**
+        * Load a file from the specified URL and apply the file as a watermark to each page of the output PDF. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
+        *
+        * @param url The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "image-to-pdf", "The supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
+            
+            fields.put("page_watermark_url", url);
+            return this;
+        }
+
+        /**
+        * Apply each page of a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
+        *
+        * @param watermark The file path to a local file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMultipageWatermark(String watermark) {
+            if (!(new File(watermark).length() > 0))
+                throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "image-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
+            
+            files.put("multipage_watermark", watermark);
+            return this;
+        }
+
+        /**
+        * Load a file from the specified URL and apply each page of the file as a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
+        *
+        * @param url The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMultipageWatermarkUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "image-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
+            
+            fields.put("multipage_watermark_url", url);
+            return this;
+        }
+
+        /**
+        * Apply a background to each page of the output PDF file. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
+        *
+        * @param background The file path to a local file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setPageBackground", "image-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
+            
+            files.put("page_background", background);
+            return this;
+        }
+
+        /**
+        * Load a file from the specified URL and apply the file as a background to each page of the output PDF. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
+        *
+        * @param url The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "image-to-pdf", "The supported protocols are http:// and https://.", "set_page_background_url"), 470);
+            
+            fields.put("page_background_url", url);
+            return this;
+        }
+
+        /**
+        * Apply each page of a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
+        *
+        * @param background The file path to a local file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMultipageBackground(String background) {
+            if (!(new File(background).length() > 0))
+                throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "image-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
+            
+            files.put("multipage_background", background);
+            return this;
+        }
+
+        /**
+        * Load a file from the specified URL and apply each page of the file as a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
+        *
+        * @param url The supported protocols are http:// and https://.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMultipageBackgroundUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "image-to-pdf", "The supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
+            
+            fields.put("multipage_background_url", url);
+            return this;
+        }
+
+        /**
+        * Create linearized PDF. This is also known as Fast Web View.
+        *
+        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setLinearize(boolean value) {
+            fields.put("linearize", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Encrypt the PDF. This prevents search engines from indexing the contents.
+        *
+        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setEncrypt(boolean value) {
+            fields.put("encrypt", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
+        *
+        * @param password The user password.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setUserPassword(String password) {
+            fields.put("user_password", password);
+            return this;
+        }
+
+        /**
+        * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
+        *
+        * @param password The owner password.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setOwnerPassword(String password) {
+            fields.put("owner_password", password);
+            return this;
+        }
+
+        /**
+        * Disallow printing of the output PDF.
+        *
+        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setNoPrint(boolean value) {
+            fields.put("no_print", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Disallow modification of the output PDF.
+        *
+        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setNoModify(boolean value) {
+            fields.put("no_modify", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Disallow text and graphics extraction from the output PDF.
+        *
+        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setNoCopy(boolean value) {
+            fields.put("no_copy", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the title of the PDF.
+        *
+        * @param title The title.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setTitle(String title) {
+            fields.put("title", title);
+            return this;
+        }
+
+        /**
+        * Set the subject of the PDF.
+        *
+        * @param subject The subject.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setSubject(String subject) {
+            fields.put("subject", subject);
+            return this;
+        }
+
+        /**
+        * Set the author of the PDF.
+        *
+        * @param author The author.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setAuthor(String author) {
+            fields.put("author", author);
+            return this;
+        }
+
+        /**
+        * Associate keywords with the document.
+        *
+        * @param keywords The string with the keywords.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setKeywords(String keywords) {
+            fields.put("keywords", keywords);
+            return this;
+        }
+
+        /**
+        * Specify the page layout to be used when the document is opened.
+        *
+        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageLayout(String layout) {
+            if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
+                throw new Error(createInvalidValueMessage(layout, "setPageLayout", "image-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
+            
+            fields.put("page_layout", layout);
+            return this;
+        }
+
+        /**
+        * Specify how the document should be displayed when opened.
+        *
+        * @param mode Allowed values are full-screen, thumbnails, outlines.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageMode(String mode) {
+            if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPageMode", "image-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
+            
+            fields.put("page_mode", mode);
+            return this;
+        }
+
+        /**
+        * Specify how the page should be displayed when opened.
+        *
+        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setInitialZoomType(String zoomType) {
+            if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
+                throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "image-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
+            
+            fields.put("initial_zoom_type", zoomType);
+            return this;
+        }
+
+        /**
+        * Display the specified page when the document is opened.
+        *
+        * @param page Must be a positive integer number.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setInitialPage(int page) {
+            if (!(page > 0))
+                throw new Error(createInvalidValueMessage(page, "setInitialPage", "image-to-pdf", "Must be a positive integer number.", "set_initial_page"), 470);
+            
+            fields.put("initial_page", Integer.toString(page));
+            return this;
+        }
+
+        /**
+        * Specify the initial page zoom in percents when the document is opened.
+        *
+        * @param zoom Must be a positive integer number.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setInitialZoom(int zoom) {
+            if (!(zoom > 0))
+                throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "image-to-pdf", "Must be a positive integer number.", "set_initial_zoom"), 470);
+            
+            fields.put("initial_zoom", Integer.toString(zoom));
+            return this;
+        }
+
+        /**
+        * Specify whether to hide the viewer application's tool bars when the document is active.
+        *
+        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setHideToolbar(boolean value) {
+            fields.put("hide_toolbar", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to hide the viewer application's menu bar when the document is active.
+        *
+        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setHideMenubar(boolean value) {
+            fields.put("hide_menubar", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
+        *
+        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setHideWindowUi(boolean value) {
+            fields.put("hide_window_ui", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to resize the document's window to fit the size of the first displayed page.
+        *
+        * @param value Set to <span class='field-value'>true</span> to resize the window.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setFitWindow(boolean value) {
+            fields.put("fit_window", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether to position the document's window in the center of the screen.
+        *
+        * @param value Set to <span class='field-value'>true</span> to center the window.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setCenterWindow(boolean value) {
+            fields.put("center_window", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
+        *
+        * @param value Set to <span class='field-value'>true</span> to display the title.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setDisplayTitle(boolean value) {
+            fields.put("display_title", value ? "true" : null);
+            return this;
+        }
+
+        /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
         * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
@@ -5257,6 +5626,573 @@ public final class Pdfcrowd {
             }
             return extension.equals(".zip") == isZippedOutput();
         }
+    }
+
+    /**
+    * Conversion from PDF to text.
+    */
+    public static final class PdfToTextClient {
+        private ConnectionHelper helper;
+        private HashMap<String,String> fields = new HashMap<String,String>();
+        private HashMap<String,String> files = new HashMap<String,String>();
+        private HashMap<String,byte[]> rawData = new HashMap<String,byte[]>();
+        private int fileId = 1;
+
+        /**
+        * Constructor for the Pdfcrowd API client.
+        *
+        * @param userName Your username at Pdfcrowd.
+        * @param apiKey Your API key.
+        */
+        public PdfToTextClient(String userName, String apiKey) {
+            this.helper = new ConnectionHelper(userName, apiKey);
+            fields.put("input_format", "pdf");
+            fields.put("output_format", "txt");
+        }
+
+        /**
+        * Convert a PDF.
+        *
+        * @param url The address of the PDF to convert. The supported protocols are http:// and https://.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "pdf-to-text", "The supported protocols are http:// and https://.", "convert_url"), 470);
+            
+            fields.put("url", url);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert a PDF and write the result to an output stream.
+        *
+        * @param url The address of the PDF to convert. The supported protocols are http:// and https://.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertUrlToStream(String url, OutputStream outStream) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "pdf-to-text", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+            
+            fields.put("url", url);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert a PDF and write the result to a local file.
+        *
+        * @param url The address of the PDF to convert. The supported protocols are http:// and https://.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertUrlToFile(String url, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_url_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertUrlToStream(url, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert a local file.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertFile(String file) {
+            if (!(new File(file).length() > 0))
+                throw new Error(createInvalidValueMessage(file, "convertFile", "pdf-to-text", "The file must exist and not be empty.", "convert_file"), 470);
+            
+            files.put("file", file);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert a local file and write the result to an output stream.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertFileToStream(String file, OutputStream outStream) {
+            if (!(new File(file).length() > 0))
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "pdf-to-text", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+            
+            files.put("file", file);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert a local file and write the result to a local file.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertFileToFile(String file, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_file_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertFileToStream(file, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert raw data.
+        *
+        * @param data The raw content to be converted.
+        * @return Byte array with the output.
+        */
+        public byte[] convertRawData(byte[] data) {
+            rawData.put("file", data);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert raw data and write the result to an output stream.
+        *
+        * @param data The raw content to be converted.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertRawDataToStream(byte[] data, OutputStream outStream) {
+            rawData.put("file", data);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert raw data to a file.
+        *
+        * @param data The raw content to be converted.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_raw_data_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertRawDataToStream(data, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert the contents of an input stream.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert the contents of an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert the contents of an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * The password to open the encrypted PDF file.
+        *
+        * @param password The input PDF password.
+        * @return The converter object.
+        */
+        public PdfToTextClient setPdfPassword(String password) {
+            fields.put("pdf_password", password);
+            return this;
+        }
+
+        /**
+        * Set the page range to print.
+        *
+        * @param pages A comma separated list of page numbers or ranges.
+        * @return The converter object.
+        */
+        public PdfToTextClient setPrintPageRange(String pages) {
+            if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
+                throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-text", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
+            
+            fields.put("print_page_range", pages);
+            return this;
+        }
+
+        /**
+        * Ignore the original PDF layout.
+        *
+        * @param value Set to <span class='field-value'>true</span> to ignore the layout.
+        * @return The converter object.
+        */
+        public PdfToTextClient setNoLayout(boolean value) {
+            fields.put("no_layout", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * The end-of-line convention for the text output.
+        *
+        * @param eol Allowed values are unix, dos, mac.
+        * @return The converter object.
+        */
+        public PdfToTextClient setEol(String eol) {
+            if (!eol.matches("(?i)^(unix|dos|mac)$"))
+                throw new Error(createInvalidValueMessage(eol, "setEol", "pdf-to-text", "Allowed values are unix, dos, mac.", "set_eol"), 470);
+            
+            fields.put("eol", eol);
+            return this;
+        }
+
+        /**
+        * Specify the page break mode for the text output.
+        *
+        * @param mode Allowed values are none, default, custom.
+        * @return The converter object.
+        */
+        public PdfToTextClient setPageBreakMode(String mode) {
+            if (!mode.matches("(?i)^(none|default|custom)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPageBreakMode", "pdf-to-text", "Allowed values are none, default, custom.", "set_page_break_mode"), 470);
+            
+            fields.put("page_break_mode", mode);
+            return this;
+        }
+
+        /**
+        * Specify the custom page break.
+        *
+        * @param pageBreak String to insert between the pages.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCustomPageBreak(String pageBreak) {
+            fields.put("custom_page_break", pageBreak);
+            return this;
+        }
+
+        /**
+        * Specify the paragraph detection mode.
+        *
+        * @param mode Allowed values are none, bounding-box, characters.
+        * @return The converter object.
+        */
+        public PdfToTextClient setParagraphMode(String mode) {
+            if (!mode.matches("(?i)^(none|bounding-box|characters)$"))
+                throw new Error(createInvalidValueMessage(mode, "setParagraphMode", "pdf-to-text", "Allowed values are none, bounding-box, characters.", "set_paragraph_mode"), 470);
+            
+            fields.put("paragraph_mode", mode);
+            return this;
+        }
+
+        /**
+        * Set the maximum line spacing when the paragraph detection mode is enabled.
+        *
+        * @param threshold The value must be a positive integer percentage.
+        * @return The converter object.
+        */
+        public PdfToTextClient setLineSpacingThreshold(String threshold) {
+            if (!threshold.matches("(?i)^0$|^[0-9]+%$"))
+                throw new Error(createInvalidValueMessage(threshold, "setLineSpacingThreshold", "pdf-to-text", "The value must be a positive integer percentage.", "set_line_spacing_threshold"), 470);
+            
+            fields.put("line_spacing_threshold", threshold);
+            return this;
+        }
+
+        /**
+        * Remove the hyphen character from the end of lines.
+        *
+        * @param value Set to <span class='field-value'>true</span> to remove hyphens.
+        * @return The converter object.
+        */
+        public PdfToTextClient setRemoveHyphenation(boolean value) {
+            fields.put("remove_hyphenation", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Remove empty lines from the text output.
+        *
+        * @param value Set to <span class='field-value'>true</span> to remove empty lines.
+        * @return The converter object.
+        */
+        public PdfToTextClient setRemoveEmptyLines(boolean value) {
+            fields.put("remove_empty_lines", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the top left X coordinate of the crop area in points.
+        *
+        * @param x Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCropAreaX(int x) {
+            if (!(x >= 0))
+                throw new Error(createInvalidValueMessage(x, "setCropAreaX", "pdf-to-text", "Must be a positive integer number or 0.", "set_crop_area_x"), 470);
+            
+            fields.put("crop_area_x", Integer.toString(x));
+            return this;
+        }
+
+        /**
+        * Set the top left Y coordinate of the crop area in points.
+        *
+        * @param y Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCropAreaY(int y) {
+            if (!(y >= 0))
+                throw new Error(createInvalidValueMessage(y, "setCropAreaY", "pdf-to-text", "Must be a positive integer number or 0.", "set_crop_area_y"), 470);
+            
+            fields.put("crop_area_y", Integer.toString(y));
+            return this;
+        }
+
+        /**
+        * Set the width of the crop area in points.
+        *
+        * @param width Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCropAreaWidth(int width) {
+            if (!(width >= 0))
+                throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "pdf-to-text", "Must be a positive integer number or 0.", "set_crop_area_width"), 470);
+            
+            fields.put("crop_area_width", Integer.toString(width));
+            return this;
+        }
+
+        /**
+        * Set the height of the crop area in points.
+        *
+        * @param height Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCropAreaHeight(int height) {
+            if (!(height >= 0))
+                throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "pdf-to-text", "Must be a positive integer number or 0.", "set_crop_area_height"), 470);
+            
+            fields.put("crop_area_height", Integer.toString(height));
+            return this;
+        }
+
+        /**
+        * Set the crop area. It allows to extract just a part of a PDF page.
+        *
+        * @param x Set the top left X coordinate of the crop area in points. Must be a positive integer number or 0.
+        * @param y Set the top left Y coordinate of the crop area in points. Must be a positive integer number or 0.
+        * @param width Set the width of the crop area in points. Must be a positive integer number or 0.
+        * @param height Set the height of the crop area in points. Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToTextClient setCropArea(int x, int y, int width, int height) {
+            this.setCropAreaX(x);
+            this.setCropAreaY(y);
+            this.setCropAreaWidth(width);
+            this.setCropAreaHeight(height);
+            return this;
+        }
+
+        /**
+        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
+        *
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @return The converter object.
+        */
+        public PdfToTextClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Get the URL of the debug log for the last conversion.
+        * @return The link to the debug log.
+        */
+        public String getDebugLogUrl() {
+            return helper.getDebugLogUrl();
+        }
+
+        /**
+        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * This method can only be called after a call to one of the convertXtoY methods.
+        * The returned value can differ from the actual count if you run parallel conversions.
+        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * @return The number of credits.
+        */
+        public int getRemainingCreditCount() {
+            return helper.getRemainingCreditCount();
+        }
+
+        /**
+        * Get the number of credits consumed by the last conversion.
+        * @return The number of credits.
+        */
+        public int getConsumedCreditCount() {
+            return helper.getConsumedCreditCount();
+        }
+
+        /**
+        * Get the job id.
+        * @return The unique job identifier.
+        */
+        public String getJobId() {
+            return helper.getJobId();
+        }
+
+        /**
+        * Get the number of pages in the output document.
+        * @return The page count.
+        */
+        public int getPageCount() {
+            return helper.getPageCount();
+        }
+
+        /**
+        * Get the size of the output in bytes.
+        * @return The count of bytes.
+        */
+        public int getOutputSize() {
+            return helper.getOutputSize();
+        }
+
+        /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        *
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public PdfToTextClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public PdfToTextClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "pdf-to-text", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public PdfToTextClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-text", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
+        *
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @return The converter object.
+        */
+        public PdfToTextClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToTextClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
+            return this;
+        }
+
+        /**
+        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
+        *
+        * @param host The proxy hostname.
+        * @param port The proxy port.
+        * @param userName The username.
+        * @param password The password.
+        * @return The converter object.
+        */
+        public PdfToTextClient setProxy(String host, int port, String userName, String password) {
+            helper.setProxy(host, port, userName, password);
+            return this;
+        }
+
+        /**
+        * Specifies the number of automatic retries when the 502 HTTP status code is received. The 502 status code indicates a temporary network issue. This feature can be disabled by setting to 0.
+        *
+        * @param count Number of retries.
+        * @return The converter object.
+        */
+        public PdfToTextClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
+            return this;
+        }
+
     }
 
 }
