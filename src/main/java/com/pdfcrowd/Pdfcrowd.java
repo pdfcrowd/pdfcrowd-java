@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.10.0";
+    public static final String CLIENT_VERSION = "5.11.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.10.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.11.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -3518,6 +3518,201 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the output canvas size.
+        *
+        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
+        * @return The converter object.
+        */
+        public ImageToImageClient setCanvasSize(String size) {
+            if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
+                throw new Error(createInvalidValueMessage(size, "setCanvasSize", "image-to-image", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_canvas_size"), 470);
+            
+            fields.put("canvas_size", size);
+            return this;
+        }
+
+        /**
+        * Set the output canvas width.
+        *
+        * @param width The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setCanvasWidth(String width) {
+            if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(width, "setCanvasWidth", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_canvas_width"), 470);
+            
+            fields.put("canvas_width", width);
+            return this;
+        }
+
+        /**
+        * Set the output canvas height.
+        *
+        * @param height The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setCanvasHeight(String height) {
+            if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setCanvasHeight", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_canvas_height"), 470);
+            
+            fields.put("canvas_height", height);
+            return this;
+        }
+
+        /**
+        * Set the output canvas dimensions. If no canvas size is specified, margins are applied as a border around the image.
+        *
+        * @param width Set the output canvas width. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param height Set the output canvas height. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setCanvasDimensions(String width, String height) {
+            this.setCanvasWidth(width);
+            this.setCanvasHeight(height);
+            return this;
+        }
+
+        /**
+        * Set the output canvas orientation.
+        *
+        * @param orientation Allowed values are landscape, portrait.
+        * @return The converter object.
+        */
+        public ImageToImageClient setOrientation(String orientation) {
+            if (!orientation.matches("(?i)^(landscape|portrait)$"))
+                throw new Error(createInvalidValueMessage(orientation, "setOrientation", "image-to-image", "Allowed values are landscape, portrait.", "set_orientation"), 470);
+            
+            fields.put("orientation", orientation);
+            return this;
+        }
+
+        /**
+        * Set the image position on the page.
+        *
+        * @param position Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.
+        * @return The converter object.
+        */
+        public ImageToImageClient setPosition(String position) {
+            if (!position.matches("(?i)^(center|top|bottom|left|right|top-left|top-right|bottom-left|bottom-right)$"))
+                throw new Error(createInvalidValueMessage(position, "setPosition", "image-to-image", "Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.", "set_position"), 470);
+            
+            fields.put("position", position);
+            return this;
+        }
+
+        /**
+        * Set the mode to print the image on the content area of the page.
+        *
+        * @param mode Allowed values are default, fit, stretch.
+        * @return The converter object.
+        */
+        public ImageToImageClient setPrintCanvasMode(String mode) {
+            if (!mode.matches("(?i)^(default|fit|stretch)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPrintCanvasMode", "image-to-image", "Allowed values are default, fit, stretch.", "set_print_canvas_mode"), 470);
+            
+            fields.put("print_canvas_mode", mode);
+            return this;
+        }
+
+        /**
+        * Set the output canvas top margin.
+        *
+        * @param top The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setMarginTop(String top) {
+            if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(top, "setMarginTop", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_top"), 470);
+            
+            fields.put("margin_top", top);
+            return this;
+        }
+
+        /**
+        * Set the output canvas right margin.
+        *
+        * @param right The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setMarginRight(String right) {
+            if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(right, "setMarginRight", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_right"), 470);
+            
+            fields.put("margin_right", right);
+            return this;
+        }
+
+        /**
+        * Set the output canvas bottom margin.
+        *
+        * @param bottom The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setMarginBottom(String bottom) {
+            if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_bottom"), 470);
+            
+            fields.put("margin_bottom", bottom);
+            return this;
+        }
+
+        /**
+        * Set the output canvas left margin.
+        *
+        * @param left The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setMarginLeft(String left) {
+            if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(left, "setMarginLeft", "image-to-image", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_left"), 470);
+            
+            fields.put("margin_left", left);
+            return this;
+        }
+
+        /**
+        * Set the output canvas margins.
+        *
+        * @param top Set the output canvas top margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param right Set the output canvas right margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param bottom Set the output canvas bottom margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param left Set the output canvas left margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToImageClient setMargins(String top, String right, String bottom, String left) {
+            this.setMarginTop(top);
+            this.setMarginRight(right);
+            this.setMarginBottom(bottom);
+            this.setMarginLeft(left);
+            return this;
+        }
+
+        /**
+        * The canvas background color in RGB or RGBA hexadecimal format. The color fills the entire canvas regardless of margins. If no canvas size is specified and the image format supports background (e.g. PDF, PNG), the background color is applied too.
+        *
+        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public ImageToImageClient setCanvasBackgroundColor(String color) {
+            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(color, "setCanvasBackgroundColor", "image-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_canvas_background_color"), 470);
+            
+            fields.put("canvas_background_color", color);
+            return this;
+        }
+
+        /**
+        * Set the DPI resolution of the input image. The DPI affects margin options specified in points too (e.g. 1 point is equal to 1 pixel in 96 DPI).
+        *
+        * @param dpi The DPI value.
+        * @return The converter object.
+        */
+        public ImageToImageClient setDpi(int dpi) {
+            fields.put("dpi", Integer.toString(dpi));
+            return this;
+        }
+
+        /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
         * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
@@ -3707,12 +3902,12 @@ public final class Pdfcrowd {
         /**
         * Specifies the action to be performed on the input PDFs.
         *
-        * @param action Allowed values are join, shuffle.
+        * @param action Allowed values are join, shuffle, extract, delete.
         * @return The converter object.
         */
         public PdfToPdfClient setAction(String action) {
-            if (!action.matches("(?i)^(join|shuffle)$"))
-                throw new Error(createInvalidValueMessage(action, "setAction", "pdf-to-pdf", "Allowed values are join, shuffle.", "set_action"), 470);
+            if (!action.matches("(?i)^(join|shuffle|extract|delete)$"))
+                throw new Error(createInvalidValueMessage(action, "setAction", "pdf-to-pdf", "Allowed values are join, shuffle, extract, delete.", "set_action"), 470);
             
             fields.put("action", action);
             return this;
@@ -3787,6 +3982,20 @@ public final class Pdfcrowd {
         */
         public PdfToPdfClient setInputPdfPassword(String password) {
             fields.put("input_pdf_password", password);
+            return this;
+        }
+
+        /**
+        * Set the page range for <span class='field-value'>extract</span> or <span class='field-value'>delete</span> action.
+        *
+        * @param pages A comma separated list of page numbers or ranges.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setPageRange(String pages) {
+            if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
+                throw new Error(createInvalidValueMessage(pages, "setPageRange", "pdf-to-pdf", "A comma separated list of page numbers or ranges.", "set_page_range"), 470);
+            
+            fields.put("page_range", pages);
             return this;
         }
 
@@ -4558,6 +4767,201 @@ public final class Pdfcrowd {
         */
         public ImageToPdfClient setRotate(String rotate) {
             fields.put("rotate", rotate);
+            return this;
+        }
+
+        /**
+        * Set the output page size.
+        *
+        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageSize(String size) {
+            if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
+                throw new Error(createInvalidValueMessage(size, "setPageSize", "image-to-pdf", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_page_size"), 470);
+            
+            fields.put("page_size", size);
+            return this;
+        }
+
+        /**
+        * Set the output page width.
+        *
+        * @param width The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageWidth(String width) {
+            if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(width, "setPageWidth", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_page_width"), 470);
+            
+            fields.put("page_width", width);
+            return this;
+        }
+
+        /**
+        * Set the output page height.
+        *
+        * @param height The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageHeight(String height) {
+            if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(height, "setPageHeight", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_page_height"), 470);
+            
+            fields.put("page_height", height);
+            return this;
+        }
+
+        /**
+        * Set the output page dimensions. If no page size is specified, margins are applied as a border around the image.
+        *
+        * @param width Set the output page width. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param height Set the output page height. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageDimensions(String width, String height) {
+            this.setPageWidth(width);
+            this.setPageHeight(height);
+            return this;
+        }
+
+        /**
+        * Set the output page orientation.
+        *
+        * @param orientation Allowed values are landscape, portrait.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setOrientation(String orientation) {
+            if (!orientation.matches("(?i)^(landscape|portrait)$"))
+                throw new Error(createInvalidValueMessage(orientation, "setOrientation", "image-to-pdf", "Allowed values are landscape, portrait.", "set_orientation"), 470);
+            
+            fields.put("orientation", orientation);
+            return this;
+        }
+
+        /**
+        * Set the image position on the page.
+        *
+        * @param position Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPosition(String position) {
+            if (!position.matches("(?i)^(center|top|bottom|left|right|top-left|top-right|bottom-left|bottom-right)$"))
+                throw new Error(createInvalidValueMessage(position, "setPosition", "image-to-pdf", "Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.", "set_position"), 470);
+            
+            fields.put("position", position);
+            return this;
+        }
+
+        /**
+        * Set the mode to print the image on the content area of the page.
+        *
+        * @param mode Allowed values are default, fit, stretch.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPrintPageMode(String mode) {
+            if (!mode.matches("(?i)^(default|fit|stretch)$"))
+                throw new Error(createInvalidValueMessage(mode, "setPrintPageMode", "image-to-pdf", "Allowed values are default, fit, stretch.", "set_print_page_mode"), 470);
+            
+            fields.put("print_page_mode", mode);
+            return this;
+        }
+
+        /**
+        * Set the output page top margin.
+        *
+        * @param top The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMarginTop(String top) {
+            if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(top, "setMarginTop", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_top"), 470);
+            
+            fields.put("margin_top", top);
+            return this;
+        }
+
+        /**
+        * Set the output page right margin.
+        *
+        * @param right The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMarginRight(String right) {
+            if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(right, "setMarginRight", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_right"), 470);
+            
+            fields.put("margin_right", right);
+            return this;
+        }
+
+        /**
+        * Set the output page bottom margin.
+        *
+        * @param bottom The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMarginBottom(String bottom) {
+            if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_bottom"), 470);
+            
+            fields.put("margin_bottom", bottom);
+            return this;
+        }
+
+        /**
+        * Set the output page left margin.
+        *
+        * @param left The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setMarginLeft(String left) {
+            if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
+                throw new Error(createInvalidValueMessage(left, "setMarginLeft", "image-to-pdf", "The value must be specified in inches \"in\", millimeters \"mm\", centimeters \"cm\", or points \"pt\".", "set_margin_left"), 470);
+            
+            fields.put("margin_left", left);
+            return this;
+        }
+
+        /**
+        * Set the output page margins.
+        *
+        * @param top Set the output page top margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param right Set the output page right margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param bottom Set the output page bottom margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @param left Set the output page left margin. The value must be specified in inches "in", millimeters "mm", centimeters "cm", or points "pt".
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageMargins(String top, String right, String bottom, String left) {
+            this.setMarginTop(top);
+            this.setMarginRight(right);
+            this.setMarginBottom(bottom);
+            this.setMarginLeft(left);
+            return this;
+        }
+
+        /**
+        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins. If not page size is specified and the image format supports background (e.g. PDF, PNG), the background color is applied too.
+        *
+        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setPageBackgroundColor(String color) {
+            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(color, "setPageBackgroundColor", "image-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
+            
+            fields.put("page_background_color", color);
+            return this;
+        }
+
+        /**
+        * Set the DPI resolution of the input image. The DPI affects margin options specified in points too (e.g. 1 point is equal to 1 pixel in 96 DPI).
+        *
+        * @param dpi The DPI value.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setDpi(int dpi) {
+            fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
