@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.12.1";
+    public static final String CLIENT_VERSION = "5.13.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.12.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.13.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -943,6 +943,20 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(mode, "setCssPageRuleMode", "html-to-pdf", "Allowed values are default, mode1, mode2.", "set_css_page_rule_mode"), 470);
             
             fields.put("css_page_rule_mode", mode);
+            return this;
+        }
+
+        /**
+        * Specifies which blank pages to exclude from the output document.
+        *
+        * @param pages The empty page behavior. Allowed values are trailing, none.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setRemoveBlankPages(String pages) {
+            if (!pages.matches("(?i)^(trailing|none)$"))
+                throw new Error(createInvalidValueMessage(pages, "setRemoveBlankPages", "html-to-pdf", "Allowed values are trailing, none.", "set_remove_blank_pages"), 470);
+            
+            fields.put("remove_blank_pages", pages);
             return this;
         }
 
