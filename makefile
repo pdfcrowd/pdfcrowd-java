@@ -1,7 +1,7 @@
 .PHONY : dist clean
 
-VERSION = 5.13.0
-DIR_NAME := pdfcrowd-5.13.0
+VERSION = 5.14.0
+DIR_NAME := pdfcrowd-5.14.0
 
 compile:
 	@mvn clean verify

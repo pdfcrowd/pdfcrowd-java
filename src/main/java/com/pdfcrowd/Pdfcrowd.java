@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.13.0";
+    public static final String CLIENT_VERSION = "5.14.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.13.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.14.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1445,6 +1445,20 @@ public final class Pdfcrowd {
         */
         public HtmlToPdfClient setNoXpdfcrowdHeader(boolean value) {
             fields.put("no_xpdfcrowd_header", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        *
+        * @param css A string containing valid CSS. The string must not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setCustomCss(String css) {
+            if (!(css != null && !css.isEmpty()))
+                throw new Error(createInvalidValueMessage(css, "setCustomCss", "html-to-pdf", "The string must not be empty.", "set_custom_css"), 470);
+            
+            fields.put("custom_css", css);
             return this;
         }
 
@@ -2818,6 +2832,20 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setNoXpdfcrowdHeader(boolean value) {
             fields.put("no_xpdfcrowd_header", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        *
+        * @param css A string containing valid CSS. The string must not be empty.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setCustomCss(String css) {
+            if (!(css != null && !css.isEmpty()))
+                throw new Error(createInvalidValueMessage(css, "setCustomCss", "html-to-image", "The string must not be empty.", "set_custom_css"), 470);
+            
+            fields.put("custom_css", css);
             return this;
         }
 
