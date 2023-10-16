@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.14.0";
+    public static final String CLIENT_VERSION = "5.15.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.14.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.15.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -2328,6 +2328,20 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the maximum time to load the page and its resources. After this time, all requests will be considered successful. This can be useful to ensure that the conversion does not timeout. Use this method if there is no other way to fix page loading.
+        *
+        * @param maxTime The number of seconds to wait. The value must be in the range 10-30.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setMaxLoadingTime(int maxTime) {
+            if (!(maxTime >= 10 && maxTime <= 30))
+                throw new Error(createInvalidValueMessage(maxTime, "setMaxLoadingTime", "html-to-pdf", "The value must be in the range 10-30.", "set_max_loading_time"), 470);
+            
+            fields.put("max_loading_time", Integer.toString(maxTime));
+            return this;
+        }
+
+        /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
         * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
@@ -2629,6 +2643,62 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setZipMainFilename(String filename) {
             fields.put("zip_main_filename", filename);
+            return this;
+        }
+
+        /**
+        * Set the output image width in pixels.
+        *
+        * @param width The value must be in the range 96-65000.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setScreenshotWidth(int width) {
+            if (!(width >= 96 && width <= 65000))
+                throw new Error(createInvalidValueMessage(width, "setScreenshotWidth", "html-to-image", "The value must be in the range 96-65000.", "set_screenshot_width"), 470);
+            
+            fields.put("screenshot_width", Integer.toString(width));
+            return this;
+        }
+
+        /**
+        * Set the output image height in pixels. If it is not specified, actual document height is used.
+        *
+        * @param height Must be a positive integer number.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setScreenshotHeight(int height) {
+            if (!(height > 0))
+                throw new Error(createInvalidValueMessage(height, "setScreenshotHeight", "html-to-image", "Must be a positive integer number.", "set_screenshot_height"), 470);
+            
+            fields.put("screenshot_height", Integer.toString(height));
+            return this;
+        }
+
+        /**
+        * Set the scaling factor (zoom) for the output image.
+        *
+        * @param factor The percentage value. Must be a positive integer number.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setScaleFactor(int factor) {
+            if (!(factor > 0))
+                throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-image", "Must be a positive integer number.", "set_scale_factor"), 470);
+            
+            fields.put("scale_factor", Integer.toString(factor));
+            return this;
+        }
+
+        /**
+        * The output image background color.
+        *
+        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setBackgroundColor(String color) {
+            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
+                throw new Error(createInvalidValueMessage(color, "setBackgroundColor", "html-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_background_color"), 470);
+            
+            fields.put("background_color", color);
             return this;
         }
 
@@ -2973,62 +3043,6 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output image width in pixels.
-        *
-        * @param width The value must be in the range 96-65000.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setScreenshotWidth(int width) {
-            if (!(width >= 96 && width <= 65000))
-                throw new Error(createInvalidValueMessage(width, "setScreenshotWidth", "html-to-image", "The value must be in the range 96-65000.", "set_screenshot_width"), 470);
-            
-            fields.put("screenshot_width", Integer.toString(width));
-            return this;
-        }
-
-        /**
-        * Set the output image height in pixels. If it is not specified, actual document height is used.
-        *
-        * @param height Must be a positive integer number.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setScreenshotHeight(int height) {
-            if (!(height > 0))
-                throw new Error(createInvalidValueMessage(height, "setScreenshotHeight", "html-to-image", "Must be a positive integer number.", "set_screenshot_height"), 470);
-            
-            fields.put("screenshot_height", Integer.toString(height));
-            return this;
-        }
-
-        /**
-        * Set the scaling factor (zoom) for the output image.
-        *
-        * @param factor The percentage value. Must be a positive integer number.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setScaleFactor(int factor) {
-            if (!(factor > 0))
-                throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-image", "Must be a positive integer number.", "set_scale_factor"), 470);
-            
-            fields.put("scale_factor", Integer.toString(factor));
-            return this;
-        }
-
-        /**
-        * The output image background color.
-        *
-        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
-        public HtmlToImageClient setBackgroundColor(String color) {
-            if (!color.matches("^[0-9a-fA-F]{6,8}$"))
-                throw new Error(createInvalidValueMessage(color, "setBackgroundColor", "html-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_background_color"), 470);
-            
-            fields.put("background_color", color);
-            return this;
-        }
-
-        /**
         * Set the input data for template rendering. The data format can be JSON, XML, YAML or CSV.
         *
         * @param dataString The input data string.
@@ -3242,6 +3256,20 @@ public final class Pdfcrowd {
         */
         public HtmlToImageClient setClientCertificatePassword(String password) {
             fields.put("client_certificate_password", password);
+            return this;
+        }
+
+        /**
+        * Set the maximum time to load the page and its resources. After this time, all requests will be considered successful. This can be useful to ensure that the conversion does not timeout. Use this method if there is no other way to fix page loading.
+        *
+        * @param maxTime The number of seconds to wait. The value must be in the range 10-30.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setMaxLoadingTime(int maxTime) {
+            if (!(maxTime >= 10 && maxTime <= 30))
+                throw new Error(createInvalidValueMessage(maxTime, "setMaxLoadingTime", "html-to-image", "The value must be in the range 10-30.", "set_max_loading_time"), 470);
+            
+            fields.put("max_loading_time", Integer.toString(maxTime));
             return this;
         }
 
