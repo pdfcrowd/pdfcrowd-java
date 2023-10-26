@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.15.0";
+    public static final String CLIENT_VERSION = "5.16.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.15.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.16.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -5991,6 +5991,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-html", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
             
             fields.put("print_page_range", pages);
+            return this;
+        }
+
+        /**
+        * Set the output graphics DPI.
+        *
+        * @param dpi The DPI value.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setDpi(int dpi) {
+            fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
