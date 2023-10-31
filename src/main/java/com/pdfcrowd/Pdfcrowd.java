@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.16.0";
+    public static final String CLIENT_VERSION = "5.17.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.16.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.17.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -6008,14 +6008,28 @@ public final class Pdfcrowd {
         /**
         * Specifies where the images are stored.
         *
-        * @param mode The image storage mode. Allowed values are embed, separate.
+        * @param mode The image storage mode. Allowed values are embed, separate, none.
         * @return The converter object.
         */
         public PdfToHtmlClient setImageMode(String mode) {
-            if (!mode.matches("(?i)^(embed|separate)$"))
-                throw new Error(createInvalidValueMessage(mode, "setImageMode", "pdf-to-html", "Allowed values are embed, separate.", "set_image_mode"), 470);
+            if (!mode.matches("(?i)^(embed|separate|none)$"))
+                throw new Error(createInvalidValueMessage(mode, "setImageMode", "pdf-to-html", "Allowed values are embed, separate, none.", "set_image_mode"), 470);
             
             fields.put("image_mode", mode);
+            return this;
+        }
+
+        /**
+        * Specifies a format for the output images.
+        *
+        * @param imageFormat The image format. Allowed values are png, jpg, svg.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setImageFormat(String imageFormat) {
+            if (!imageFormat.matches("(?i)^(png|jpg|svg)$"))
+                throw new Error(createInvalidValueMessage(imageFormat, "setImageFormat", "pdf-to-html", "Allowed values are png, jpg, svg.", "set_image_format"), 470);
+            
+            fields.put("image_format", imageFormat);
             return this;
         }
 
