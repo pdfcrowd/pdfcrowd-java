@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.17.0";
+    public static final String CLIENT_VERSION = "5.18.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.17.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.18.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -6020,7 +6020,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies a format for the output images.
+        * Specifies the format for the output images.
         *
         * @param imageFormat The image format. Allowed values are png, jpg, svg.
         * @return The converter object.
@@ -6058,6 +6058,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(mode, "setFontMode", "pdf-to-html", "Allowed values are embed, separate.", "set_font_mode"), 470);
             
             fields.put("font_mode", mode);
+            return this;
+        }
+
+        /**
+        * Converts ligatures — two or more letters combined into a single glyph—back into their individual ASCII characters.
+        *
+        * @param value Set to <span class='field-value'>true</span> to split ligatures.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setSplitLigatures(boolean value) {
+            fields.put("split_ligatures", value ? "true" : null);
             return this;
         }
 
