@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.18.0";
+    public static final String CLIENT_VERSION = "5.18.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.18.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.18.1 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -6062,7 +6062,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Converts ligatures — two or more letters combined into a single glyph—back into their individual ASCII characters.
+        * Converts ligatures, two or more letters combined into a single glyph, back into their individual ASCII characters.
         *
         * @param value Set to <span class='field-value'>true</span> to split ligatures.
         * @return The converter object.
