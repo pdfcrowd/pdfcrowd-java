@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.18.1";
+    public static final String CLIENT_VERSION = "5.19.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.18.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.19.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -1627,7 +1627,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the rendering mode.
+        * Set the rendering mode of the page, allowing control over how content is displayed.
         *
         * @param mode The rendering mode. Allowed values are default, viewport.
         * @return The converter object.
@@ -2344,12 +2344,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
         * @return The converter object.
         */
         public HtmlToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -3276,12 +3276,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
         * @return The converter object.
         */
         public HtmlToImageClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -3966,12 +3966,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
         * @return The converter object.
         */
         public ImageToImageClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -4627,12 +4627,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
         * @return The converter object.
         */
         public PdfToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -5672,12 +5672,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
         * @return The converter object.
         */
         public ImageToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are latest, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
