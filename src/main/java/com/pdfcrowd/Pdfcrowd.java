@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.19.0";
+    public static final String CLIENT_VERSION = "5.20.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.19.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/5.20.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "20.10";
@@ -6863,6 +6863,539 @@ public final class Pdfcrowd {
         * @return The converter object.
         */
         public PdfToTextClient setRetryCount(int count) {
+            this.helper.setRetryCount(count);
+            return this;
+        }
+
+    }
+
+    /**
+    * Conversion from PDF to image.
+    */
+    public static final class PdfToImageClient {
+        private ConnectionHelper helper;
+        private HashMap<String,String> fields = new HashMap<String,String>();
+        private HashMap<String,String> files = new HashMap<String,String>();
+        private HashMap<String,byte[]> rawData = new HashMap<String,byte[]>();
+        private int fileId = 1;
+
+        /**
+        * Constructor for the Pdfcrowd API client.
+        *
+        * @param userName Your username at Pdfcrowd.
+        * @param apiKey Your API key.
+        */
+        public PdfToImageClient(String userName, String apiKey) {
+            this.helper = new ConnectionHelper(userName, apiKey);
+            fields.put("input_format", "pdf");
+            fields.put("output_format", "png");
+        }
+
+        /**
+        * Convert an image.
+        *
+        * @param url The address of the image to convert. The supported protocols are http:// and https://.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertUrl(String url) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "convertUrl", "pdf-to-image", "The supported protocols are http:// and https://.", "convert_url"), 470);
+            
+            fields.put("url", url);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert an image and write the result to an output stream.
+        *
+        * @param url The address of the image to convert. The supported protocols are http:// and https://.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertUrlToStream(String url, OutputStream outStream) {
+            if (!url.matches("(?i)^https?://.*$"))
+                throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "pdf-to-image", "The supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
+            
+            fields.put("url", url);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert an image and write the result to a local file.
+        *
+        * @param url The address of the image to convert. The supported protocols are http:// and https://.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertUrlToFile(String url, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertUrlToStream(url, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert a local file.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertFile(String file) {
+            if (!(new File(file).length() > 0))
+                throw new Error(createInvalidValueMessage(file, "convertFile", "pdf-to-image", "The file must exist and not be empty.", "convert_file"), 470);
+            
+            files.put("file", file);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert a local file and write the result to an output stream.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertFileToStream(String file, OutputStream outStream) {
+            if (!(new File(file).length() > 0))
+                throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "pdf-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
+            
+            files.put("file", file);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert a local file and write the result to a local file.
+        *
+        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertFileToFile(String file, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertFileToStream(file, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert raw data.
+        *
+        * @param data The raw content to be converted.
+        * @return Byte array with the output.
+        */
+        public byte[] convertRawData(byte[] data) {
+            rawData.put("file", data);
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert raw data and write the result to an output stream.
+        *
+        * @param data The raw content to be converted.
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertRawDataToStream(byte[] data, OutputStream outStream) {
+            rawData.put("file", data);
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert raw data to a file.
+        *
+        * @param data The raw content to be converted.
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_raw_data_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertRawDataToStream(data, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * Convert the contents of an input stream.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @return Byte array containing the conversion output.
+        */
+        public byte[] convertStream(InputStream inStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            return helper.post(fields, files, rawData, null);
+        }
+
+        /**
+        * Convert the contents of an input stream and write the result to an output stream.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @param outStream The output stream that will contain the conversion output.
+        */
+        public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
+            rawData.put("stream", helper.getBytes(inStream));
+            helper.post(fields, files, rawData, outStream);
+        }
+
+        /**
+        * Convert the contents of an input stream and write the result to a local file.
+        *
+        * @param inStream The input stream with source data.<br>
+        * @param filePath The output file path. The string must not be empty.
+        */
+        public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
+            if (!(filePath != null && !filePath.isEmpty()))
+                throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
+            
+            FileOutputStream outputFile = new FileOutputStream(filePath);
+            try {
+                convertStreamToStream(inStream, outputFile);
+                outputFile.close();
+            }
+            catch(Error why) {
+                outputFile.close();
+                new File(filePath).delete();
+                throw why;
+            }
+        }
+
+        /**
+        * The format of the output file.
+        *
+        * @param outputFormat Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.
+        * @return The converter object.
+        */
+        public PdfToImageClient setOutputFormat(String outputFormat) {
+            if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
+                throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "pdf-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
+            
+            fields.put("output_format", outputFormat);
+            return this;
+        }
+
+        /**
+        * Password to open the encrypted PDF file.
+        *
+        * @param password The input PDF password.
+        * @return The converter object.
+        */
+        public PdfToImageClient setPdfPassword(String password) {
+            fields.put("pdf_password", password);
+            return this;
+        }
+
+        /**
+        * Set the page range to print.
+        *
+        * @param pages A comma separated list of page numbers or ranges.
+        * @return The converter object.
+        */
+        public PdfToImageClient setPrintPageRange(String pages) {
+            if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
+                throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-image", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
+            
+            fields.put("print_page_range", pages);
+            return this;
+        }
+
+        /**
+        * Set the output graphics DPI.
+        *
+        * @param dpi The DPI value.
+        * @return The converter object.
+        */
+        public PdfToImageClient setDpi(int dpi) {
+            fields.put("dpi", Integer.toString(dpi));
+            return this;
+        }
+
+        /**
+        * A helper method to determine if the output file from a conversion process is a zip archive. The conversion output can be either a single image file or a zip file containing one or more image files. This method should be called after the conversion has been successfully completed.
+        * @return <span class='field-value'>True</span> if the conversion output is a zip archive, otherwise <span class='field-value'>False</span>.
+        */
+        public boolean isZippedOutput() {
+            return "true".equals(fields.get("force_zip")) || this.getPageCount() > 1;
+        }
+
+        /**
+        * Enforces the zip output format.
+        *
+        * @param value Set to <span class='field-value'>true</span> to get the output as a zip archive.
+        * @return The converter object.
+        */
+        public PdfToImageClient setForceZip(boolean value) {
+            fields.put("force_zip", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Use the crop box rather than media box.
+        *
+        * @param value Set to <span class='field-value'>true</span> to use crop box.
+        * @return The converter object.
+        */
+        public PdfToImageClient setUseCropbox(boolean value) {
+            fields.put("use_cropbox", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Set the top left X coordinate of the crop area in points.
+        *
+        * @param x Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToImageClient setCropAreaX(int x) {
+            if (!(x >= 0))
+                throw new Error(createInvalidValueMessage(x, "setCropAreaX", "pdf-to-image", "Must be a positive integer number or 0.", "set_crop_area_x"), 470);
+            
+            fields.put("crop_area_x", Integer.toString(x));
+            return this;
+        }
+
+        /**
+        * Set the top left Y coordinate of the crop area in points.
+        *
+        * @param y Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToImageClient setCropAreaY(int y) {
+            if (!(y >= 0))
+                throw new Error(createInvalidValueMessage(y, "setCropAreaY", "pdf-to-image", "Must be a positive integer number or 0.", "set_crop_area_y"), 470);
+            
+            fields.put("crop_area_y", Integer.toString(y));
+            return this;
+        }
+
+        /**
+        * Set the width of the crop area in points.
+        *
+        * @param width Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToImageClient setCropAreaWidth(int width) {
+            if (!(width >= 0))
+                throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "pdf-to-image", "Must be a positive integer number or 0.", "set_crop_area_width"), 470);
+            
+            fields.put("crop_area_width", Integer.toString(width));
+            return this;
+        }
+
+        /**
+        * Set the height of the crop area in points.
+        *
+        * @param height Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToImageClient setCropAreaHeight(int height) {
+            if (!(height >= 0))
+                throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "pdf-to-image", "Must be a positive integer number or 0.", "set_crop_area_height"), 470);
+            
+            fields.put("crop_area_height", Integer.toString(height));
+            return this;
+        }
+
+        /**
+        * Set the crop area. It allows to extract just a part of a PDF page.
+        *
+        * @param x Set the top left X coordinate of the crop area in points. Must be a positive integer number or 0.
+        * @param y Set the top left Y coordinate of the crop area in points. Must be a positive integer number or 0.
+        * @param width Set the width of the crop area in points. Must be a positive integer number or 0.
+        * @param height Set the height of the crop area in points. Must be a positive integer number or 0.
+        * @return The converter object.
+        */
+        public PdfToImageClient setCropArea(int x, int y, int width, int height) {
+            this.setCropAreaX(x);
+            this.setCropAreaY(y);
+            this.setCropAreaWidth(width);
+            this.setCropAreaHeight(height);
+            return this;
+        }
+
+        /**
+        * Generate a grayscale image.
+        *
+        * @param value Set to <span class='field-value'>true</span> to generate a grayscale image.
+        * @return The converter object.
+        */
+        public PdfToImageClient setUseGrayscale(boolean value) {
+            fields.put("use_grayscale", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
+        *
+        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @return The converter object.
+        */
+        public PdfToImageClient setDebugLog(boolean value) {
+            fields.put("debug_log", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Get the URL of the debug log for the last conversion.
+        * @return The link to the debug log.
+        */
+        public String getDebugLogUrl() {
+            return helper.getDebugLogUrl();
+        }
+
+        /**
+        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
+        * This method can only be called after a call to one of the convertXtoY methods.
+        * The returned value can differ from the actual count if you run parallel conversions.
+        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * @return The number of credits.
+        */
+        public int getRemainingCreditCount() {
+            return helper.getRemainingCreditCount();
+        }
+
+        /**
+        * Get the number of credits consumed by the last conversion.
+        * @return The number of credits.
+        */
+        public int getConsumedCreditCount() {
+            return helper.getConsumedCreditCount();
+        }
+
+        /**
+        * Get the job id.
+        * @return The unique job identifier.
+        */
+        public String getJobId() {
+            return helper.getJobId();
+        }
+
+        /**
+        * Get the number of pages in the output document.
+        * @return The page count.
+        */
+        public int getPageCount() {
+            return helper.getPageCount();
+        }
+
+        /**
+        * Get the size of the output in bytes.
+        * @return The count of bytes.
+        */
+        public int getOutputSize() {
+            return helper.getOutputSize();
+        }
+
+        /**
+        * Get the version details.
+        * @return API version, converter version, and client version.
+        */
+        public String getVersion() {
+            return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
+        }
+
+        /**
+        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
+        *
+        * @param tag A string with the custom tag.
+        * @return The converter object.
+        */
+        public PdfToImageClient setTag(String tag) {
+            fields.put("tag", tag);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public PdfToImageClient setHttpProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "pdf-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
+            
+            fields.put("http_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * A proxy server used by Pdfcrowd conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
+        *
+        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
+        * @return The converter object.
+        */
+        public PdfToImageClient setHttpsProxy(String proxy) {
+            if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
+                throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
+            
+            fields.put("https_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * Specifies if the client communicates over HTTP or HTTPS with Pdfcrowd API.
+        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
+        *
+        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @return The converter object.
+        */
+        public PdfToImageClient setUseHttp(boolean value) {
+            this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToImageClient setUserAgent(String agent) {
+            helper.setUserAgent(agent);
+            return this;
+        }
+
+        /**
+        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
+        *
+        * @param host The proxy hostname.
+        * @param port The proxy port.
+        * @param userName The username.
+        * @param password The password.
+        * @return The converter object.
+        */
+        public PdfToImageClient setProxy(String host, int port, String userName, String password) {
+            helper.setProxy(host, port, userName, password);
+            return this;
+        }
+
+        /**
+        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
+        *
+        * @param count Number of retries.
+        * @return The converter object.
+        */
+        public PdfToImageClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
         }
