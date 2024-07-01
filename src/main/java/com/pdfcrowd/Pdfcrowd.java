@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "5.20.0";
+    public static final String CLIENT_VERSION = "6.0.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,10 +113,10 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/5.20.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.0.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
-            converterVersion = "20.10";
+            converterVersion = "24.04";
         }
 
         private void resetResponseData() {
@@ -860,6 +860,48 @@ public final class Pdfcrowd {
         }
 
         /**
+        * Set the viewport width for formatting the HTML content when generating a PDF. By specifying a viewport width, you can control how the content is rendered, ensuring it mimics the appearance on various devices or matches specific design requirements.
+        *
+        * @param width The width of the viewport. The value must be "balanced", "small", "medium", "large", "extra-large", or a number in the range 96-65000.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setContentViewportWidth(String width) {
+            if (!width.matches("(?i)^(balanced|small|medium|large|extra-large|[0-9]+)$"))
+                throw new Error(createInvalidValueMessage(width, "setContentViewportWidth", "html-to-pdf", "The value must be \"balanced\", \"small\", \"medium\", \"large\", \"extra-large\", or a number in the range 96-65000.", "set_content_viewport_width"), 470);
+            
+            fields.put("content_viewport_width", width);
+            return this;
+        }
+
+        /**
+        * Set the viewport height for formatting the HTML content when generating a PDF. By specifying a viewport height, you can enforce loading of lazy-loaded images and also affect vertical positioning of absolutely positioned elements within the content.
+        *
+        * @param height The viewport height. The value must be "auto", "large", or a number.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setContentViewportHeight(String height) {
+            if (!height.matches("(?i)^(auto|large|[0-9]+)$"))
+                throw new Error(createInvalidValueMessage(height, "setContentViewportHeight", "html-to-pdf", "The value must be \"auto\", \"large\", or a number.", "set_content_viewport_height"), 470);
+            
+            fields.put("content_viewport_height", height);
+            return this;
+        }
+
+        /**
+        * Specifies the mode for fitting the HTML content to the print area by upscaling or downscaling it.
+        *
+        * @param mode The fitting mode. Allowed values are auto, smart-scaling, no-scaling, viewport-width, content-width, single-page, single-page-ratio.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setContentFitMode(String mode) {
+            if (!mode.matches("(?i)^(auto|smart-scaling|no-scaling|viewport-width|content-width|single-page|single-page-ratio)$"))
+                throw new Error(createInvalidValueMessage(mode, "setContentFitMode", "html-to-pdf", "Allowed values are auto, smart-scaling, no-scaling, viewport-width, content-width, single-page, single-page-ratio.", "set_content_fit_mode"), 470);
+            
+            fields.put("content_fit_mode", mode);
+            return this;
+        }
+
+        /**
         * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
         *
         * @param x The value must be specified in inches "in", millimeters "mm", centimeters "cm", pixels "px", or points "pt". It may contain a negative value.
@@ -949,12 +991,12 @@ public final class Pdfcrowd {
         /**
         * Specifies which blank pages to exclude from the output document.
         *
-        * @param pages The empty page behavior. Allowed values are trailing, none.
+        * @param pages The empty page behavior. Allowed values are trailing, all, none.
         * @return The converter object.
         */
         public HtmlToPdfClient setRemoveBlankPages(String pages) {
-            if (!pages.matches("(?i)^(trailing|none)$"))
-                throw new Error(createInvalidValueMessage(pages, "setRemoveBlankPages", "html-to-pdf", "Allowed values are trailing, none.", "set_remove_blank_pages"), 470);
+            if (!pages.matches("(?i)^(trailing|all|none)$"))
+                throw new Error(createInvalidValueMessage(pages, "setRemoveBlankPages", "html-to-pdf", "Allowed values are trailing, all, none.", "set_remove_blank_pages"), 470);
             
             fields.put("remove_blank_pages", pages);
             return this;
@@ -2344,12 +2386,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
         * @return The converter object.
         */
         public HtmlToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -3276,12 +3318,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
         * @return The converter object.
         */
         public HtmlToImageClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -3966,12 +4008,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
         * @return The converter object.
         */
         public ImageToImageClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -4627,12 +4669,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
         * @return The converter object.
         */
         public PdfToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
@@ -5672,12 +5714,12 @@ public final class Pdfcrowd {
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
-        * @param version The version identifier. Allowed values are latest, 24.04, 20.10, 18.10.
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
         * @return The converter object.
         */
         public ImageToPdfClient setConverterVersion(String version) {
-            if (!version.matches("(?i)^(latest|24.04|20.10|18.10)$"))
-                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are latest, 24.04, 20.10, 18.10.", "set_converter_version"), 470);
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
             
             helper.setConverterVersion(version);
             return this;
