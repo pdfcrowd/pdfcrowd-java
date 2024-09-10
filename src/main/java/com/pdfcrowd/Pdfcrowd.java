@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.0.1";
+    public static final String CLIENT_VERSION = "6.1.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.0.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.1.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -849,17 +849,6 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set an offset between physical and logical page numbers.
-        *
-        * @param offset Integer specifying page offset.
-        * @return The converter object.
-        */
-        public HtmlToPdfClient setPageNumberingOffset(int offset) {
-            fields.put("page_numbering_offset", Integer.toString(offset));
-            return this;
-        }
-
-        /**
         * Set the viewport width for formatting the HTML content when generating a PDF. By specifying a viewport width, you can control how the content is rendered, ensuring it mimics the appearance on various devices or matches specific design requirements.
         *
         * @param width The width of the viewport. The value must be "balanced", "small", "medium", "large", "extra-large", or a number in the range 96-65000.
@@ -1071,6 +1060,17 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(factor, "setHeaderFooterScaleFactor", "html-to-pdf", "The value must be in the range 10-500.", "set_header_footer_scale_factor"), 470);
             
             fields.put("header_footer_scale_factor", Integer.toString(factor));
+            return this;
+        }
+
+        /**
+        * Set an offset between physical and logical page numbers.
+        *
+        * @param offset Integer specifying page offset.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setPageNumberingOffset(int offset) {
+            fields.put("page_numbering_offset", Integer.toString(offset));
             return this;
         }
 
@@ -2380,6 +2380,85 @@ public final class Pdfcrowd {
                 throw new Error(createInvalidValueMessage(maxTime, "setMaxLoadingTime", "html-to-pdf", "The value must be in the range 10-30.", "set_max_loading_time"), 470);
             
             fields.put("max_loading_time", Integer.toString(maxTime));
+            return this;
+        }
+
+        /**
+        * <p id="json-format">
+Allows to configure conversion via JSON. The configuration defines various page settings for individual PDF pages or ranges of pages. It provides flexibility in designing each page of the PDF, giving control over each page's size, header, footer etc. If a page or parameter is not explicitly specified, the system will use the default settings for that page or attribute. If a JSON configuration is provided, the settings in the JSON will take precedence over the global options.
+</p>
+
+<p>
+The structure of the JSON must be:
+</p>
+<ul>
+  <li><em>pageSetup</em>: An array of objects where each object defines the configuration for a specific page or range of pages. The following properties can be set for each page object:
+    <ul>
+      <li>
+      <em>pages</em>:
+        A comma-separated list of page numbers or ranges. For example:
+      <ul>
+      <li><em>1-</em>: from page 1 to the end of the document</li>
+      <li><em>2</em>: only the 2nd page</li>
+      <li><em>2, 4, 6</em>: pages 2, 4, and 6</li>
+      <li><em>2-5</em>: pages 2 through 5</li>
+      </ul>
+      </li>
+      <li><em>pageSize</em>: The page size (optional).
+      Possible values: A0, A1, A2, A3, A4, A5, A6, Letter.
+      </li>
+      <li><em>pageWidth</em>: The width of the page (optional).</li>
+      <li><em>pageHeight</em>: The height of the page (optional).</li>
+      <li><em>marginLeft</em>: Left margin (optional).</li>
+      <li><em>marginRight</em>: Right margin (optional).</li>
+      <li><em>marginTop</em>: Top margin (optional).</li>
+      <li><em>marginBottom</em>: Bottom margin (optional).</li>
+      <li>
+      <em>displayHeader</em>: Header appearance (optional). Possible values:
+      <ul>
+      <li><em>none</em>: completely excluded</li>
+      <li><em>space</em>: only the content is excluded, the space is used</li>
+      <li><em>content</em>: the content is printed (default)</li>
+      </ul>
+      </li>
+      <li>
+      <em>displayFooter</em>: Footer appearance (optional). Possible values:
+      <ul>
+      <li><em>none</em>: completely excluded</li>
+      <li><em>space</em>: only the content is excluded, the space is used</li>
+      <li><em>content</em>: the content is printed (default)</li>
+      </ul>
+      </li>
+      <li><em>headerHeight</em>: Height of the header (optional).</li>
+      <li><em>footerHeight</em>: Height of the footer (optional).</li>
+      <li><em>orientation</em>: Page orientation, such as "portrait" or "landscape" (optional).</li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centimeters "cm", pixels "px", or points "pt".
+</p>
+        *
+        * @param jsonString The JSON string.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setConversionConfig(String jsonString) {
+            fields.put("conversion_config", jsonString);
+            return this;
+        }
+
+        /**
+        * Allows to configure the conversion process via JSON file. See details of the <a href="#json-format">JSON string</a>.
+        *
+        * @param filepath The file path to a local file. The file must exist and not be empty.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setConversionConfigFile(String filepath) {
+            if (!(new File(filepath).length() > 0))
+                throw new Error(createInvalidValueMessage(filepath, "setConversionConfigFile", "html-to-pdf", "The file must exist and not be empty.", "set_conversion_config_file"), 470);
+            
+            files.put("conversion_config_file", filepath);
             return this;
         }
 
