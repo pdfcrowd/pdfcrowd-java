@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.1.0";
+    public static final String CLIENT_VERSION = "6.2.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.1.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.2.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -837,12 +837,12 @@ public final class Pdfcrowd {
         /**
         * Set the page range to print.
         *
-        * @param pages A comma separated list of page numbers or ranges.
+        * @param pages A comma separated list of page numbers or ranges. Special strings may be used, such as `odd`, `even` and `last`.
         * @return The converter object.
         */
         public HtmlToPdfClient setPrintPageRange(String pages) {
-            if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
-                throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "html-to-pdf", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
+            if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*)|odd|even|last)\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*)|odd|even|last)\\s*$"))
+                throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "html-to-pdf", "A comma separated list of page numbers or ranges. Special strings may be used, such as `odd`, `even` and `last`.", "set_print_page_range"), 470);
             
             fields.put("print_page_range", pages);
             return this;
@@ -1022,7 +1022,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The page header is not printed on the specified pages.
+        * The page header content is not printed on the specified pages. To remove the entire header area, use the <a href="#set_conversion_config">conversion config</a>.
         *
         * @param pages List of physical page numbers. Negative numbers count backwards from the last page: -1 is the last page, -2 is the last but one page, and so on. A comma separated list of page numbers.
         * @return The converter object.
@@ -1036,7 +1036,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The page footer is not printed on the specified pages.
+        * The page footer content is not printed on the specified pages. To remove the entire footer area, use the <a href="#set_conversion_config">conversion config</a>.
         *
         * @param pages List of physical page numbers. Negative numbers count backwards from the last page: -1 is the last page, -2 is the last but one page, and so on. A comma separated list of page numbers.
         * @return The converter object.
@@ -2396,12 +2396,15 @@ The structure of the JSON must be:
     <ul>
       <li>
       <em>pages</em>:
-        A comma-separated list of page numbers or ranges. For example:
+        A comma-separated list of page numbers or ranges.
+        Special strings may be used, such as `odd`, `even` and `last`.
+        For example:
       <ul>
       <li><em>1-</em>: from page 1 to the end of the document</li>
       <li><em>2</em>: only the 2nd page</li>
-      <li><em>2, 4, 6</em>: pages 2, 4, and 6</li>
+      <li><em>2,4,6</em>: pages 2, 4, and 6</li>
       <li><em>2-5</em>: pages 2 through 5</li>
+      <li><em>odd,2</em>: the 2nd page and all odd pages</li>
       </ul>
       </li>
       <li><em>pageSize</em>: The page size (optional).
@@ -6183,6 +6186,20 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
+        * Sets the processing mode for handling Type 3 fonts.
+        *
+        * @param mode The type3 font mode. Allowed values are raster, convert.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setType3Mode(String mode) {
+            if (!mode.matches("(?i)^(raster|convert)$"))
+                throw new Error(createInvalidValueMessage(mode, "setType3Mode", "pdf-to-html", "Allowed values are raster, convert.", "set_type3_mode"), 470);
+            
+            fields.put("type3_mode", mode);
+            return this;
+        }
+
+        /**
         * Converts ligatures, two or more letters combined into a single glyph, back into their individual ASCII characters.
         *
         * @param value Set to <span class='field-value'>true</span> to split ligatures.
@@ -6190,6 +6207,20 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public PdfToHtmlClient setSplitLigatures(boolean value) {
             fields.put("split_ligatures", value ? "true" : null);
+            return this;
+        }
+
+        /**
+        * Apply custom CSS to the output HTML document. It allows you to modify the visual appearance and layout. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        *
+        * @param css A string containing valid CSS. The string must not be empty.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setCustomCss(String css) {
+            if (!(css != null && !css.isEmpty()))
+                throw new Error(createInvalidValueMessage(css, "setCustomCss", "pdf-to-html", "The string must not be empty.", "set_custom_css"), 470);
+            
+            fields.put("custom_css", css);
             return this;
         }
 
