@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.2.0";
+    public static final String CLIENT_VERSION = "6.2.1";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.2.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.2.1 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -851,12 +851,12 @@ public final class Pdfcrowd {
         /**
         * Set the viewport width for formatting the HTML content when generating a PDF. By specifying a viewport width, you can control how the content is rendered, ensuring it mimics the appearance on various devices or matches specific design requirements.
         *
-        * @param width The width of the viewport. The value must be "balanced", "small", "medium", "large", "extra-large", or a number in the range 96-65000.
+        * @param width The width of the viewport. The value must be "balanced", "small", "medium", "large", "extra-large", or a number in the range 96-65000px.
         * @return The converter object.
         */
         public HtmlToPdfClient setContentViewportWidth(String width) {
-            if (!width.matches("(?i)^(balanced|small|medium|large|extra-large|[0-9]+)$"))
-                throw new Error(createInvalidValueMessage(width, "setContentViewportWidth", "html-to-pdf", "The value must be \"balanced\", \"small\", \"medium\", \"large\", \"extra-large\", or a number in the range 96-65000.", "set_content_viewport_width"), 470);
+            if (!width.matches("(?i)^(balanced|small|medium|large|extra-large|[0-9]+(px)?)$"))
+                throw new Error(createInvalidValueMessage(width, "setContentViewportWidth", "html-to-pdf", "The value must be \"balanced\", \"small\", \"medium\", \"large\", \"extra-large\", or a number in the range 96-65000px.", "set_content_viewport_width"), 470);
             
             fields.put("content_viewport_width", width);
             return this;
@@ -869,7 +869,7 @@ public final class Pdfcrowd {
         * @return The converter object.
         */
         public HtmlToPdfClient setContentViewportHeight(String height) {
-            if (!height.matches("(?i)^(auto|large|[0-9]+)$"))
+            if (!height.matches("(?i)^(auto|large|[0-9]+(px)?)$"))
                 throw new Error(createInvalidValueMessage(height, "setContentViewportHeight", "html-to-pdf", "The value must be \"auto\", \"large\", or a number.", "set_content_viewport_height"), 470);
             
             fields.put("content_viewport_height", height);
