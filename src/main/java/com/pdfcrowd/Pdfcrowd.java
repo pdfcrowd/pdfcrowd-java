@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.2.1";
+    public static final String CLIENT_VERSION = "6.3.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.2.1 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.3.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -6225,6 +6225,20 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
+        * Add a specified prefix to all id and class attributes in the HTML content, creating a namespace for safe integration into another HTML document. This process ensures unique identifiers, preventing conflicts when merging with other HTML.
+        *
+        * @param prefix The prefix to add before each id and class attribute name. Start with a letter or underscore, and use only letters, numbers, hyphens, underscores, or colons.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setHtmlNamespace(String prefix) {
+            if (!prefix.matches("(?i)^[a-z_][a-z0-9_:-]*$"))
+                throw new Error(createInvalidValueMessage(prefix, "setHtmlNamespace", "pdf-to-html", "Start with a letter or underscore, and use only letters, numbers, hyphens, underscores, or colons.", "set_html_namespace"), 470);
+            
+            fields.put("html_namespace", prefix);
+            return this;
+        }
+
+        /**
         * A helper method to determine if the output file is a zip archive. The output of the conversion may be either an HTML file or a zip file containing the HTML and its external assets.
         * @return <span class='field-value'>True</span> if the conversion output is a zip file, otherwise <span class='field-value'>False</span>.
         */
@@ -6393,6 +6407,20 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-html", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
             
             fields.put("https_proxy", proxy);
+            return this;
+        }
+
+        /**
+        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
+        *
+        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setConverterVersion(String version) {
+            if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
+                throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-html", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
+            
+            helper.setConverterVersion(version);
             return this;
         }
 
