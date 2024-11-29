@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.3.0";
+    public static final String CLIENT_VERSION = "6.4.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -113,7 +113,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.3.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.4.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -1313,23 +1313,13 @@ public final class Pdfcrowd {
             return this;
         }
 
-        /**
-        * Set the HTTP authentication user name.
-        *
-        * @param userName The user name.
-        * @return The converter object.
-        */
+
         public HtmlToPdfClient setHttpAuthUserName(String userName) {
             fields.put("http_auth_user_name", userName);
             return this;
         }
 
-        /**
-        * Set the HTTP authentication password.
-        *
-        * @param password The password.
-        * @return The converter object.
-        */
+
         public HtmlToPdfClient setHttpAuthPassword(String password) {
             fields.put("http_auth_password", password);
             return this;
@@ -2435,6 +2425,7 @@ The structure of the JSON must be:
       <li><em>headerHeight</em>: Height of the header (optional).</li>
       <li><em>footerHeight</em>: Height of the footer (optional).</li>
       <li><em>orientation</em>: Page orientation, such as "portrait" or "landscape" (optional).</li>
+      <li><em>backgroundColor</em>: Page background color in RRGGBB or RRGGBBAA hexadecimal format (optional).</li>
     </ul>
   </li>
 </ul>
@@ -2465,6 +2456,23 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
             return this;
         }
 
+
+        public HtmlToPdfClient setSubprocessReferrer(String referrer) {
+            fields.put("subprocess_referrer", referrer);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that will be used by the converter when a request is made to the converted web page.
+        *
+        * @param agent The user agent.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setConverterUserAgent(String agent) {
+            fields.put("converter_user_agent", agent);
+            return this;
+        }
+
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
@@ -2488,6 +2496,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public HtmlToPdfClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public HtmlToPdfClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -2939,23 +2958,13 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
             return this;
         }
 
-        /**
-        * Set the HTTP authentication user name.
-        *
-        * @param userName The user name.
-        * @return The converter object.
-        */
+
         public HtmlToImageClient setHttpAuthUserName(String userName) {
             fields.put("http_auth_user_name", userName);
             return this;
         }
 
-        /**
-        * Set the HTTP authentication password.
-        *
-        * @param password The password.
-        * @return The converter object.
-        */
+
         public HtmlToImageClient setHttpAuthPassword(String password) {
             fields.put("http_auth_password", password);
             return this;
@@ -3397,6 +3406,23 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
             return this;
         }
 
+
+        public HtmlToImageClient setSubprocessReferrer(String referrer) {
+            fields.put("subprocess_referrer", referrer);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that will be used by the converter when a request is made to the converted web page.
+        *
+        * @param agent The user agent.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setConverterUserAgent(String agent) {
+            fields.put("converter_user_agent", agent);
+            return this;
+        }
+
         /**
         * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
         *
@@ -3420,6 +3446,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public HtmlToImageClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public HtmlToImageClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -4114,6 +4151,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public ImageToImageClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
+            return this;
+        }
+
+        /**
         * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
         *
         * @param agent The user agent string.
@@ -4771,6 +4819,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public PdfToPdfClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToPdfClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -5820,6 +5879,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public ImageToPdfClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
+            return this;
+        }
+
+        /**
         * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
         *
         * @param agent The user agent string.
@@ -6225,7 +6295,7 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
-        * Add a specified prefix to all id and class attributes in the HTML content, creating a namespace for safe integration into another HTML document. This process ensures unique identifiers, preventing conflicts when merging with other HTML.
+        * Add the specified prefix to all id and class attributes in the HTML content, creating a namespace for safe integration into another HTML document. This ensures unique identifiers, preventing conflicts when merging with other HTML.
         *
         * @param prefix The prefix to add before each id and class attribute name. Start with a letter or underscore, and use only letters, numbers, hyphens, underscores, or colons.
         * @return The converter object.
@@ -6433,6 +6503,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public PdfToHtmlClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToHtmlClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
@@ -7012,6 +7093,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         }
 
         /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToTextClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
+            return this;
+        }
+
+        /**
         * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
         *
         * @param agent The user agent string.
@@ -7541,6 +7633,17 @@ Dimensions may be empty, 0 or specified in inches "in", millimeters "mm", centim
         */
         public PdfToImageClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
+            return this;
+        }
+
+        /**
+        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
+        *
+        * @param agent The user agent string.
+        * @return The converter object.
+        */
+        public PdfToImageClient setClientUserAgent(String agent) {
+            helper.setUserAgent(agent);
             return this;
         }
 
