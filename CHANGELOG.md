@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+6.5.1
+-----
+
+- NEW: Updated build plugins to latest versions for improved compatibility and Maven Central compliance.
+
 6.5.0
 -----
 

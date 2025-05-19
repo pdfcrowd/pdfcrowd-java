@@ -1,7 +1,7 @@
 .PHONY : dist clean
 
-VERSION = 6.5.0
-DIR_NAME := pdfcrowd-6.5.0
+VERSION = 6.5.1
+DIR_NAME := pdfcrowd-6.5.1
 
 compile:
 	@mvn clean verify
@@ -17,5 +17,5 @@ dist/pdfcrowd-$(VERSION)-java.zip:
 
 publish: clean compile dist
 	@mvn install
-	@mvn deploy
+	@mvn deploy -P release
 	@echo To publish staging repository use Close on https://oss.sonatype.org/#stagingRepositories
