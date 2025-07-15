@@ -29,7 +29,7 @@ import java.net.*;
 import javax.net.ssl.*;
 
 //
-// Pdfcrowd API client.
+// PDFCrowd API client.
 // 
 public class Client {
     
@@ -39,7 +39,7 @@ public class Client {
     //
     // Client constructor.
     // 
-    // username - your username at Pdfcrowd
+    // username - your username at PDFCrowd
     // apikey   - your API key
     // 
     public Client(String username, String apikey) {
