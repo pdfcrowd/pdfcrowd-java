@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.5.2";
+    public static final String CLIENT_VERSION = "6.5.3";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -145,7 +145,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.5.2 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.5.3 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -728,7 +728,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
+        * Set the output page width. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF.
         *
         * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
         * @return The converter object.
@@ -742,7 +742,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF.
+        * Set the output page height. Use <code>-1</code> for a single page PDF. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF.
         *
         * @param height The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
         * @return The converter object.
@@ -758,8 +758,8 @@ public final class Pdfcrowd {
         /**
         * Set the output page dimensions.
         *
-        * @param width Set the output page width. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the output page height. Use <span class='field-value'>-1</span> for a single page PDF. The safe maximum is <span class='field-value'>200in</span> otherwise some PDF viewers may be unable to open the PDF. The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
+        * @param width Set the output page width. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
+        * @param height Set the output page height. Use <code>-1</code> for a single page PDF. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF. The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
         * @return The converter object.
         */
         public HtmlToPdfClient setPageDimensions(String width, String height) {
@@ -841,7 +841,7 @@ public final class Pdfcrowd {
         /**
         * Disable page margins.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable margins.
+        * @param value Set to <code>true</code> to disable margins.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoMargins(boolean value) {
@@ -937,7 +937,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load an HTML code from the specified URL and use it as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of the converted document</li> <li><span class='field-value'>pdfcrowd-source-title</span> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals. Allowed values: <ul> <li><span class='field-value'>arabic</span> - Arabic numerals, they are used by default</li> <li><span class='field-value'>roman</span> - Roman numerals</li> <li><span class='field-value'>eastern-arabic</span> - Eastern Arabic numerals</li> <li><span class='field-value'>bengali</span> - Bengali numerals</li> <li><span class='field-value'>devanagari</span> - Devanagari numerals</li> <li><span class='field-value'>thai</span> - Thai numerals</li> <li><span class='field-value'>east-asia</span> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><span class='field-value'>chinese-formal</span> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
+        * Load an HTML code from the specified URL and use it as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
         *
         * @param url Supported protocols are http:// and https://.
         * @return The converter object.
@@ -951,7 +951,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the specified HTML code as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of the converted document</li> <li><span class='field-value'>pdfcrowd-source-title</span> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals. Allowed values: <ul> <li><span class='field-value'>arabic</span> - Arabic numerals, they are used by default</li> <li><span class='field-value'>roman</span> - Roman numerals</li> <li><span class='field-value'>eastern-arabic</span> - Eastern Arabic numerals</li> <li><span class='field-value'>bengali</span> - Bengali numerals</li> <li><span class='field-value'>devanagari</span> - Devanagari numerals</li> <li><span class='field-value'>thai</span> - Thai numerals</li> <li><span class='field-value'>east-asia</span> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><span class='field-value'>chinese-formal</span> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
+        * Use the specified HTML code as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
         *
         * @param html The string must not be empty.
         * @return The converter object.
@@ -990,7 +990,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load an HTML code from the specified URL and use it as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of the converted document</li> <li><span class='field-value'>pdfcrowd-source-title</span> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals. Allowed values: <ul> <li><span class='field-value'>arabic</span> - Arabic numerals, they are used by default</li> <li><span class='field-value'>roman</span> - Roman numerals</li> <li><span class='field-value'>eastern-arabic</span> - Eastern Arabic numerals</li> <li><span class='field-value'>bengali</span> - Bengali numerals</li> <li><span class='field-value'>devanagari</span> - Devanagari numerals</li> <li><span class='field-value'>thai</span> - Thai numerals</li> <li><span class='field-value'>east-asia</span> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><span class='field-value'>chinese-formal</span> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
+        * Load an HTML code from the specified URL and use it as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
         *
         * @param url Supported protocols are http:// and https://.
         * @return The converter object.
@@ -1004,7 +1004,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the specified HTML as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><span class='field-value'>pdfcrowd-page-count</span> - the total page count of printed pages</li> <li><span class='field-value'>pdfcrowd-page-number</span> - the current page number</li> <li><span class='field-value'>pdfcrowd-source-url</span> - the source URL of the converted document</li> <li><span class='field-value'>pdfcrowd-source-title</span> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><span class='field-value'>data-pdfcrowd-number-format</span> - specifies the type of the used numerals. Allowed values: <ul> <li><span class='field-value'>arabic</span> - Arabic numerals, they are used by default</li> <li><span class='field-value'>roman</span> - Roman numerals</li> <li><span class='field-value'>eastern-arabic</span> - Eastern Arabic numerals</li> <li><span class='field-value'>bengali</span> - Bengali numerals</li> <li><span class='field-value'>devanagari</span> - Devanagari numerals</li> <li><span class='field-value'>thai</span> - Thai numerals</li> <li><span class='field-value'>east-asia</span> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><span class='field-value'>chinese-formal</span> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> &lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt; </li> <li><span class='field-value'>data-pdfcrowd-placement</span> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: &lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;<br> will produce &lt;span&gt;http://example.com&lt;/span&gt; </li> </ul> </li> <li><span class='field-value'>href</span> - the URL is set to the href attribute <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;Link to source&lt;/a&gt; </li> </ul> </li> <li><span class='field-value'>href-and-content</span> - the URL is set to the href attribute and to the content <ul> <li> Example: &lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;<br> will produce &lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt; </li> </ul> </li> </ul> </li> </ul>
+        * Use the specified HTML as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
         *
         * @param html The string must not be empty.
         * @return The converter object.
@@ -1045,7 +1045,7 @@ public final class Pdfcrowd {
         /**
         * Disable horizontal page margins for header and footer. The header/footer contents width will be equal to the physical page width.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable horizontal margins for header and footer.
+        * @param value Set to <code>true</code> to disable horizontal margins for header and footer.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoHeaderFooterHorizontalMargins(boolean value) {
@@ -1235,7 +1235,7 @@ public final class Pdfcrowd {
         /**
         * Use the print version of the page if available (@media print).
         *
-        * @param value Set to <span class='field-value'>true</span> to use the print version of the page.
+        * @param value Set to <code>true</code> to use the print version of the page.
         * @return The converter object.
         */
         public HtmlToPdfClient setUsePrintMedia(boolean value) {
@@ -1246,7 +1246,7 @@ public final class Pdfcrowd {
         /**
         * Do not print the background graphics.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable the background graphics.
+        * @param value Set to <code>true</code> to disable the background graphics.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoBackground(boolean value) {
@@ -1257,7 +1257,7 @@ public final class Pdfcrowd {
         /**
         * Do not execute JavaScript.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
+        * @param value Set to <code>true</code> to disable JavaScript in web pages.
         * @return The converter object.
         */
         public HtmlToPdfClient setDisableJavascript(boolean value) {
@@ -1268,7 +1268,7 @@ public final class Pdfcrowd {
         /**
         * Do not load images.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable loading of images.
+        * @param value Set to <code>true</code> to disable loading of images.
         * @return The converter object.
         */
         public HtmlToPdfClient setDisableImageLoading(boolean value) {
@@ -1279,7 +1279,7 @@ public final class Pdfcrowd {
         /**
         * Disable loading fonts from remote sources.
         *
-        * @param value Set to <span class='field-value'>true</span> disable loading remote fonts.
+        * @param value Set to <code>true</code> disable loading remote fonts.
         * @return The converter object.
         */
         public HtmlToPdfClient setDisableRemoteFonts(boolean value) {
@@ -1290,7 +1290,7 @@ public final class Pdfcrowd {
         /**
         * Use a mobile user agent.
         *
-        * @param value Set to <span class='field-value'>true</span> to use a mobile user agent.
+        * @param value Set to <code>true</code> to use a mobile user agent.
         * @return The converter object.
         */
         public HtmlToPdfClient setUseMobileUserAgent(boolean value) {
@@ -1315,7 +1315,7 @@ public final class Pdfcrowd {
         /**
         * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
         *
-        * @param value Set to <span class='field-value'>true</span> to block ads in web pages.
+        * @param value Set to <code>true</code> to block ads in web pages.
         * @return The converter object.
         */
         public HtmlToPdfClient setBlockAds(boolean value) {
@@ -1384,7 +1384,7 @@ public final class Pdfcrowd {
         /**
         * Do not allow insecure HTTPS connections.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable SSL certificate verification.
+        * @param value Set to <code>true</code> to enable SSL certificate verification.
         * @return The converter object.
         */
         public HtmlToPdfClient setVerifySslCertificates(boolean value) {
@@ -1395,7 +1395,7 @@ public final class Pdfcrowd {
         /**
         * Abort the conversion if the main URL HTTP status code is greater than or equal to 400.
         *
-        * @param failOnError Set to <span class='field-value'>true</span> to abort the conversion.
+        * @param failOnError Set to <code>true</code> to abort the conversion.
         * @return The converter object.
         */
         public HtmlToPdfClient setFailOnMainUrlError(boolean failOnError) {
@@ -1406,7 +1406,7 @@ public final class Pdfcrowd {
         /**
         * Abort the conversion if any of the sub-request HTTP status code is greater than or equal to 400 or if some sub-requests are still pending. See details in a debug log.
         *
-        * @param failOnError Set to <span class='field-value'>true</span> to abort the conversion.
+        * @param failOnError Set to <code>true</code> to abort the conversion.
         * @return The converter object.
         */
         public HtmlToPdfClient setFailOnAnyUrlError(boolean failOnError) {
@@ -1417,7 +1417,7 @@ public final class Pdfcrowd {
         /**
         * Do not send the X-Pdfcrowd HTTP header in PDFCrowd HTTP requests.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
+        * @param value Set to <code>true</code> to disable sending X-Pdfcrowd HTTP header.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoXpdfcrowdHeader(boolean value) {
@@ -1440,7 +1440,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
         *
         * @param css A string containing valid CSS. The string must not be empty.
         * @return The converter object.
@@ -1554,7 +1554,7 @@ public final class Pdfcrowd {
         /**
         * The main HTML element for conversion is detected automatically.
         *
-        * @param value Set to <span class='field-value'>true</span> to detect the main element.
+        * @param value Set to <code>true</code> to detect the main element.
         * @return The converter object.
         */
         public HtmlToPdfClient setAutoDetectElementToConvert(boolean value) {
@@ -1688,7 +1688,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the DPI of images in PDF. A lower DPI may result in a smaller PDF file.  If the specified DPI is higher than the actual image DPI, the original image DPI is retained (no upscaling is performed). Use <span class='field-value'>0</span> to leave the images unaltered.
+        * Set the DPI of images in PDF. A lower DPI may result in a smaller PDF file.  If the specified DPI is higher than the actual image DPI, the original image DPI is retained (no upscaling is performed). Use <code>0</code> to leave the images unaltered.
         *
         * @param dpi The DPI value. Must be a positive integer or 0.
         * @return The converter object.
@@ -1704,7 +1704,7 @@ public final class Pdfcrowd {
         /**
         * Convert HTML forms to fillable PDF forms. Details can be found in the <a href='https://pdfcrowd.com/blog/create-fillable-pdf-form/'>blog post</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to make fillable PDF forms.
+        * @param value Set to <code>true</code> to make fillable PDF forms.
         * @return The converter object.
         */
         public HtmlToPdfClient setEnablePdfForms(boolean value) {
@@ -1715,7 +1715,7 @@ public final class Pdfcrowd {
         /**
         * Create linearized PDF. This is also known as Fast Web View.
         *
-        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @param value Set to <code>true</code> to create linearized PDF.
         * @return The converter object.
         */
         public HtmlToPdfClient setLinearize(boolean value) {
@@ -1726,7 +1726,7 @@ public final class Pdfcrowd {
         /**
         * Encrypt the PDF. This prevents search engines from indexing the contents.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @param value Set to <code>true</code> to enable PDF encryption.
         * @return The converter object.
         */
         public HtmlToPdfClient setEncrypt(boolean value) {
@@ -1759,7 +1759,7 @@ public final class Pdfcrowd {
         /**
         * Disallow printing of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoPrint(boolean value) {
@@ -1770,7 +1770,7 @@ public final class Pdfcrowd {
         /**
         * Disallow modification of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoModify(boolean value) {
@@ -1781,7 +1781,7 @@ public final class Pdfcrowd {
         /**
         * Disallow text and graphics extraction from the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
         * @return The converter object.
         */
         public HtmlToPdfClient setNoCopy(boolean value) {
@@ -1836,7 +1836,7 @@ public final class Pdfcrowd {
         /**
         * Extract meta tags (author, keywords and description) from the input HTML and use them in the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to extract meta tags.
+        * @param value Set to <code>true</code> to extract meta tags.
         * @return The converter object.
         */
         public HtmlToPdfClient setExtractMetaTags(boolean value) {
@@ -1917,7 +1917,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether to hide the viewer application's tool bars when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
+        * @param value Set to <code>true</code> to hide tool bars.
         * @return The converter object.
         */
         public HtmlToPdfClient setHideToolbar(boolean value) {
@@ -1928,7 +1928,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether to hide the viewer application's menu bar when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @param value Set to <code>true</code> to hide the menu bar.
         * @return The converter object.
         */
         public HtmlToPdfClient setHideMenubar(boolean value) {
@@ -1939,7 +1939,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
+        * @param value Set to <code>true</code> to hide ui elements.
         * @return The converter object.
         */
         public HtmlToPdfClient setHideWindowUi(boolean value) {
@@ -1950,7 +1950,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether to resize the document's window to fit the size of the first displayed page.
         *
-        * @param value Set to <span class='field-value'>true</span> to resize the window.
+        * @param value Set to <code>true</code> to resize the window.
         * @return The converter object.
         */
         public HtmlToPdfClient setFitWindow(boolean value) {
@@ -1961,7 +1961,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether to position the document's window in the center of the screen.
         *
-        * @param value Set to <span class='field-value'>true</span> to center the window.
+        * @param value Set to <code>true</code> to center the window.
         * @return The converter object.
         */
         public HtmlToPdfClient setCenterWindow(boolean value) {
@@ -1972,7 +1972,7 @@ public final class Pdfcrowd {
         /**
         * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
         *
-        * @param value Set to <span class='field-value'>true</span> to display the title.
+        * @param value Set to <code>true</code> to display the title.
         * @return The converter object.
         */
         public HtmlToPdfClient setDisplayTitle(boolean value) {
@@ -1983,7 +1983,7 @@ public final class Pdfcrowd {
         /**
         * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
         *
-        * @param value Set to <span class='field-value'>true</span> to set right-to-left reading order.
+        * @param value Set to <code>true</code> to set right-to-left reading order.
         * @return The converter object.
         */
         public HtmlToPdfClient setRightToLeft(boolean value) {
@@ -2041,7 +2041,7 @@ public final class Pdfcrowd {
         /**
         * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
         *
-        * @param value Set to <span class='field-value'>true</span> to ignore undefined variables.
+        * @param value Set to <code>true</code> to ignore undefined variables.
         * @return The converter object.
         */
         public HtmlToPdfClient setDataIgnoreUndefined(boolean value) {
@@ -2052,7 +2052,7 @@ public final class Pdfcrowd {
         /**
         * Auto escape HTML symbols in the input data before placing them into the output.
         *
-        * @param value Set to <span class='field-value'>true</span> to turn auto escaping on.
+        * @param value Set to <code>true</code> to turn auto escaping on.
         * @return The converter object.
         */
         public HtmlToPdfClient setDataAutoEscape(boolean value) {
@@ -2063,7 +2063,7 @@ public final class Pdfcrowd {
         /**
         * Auto trim whitespace around each template command block.
         *
-        * @param value Set to <span class='field-value'>true</span> to turn auto trimming on.
+        * @param value Set to <code>true</code> to turn auto trimming on.
         * @return The converter object.
         */
         public HtmlToPdfClient setDataTrimBlocks(boolean value) {
@@ -2072,7 +2072,7 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the advanced data options:<ul><li><span class='field-value'>csv_delimiter</span> - The CSV data delimiter, the default is <span class='field-value'>,</span>.</li><li><span class='field-value'>xml_remove_root</span> - Remove the root XML element from the input data.</li><li><span class='field-value'>data_root</span> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <span class='field-value'>data</span>.</li></ul>
+        * Set the advanced data options:<ul><li><code>csv_delimiter</code> - The CSV data delimiter, the default is <code>,</code>.</li><li><code>xml_remove_root</code> - Remove the root XML element from the input data.</li><li><code>data_root</code> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <code>data</code>.</li></ul>
         *
         * @param options Comma separated list of options.
         * @return The converter object.
@@ -2085,7 +2085,7 @@ public final class Pdfcrowd {
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public HtmlToPdfClient setDebugLog(boolean value) {
@@ -2105,7 +2105,7 @@ public final class Pdfcrowd {
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -2347,7 +2347,7 @@ public final class Pdfcrowd {
         /**
         * Disable automatic height adjustment that compensates for pixel to point rounding errors.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable automatic height scale.
+        * @param value Set to <code>true</code> to disable automatic height scale.
         * @return The converter object.
         */
         public HtmlToPdfClient setDisablePageHeightOptimization(boolean value) {
@@ -2358,13 +2358,13 @@ public final class Pdfcrowd {
         /**
         * Add special CSS classes to the main document's body element. This allows applying custom styling based on these classes:
   <ul>
-    <li><span class='field-value'>pdfcrowd-page-X</span> - where X is the current page number</li>
-    <li><span class='field-value'>pdfcrowd-page-odd</span> - odd page</li>
-    <li><span class='field-value'>pdfcrowd-page-even</span> - even page</li>
+    <li><code>pdfcrowd-page-X</code> - where X is the current page number</li>
+    <li><code>pdfcrowd-page-odd</code> - odd page</li>
+    <li><code>pdfcrowd-page-even</code> - even page</li>
   </ul>
         * Warning: If your custom styling affects the contents area size (e.g. by using different margins, padding, border width), the resulting PDF may contain duplicit contents or some contents may be missing.
         *
-        * @param value Set to <span class='field-value'>true</span> to add the special CSS classes.
+        * @param value Set to <code>true</code> to add the special CSS classes.
         * @return The converter object.
         */
         public HtmlToPdfClient setMainDocumentCssAnnotation(boolean value) {
@@ -2375,15 +2375,15 @@ public final class Pdfcrowd {
         /**
         * Add special CSS classes to the header/footer's body element. This allows applying custom styling based on these classes:
   <ul>
-    <li><span class='field-value'>pdfcrowd-page-X</span> - where X is the current page number</li>
-    <li><span class='field-value'>pdfcrowd-page-count-X</span> - where X is the total page count</li>
-    <li><span class='field-value'>pdfcrowd-page-first</span> - the first page</li>
-    <li><span class='field-value'>pdfcrowd-page-last</span> - the last page</li>
-    <li><span class='field-value'>pdfcrowd-page-odd</span> - odd page</li>
-    <li><span class='field-value'>pdfcrowd-page-even</span> - even page</li>
+    <li><code>pdfcrowd-page-X</code> - where X is the current page number</li>
+    <li><code>pdfcrowd-page-count-X</code> - where X is the total page count</li>
+    <li><code>pdfcrowd-page-first</code> - the first page</li>
+    <li><code>pdfcrowd-page-last</code> - the last page</li>
+    <li><code>pdfcrowd-page-odd</code> - odd page</li>
+    <li><code>pdfcrowd-page-even</code> - even page</li>
   </ul>
         *
-        * @param value Set to <span class='field-value'>true</span> to add the special CSS classes.
+        * @param value Set to <code>true</code> to add the special CSS classes.
         * @return The converter object.
         */
         public HtmlToPdfClient setHeaderFooterCssAnnotation(boolean value) {
@@ -2523,7 +2523,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public HtmlToPdfClient setUseHttp(boolean value) {
@@ -2880,7 +2880,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Use the print version of the page if available (@media print).
         *
-        * @param value Set to <span class='field-value'>true</span> to use the print version of the page.
+        * @param value Set to <code>true</code> to use the print version of the page.
         * @return The converter object.
         */
         public HtmlToImageClient setUsePrintMedia(boolean value) {
@@ -2891,7 +2891,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Do not print the background graphics.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable the background graphics.
+        * @param value Set to <code>true</code> to disable the background graphics.
         * @return The converter object.
         */
         public HtmlToImageClient setNoBackground(boolean value) {
@@ -2902,7 +2902,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Do not execute JavaScript.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable JavaScript in web pages.
+        * @param value Set to <code>true</code> to disable JavaScript in web pages.
         * @return The converter object.
         */
         public HtmlToImageClient setDisableJavascript(boolean value) {
@@ -2913,7 +2913,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Do not load images.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable loading of images.
+        * @param value Set to <code>true</code> to disable loading of images.
         * @return The converter object.
         */
         public HtmlToImageClient setDisableImageLoading(boolean value) {
@@ -2924,7 +2924,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disable loading fonts from remote sources.
         *
-        * @param value Set to <span class='field-value'>true</span> disable loading remote fonts.
+        * @param value Set to <code>true</code> disable loading remote fonts.
         * @return The converter object.
         */
         public HtmlToImageClient setDisableRemoteFonts(boolean value) {
@@ -2935,7 +2935,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Use a mobile user agent.
         *
-        * @param value Set to <span class='field-value'>true</span> to use a mobile user agent.
+        * @param value Set to <code>true</code> to use a mobile user agent.
         * @return The converter object.
         */
         public HtmlToImageClient setUseMobileUserAgent(boolean value) {
@@ -2960,7 +2960,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
         *
-        * @param value Set to <span class='field-value'>true</span> to block ads in web pages.
+        * @param value Set to <code>true</code> to block ads in web pages.
         * @return The converter object.
         */
         public HtmlToImageClient setBlockAds(boolean value) {
@@ -3029,7 +3029,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Do not allow insecure HTTPS connections.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable SSL certificate verification.
+        * @param value Set to <code>true</code> to enable SSL certificate verification.
         * @return The converter object.
         */
         public HtmlToImageClient setVerifySslCertificates(boolean value) {
@@ -3040,7 +3040,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Abort the conversion if the main URL HTTP status code is greater than or equal to 400.
         *
-        * @param failOnError Set to <span class='field-value'>true</span> to abort the conversion.
+        * @param failOnError Set to <code>true</code> to abort the conversion.
         * @return The converter object.
         */
         public HtmlToImageClient setFailOnMainUrlError(boolean failOnError) {
@@ -3051,7 +3051,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Abort the conversion if any of the sub-request HTTP status code is greater than or equal to 400 or if some sub-requests are still pending. See details in a debug log.
         *
-        * @param failOnError Set to <span class='field-value'>true</span> to abort the conversion.
+        * @param failOnError Set to <code>true</code> to abort the conversion.
         * @return The converter object.
         */
         public HtmlToImageClient setFailOnAnyUrlError(boolean failOnError) {
@@ -3062,7 +3062,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Do not send the X-Pdfcrowd HTTP header in PDFCrowd HTTP requests.
         *
-        * @param value Set to <span class='field-value'>true</span> to disable sending X-Pdfcrowd HTTP header.
+        * @param value Set to <code>true</code> to disable sending X-Pdfcrowd HTTP header.
         * @return The converter object.
         */
         public HtmlToImageClient setNoXpdfcrowdHeader(boolean value) {
@@ -3071,7 +3071,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
         *
         * @param css A string containing valid CSS. The string must not be empty.
         * @return The converter object.
@@ -3185,7 +3185,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * The main HTML element for conversion is detected automatically.
         *
-        * @param value Set to <span class='field-value'>true</span> to detect the main element.
+        * @param value Set to <code>true</code> to detect the main element.
         * @return The converter object.
         */
         public HtmlToImageClient setAutoDetectElementToConvert(boolean value) {
@@ -3257,7 +3257,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
         *
-        * @param value Set to <span class='field-value'>true</span> to ignore undefined variables.
+        * @param value Set to <code>true</code> to ignore undefined variables.
         * @return The converter object.
         */
         public HtmlToImageClient setDataIgnoreUndefined(boolean value) {
@@ -3268,7 +3268,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Auto escape HTML symbols in the input data before placing them into the output.
         *
-        * @param value Set to <span class='field-value'>true</span> to turn auto escaping on.
+        * @param value Set to <code>true</code> to turn auto escaping on.
         * @return The converter object.
         */
         public HtmlToImageClient setDataAutoEscape(boolean value) {
@@ -3279,7 +3279,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Auto trim whitespace around each template command block.
         *
-        * @param value Set to <span class='field-value'>true</span> to turn auto trimming on.
+        * @param value Set to <code>true</code> to turn auto trimming on.
         * @return The converter object.
         */
         public HtmlToImageClient setDataTrimBlocks(boolean value) {
@@ -3288,7 +3288,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the advanced data options:<ul><li><span class='field-value'>csv_delimiter</span> - The CSV data delimiter, the default is <span class='field-value'>,</span>.</li><li><span class='field-value'>xml_remove_root</span> - Remove the root XML element from the input data.</li><li><span class='field-value'>data_root</span> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <span class='field-value'>data</span>.</li></ul>
+        * Set the advanced data options:<ul><li><code>csv_delimiter</code> - The CSV data delimiter, the default is <code>,</code>.</li><li><code>xml_remove_root</code> - Remove the root XML element from the input data.</li><li><code>data_root</code> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <code>data</code>.</li></ul>
         *
         * @param options Comma separated list of options.
         * @return The converter object.
@@ -3301,7 +3301,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public HtmlToImageClient setDebugLog(boolean value) {
@@ -3321,7 +3321,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -3473,7 +3473,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public HtmlToImageClient setUseHttp(boolean value) {
@@ -3852,7 +3852,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Remove borders of an image which does not change in color.
         *
-        * @param value Set to <span class='field-value'>true</span> to remove borders.
+        * @param value Set to <code>true</code> to remove borders.
         * @return The converter object.
         */
         public ImageToImageClient setRemoveBorders(boolean value) {
@@ -4058,7 +4058,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public ImageToImageClient setDebugLog(boolean value) {
@@ -4078,7 +4078,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -4174,7 +4174,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public ImageToImageClient setUseHttp(boolean value) {
@@ -4340,7 +4340,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the page range for <span class='field-value'>extract</span> or <span class='field-value'>delete</span> action.
+        * Set the page range for <code>extract</code> or <code>delete</code> action.
         *
         * @param pages A comma separated list of page numbers or ranges.
         * @return The converter object.
@@ -4468,7 +4468,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Create linearized PDF. This is also known as Fast Web View.
         *
-        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @param value Set to <code>true</code> to create linearized PDF.
         * @return The converter object.
         */
         public PdfToPdfClient setLinearize(boolean value) {
@@ -4479,7 +4479,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Encrypt the PDF. This prevents search engines from indexing the contents.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @param value Set to <code>true</code> to enable PDF encryption.
         * @return The converter object.
         */
         public PdfToPdfClient setEncrypt(boolean value) {
@@ -4512,7 +4512,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow printing of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
         * @return The converter object.
         */
         public PdfToPdfClient setNoPrint(boolean value) {
@@ -4523,7 +4523,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow modification of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
         * @return The converter object.
         */
         public PdfToPdfClient setNoModify(boolean value) {
@@ -4534,7 +4534,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow text and graphics extraction from the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
         * @return The converter object.
         */
         public PdfToPdfClient setNoCopy(boolean value) {
@@ -4673,7 +4673,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide the viewer application's tool bars when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
+        * @param value Set to <code>true</code> to hide tool bars.
         * @return The converter object.
         */
         public PdfToPdfClient setHideToolbar(boolean value) {
@@ -4684,7 +4684,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide the viewer application's menu bar when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @param value Set to <code>true</code> to hide the menu bar.
         * @return The converter object.
         */
         public PdfToPdfClient setHideMenubar(boolean value) {
@@ -4695,7 +4695,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
+        * @param value Set to <code>true</code> to hide ui elements.
         * @return The converter object.
         */
         public PdfToPdfClient setHideWindowUi(boolean value) {
@@ -4706,7 +4706,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to resize the document's window to fit the size of the first displayed page.
         *
-        * @param value Set to <span class='field-value'>true</span> to resize the window.
+        * @param value Set to <code>true</code> to resize the window.
         * @return The converter object.
         */
         public PdfToPdfClient setFitWindow(boolean value) {
@@ -4717,7 +4717,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to position the document's window in the center of the screen.
         *
-        * @param value Set to <span class='field-value'>true</span> to center the window.
+        * @param value Set to <code>true</code> to center the window.
         * @return The converter object.
         */
         public PdfToPdfClient setCenterWindow(boolean value) {
@@ -4728,7 +4728,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
         *
-        * @param value Set to <span class='field-value'>true</span> to display the title.
+        * @param value Set to <code>true</code> to display the title.
         * @return The converter object.
         */
         public PdfToPdfClient setDisplayTitle(boolean value) {
@@ -4739,7 +4739,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
         *
-        * @param value Set to <span class='field-value'>true</span> to set right-to-left reading order.
+        * @param value Set to <code>true</code> to set right-to-left reading order.
         * @return The converter object.
         */
         public PdfToPdfClient setRightToLeft(boolean value) {
@@ -4750,7 +4750,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public PdfToPdfClient setDebugLog(boolean value) {
@@ -4770,7 +4770,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -4846,7 +4846,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public PdfToPdfClient setUseHttp(boolean value) {
@@ -5211,7 +5211,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Remove borders of an image which does not change in color.
         *
-        * @param value Set to <span class='field-value'>true</span> to remove borders.
+        * @param value Set to <code>true</code> to remove borders.
         * @return The converter object.
         */
         public ImageToPdfClient setRemoveBorders(boolean value) {
@@ -5529,7 +5529,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Create linearized PDF. This is also known as Fast Web View.
         *
-        * @param value Set to <span class='field-value'>true</span> to create linearized PDF.
+        * @param value Set to <code>true</code> to create linearized PDF.
         * @return The converter object.
         */
         public ImageToPdfClient setLinearize(boolean value) {
@@ -5540,7 +5540,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Encrypt the PDF. This prevents search engines from indexing the contents.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable PDF encryption.
+        * @param value Set to <code>true</code> to enable PDF encryption.
         * @return The converter object.
         */
         public ImageToPdfClient setEncrypt(boolean value) {
@@ -5573,7 +5573,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow printing of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-print flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
         * @return The converter object.
         */
         public ImageToPdfClient setNoPrint(boolean value) {
@@ -5584,7 +5584,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow modification of the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the read-only only flag in the output PDF.
+        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
         * @return The converter object.
         */
         public ImageToPdfClient setNoModify(boolean value) {
@@ -5595,7 +5595,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Disallow text and graphics extraction from the output PDF.
         *
-        * @param value Set to <span class='field-value'>true</span> to set the no-copy flag in the output PDF.
+        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
         * @return The converter object.
         */
         public ImageToPdfClient setNoCopy(boolean value) {
@@ -5720,7 +5720,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide the viewer application's tool bars when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide tool bars.
+        * @param value Set to <code>true</code> to hide tool bars.
         * @return The converter object.
         */
         public ImageToPdfClient setHideToolbar(boolean value) {
@@ -5731,7 +5731,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide the viewer application's menu bar when the document is active.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide the menu bar.
+        * @param value Set to <code>true</code> to hide the menu bar.
         * @return The converter object.
         */
         public ImageToPdfClient setHideMenubar(boolean value) {
@@ -5742,7 +5742,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
         *
-        * @param value Set to <span class='field-value'>true</span> to hide ui elements.
+        * @param value Set to <code>true</code> to hide ui elements.
         * @return The converter object.
         */
         public ImageToPdfClient setHideWindowUi(boolean value) {
@@ -5753,7 +5753,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to resize the document's window to fit the size of the first displayed page.
         *
-        * @param value Set to <span class='field-value'>true</span> to resize the window.
+        * @param value Set to <code>true</code> to resize the window.
         * @return The converter object.
         */
         public ImageToPdfClient setFitWindow(boolean value) {
@@ -5764,7 +5764,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether to position the document's window in the center of the screen.
         *
-        * @param value Set to <span class='field-value'>true</span> to center the window.
+        * @param value Set to <code>true</code> to center the window.
         * @return The converter object.
         */
         public ImageToPdfClient setCenterWindow(boolean value) {
@@ -5775,7 +5775,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
         *
-        * @param value Set to <span class='field-value'>true</span> to display the title.
+        * @param value Set to <code>true</code> to display the title.
         * @return The converter object.
         */
         public ImageToPdfClient setDisplayTitle(boolean value) {
@@ -5786,7 +5786,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public ImageToPdfClient setDebugLog(boolean value) {
@@ -5806,7 +5806,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -5902,7 +5902,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public ImageToPdfClient setUseHttp(boolean value) {
@@ -6304,7 +6304,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Converts ligatures, two or more letters combined into a single glyph, back into their individual ASCII characters.
         *
-        * @param value Set to <span class='field-value'>true</span> to split ligatures.
+        * @param value Set to <code>true</code> to split ligatures.
         * @return The converter object.
         */
         public PdfToHtmlClient setSplitLigatures(boolean value) {
@@ -6313,7 +6313,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply custom CSS to the output HTML document. It allows you to modify the visual appearance and layout. Tip: Using <span class='field-value'>!important</span> in custom CSS provides a way to prioritize and override conflicting styles.
+        * Apply custom CSS to the output HTML document. It allows you to modify the visual appearance and layout. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
         *
         * @param css A string containing valid CSS. The string must not be empty.
         * @return The converter object.
@@ -6342,7 +6342,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
 
         /**
         * A helper method to determine if the output file is a zip archive. The output of the conversion may be either an HTML file or a zip file containing the HTML and its external assets.
-        * @return <span class='field-value'>True</span> if the conversion output is a zip file, otherwise <span class='field-value'>False</span>.
+        * @return <code>True</code> if the conversion output is a zip file, otherwise <code>False</code>.
         */
         public boolean isZippedOutput() {
             return "separate".equals(fields.get("image_mode")) || "separate".equals(fields.get("css_mode")) || "separate".equals(fields.get("font_mode")) || "true".equals(fields.get("force_zip"));
@@ -6351,7 +6351,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Enforces the zip output format.
         *
-        * @param value Set to <span class='field-value'>true</span> to get the output as a zip archive.
+        * @param value Set to <code>true</code> to get the output as a zip archive.
         * @return The converter object.
         */
         public PdfToHtmlClient setForceZip(boolean value) {
@@ -6406,7 +6406,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public PdfToHtmlClient setDebugLog(boolean value) {
@@ -6426,7 +6426,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -6530,7 +6530,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public PdfToHtmlClient setUseHttp(boolean value) {
@@ -6833,7 +6833,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Ignore the original PDF layout.
         *
-        * @param value Set to <span class='field-value'>true</span> to ignore the layout.
+        * @param value Set to <code>true</code> to ignore the layout.
         * @return The converter object.
         */
         public PdfToTextClient setNoLayout(boolean value) {
@@ -6911,7 +6911,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Remove the hyphen character from the end of lines.
         *
-        * @param value Set to <span class='field-value'>true</span> to remove hyphens.
+        * @param value Set to <code>true</code> to remove hyphens.
         * @return The converter object.
         */
         public PdfToTextClient setRemoveHyphenation(boolean value) {
@@ -6922,7 +6922,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Remove empty lines from the text output.
         *
-        * @param value Set to <span class='field-value'>true</span> to remove empty lines.
+        * @param value Set to <code>true</code> to remove empty lines.
         * @return The converter object.
         */
         public PdfToTextClient setRemoveEmptyLines(boolean value) {
@@ -7006,7 +7006,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public PdfToTextClient setDebugLog(boolean value) {
@@ -7026,7 +7026,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -7116,7 +7116,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public PdfToTextClient setUseHttp(boolean value) {
@@ -7435,7 +7435,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
 
         /**
         * A helper method to determine if the output file from a conversion process is a zip archive. The conversion output can be either a single image file or a zip file containing one or more image files. This method should be called after the conversion has been successfully completed.
-        * @return <span class='field-value'>True</span> if the conversion output is a zip archive, otherwise <span class='field-value'>False</span>.
+        * @return <code>True</code> if the conversion output is a zip archive, otherwise <code>False</code>.
         */
         public boolean isZippedOutput() {
             return "true".equals(fields.get("force_zip")) || this.getPageCount() > 1;
@@ -7444,7 +7444,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Enforces the zip output format.
         *
-        * @param value Set to <span class='field-value'>true</span> to get the output as a zip archive.
+        * @param value Set to <code>true</code> to get the output as a zip archive.
         * @return The converter object.
         */
         public PdfToImageClient setForceZip(boolean value) {
@@ -7455,7 +7455,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Use the crop box rather than media box.
         *
-        * @param value Set to <span class='field-value'>true</span> to use crop box.
+        * @param value Set to <code>true</code> to use crop box.
         * @return The converter object.
         */
         public PdfToImageClient setUseCropbox(boolean value) {
@@ -7539,7 +7539,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Generate a grayscale image.
         *
-        * @param value Set to <span class='field-value'>true</span> to generate a grayscale image.
+        * @param value Set to <code>true</code> to generate a grayscale image.
         * @return The converter object.
         */
         public PdfToImageClient setUseGrayscale(boolean value) {
@@ -7550,7 +7550,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         /**
         * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
         *
-        * @param value Set to <span class='field-value'>true</span> to enable the debug logging.
+        * @param value Set to <code>true</code> to enable the debug logging.
         * @return The converter object.
         */
         public PdfToImageClient setDebugLog(boolean value) {
@@ -7570,7 +7570,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
         * This method can only be called after a call to one of the convertXtoY methods.
         * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <span class='field-value'>999999</span> is returned if the information is not available.
+        * The special value <code>999999</code> is returned if the information is not available.
         * @return The number of credits.
         */
         public int getRemainingCreditCount() {
@@ -7660,7 +7660,7 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
         * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
         *
-        * @param value Set to <span class='field-value'>true</span> to use HTTP.
+        * @param value Set to <code>true</code> to use HTTP.
         * @return The converter object.
         */
         public PdfToImageClient setUseHttp(boolean value) {
