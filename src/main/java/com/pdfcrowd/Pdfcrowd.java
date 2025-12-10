@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.5.3";
+    public static final String CLIENT_VERSION = "6.5.4";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -145,7 +145,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.5.3 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.5.4 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -487,8 +487,10 @@ public final class Pdfcrowd {
 // generated code
 
     /**
-    * Conversion from HTML to PDF.
-    */
+     * Conversion from HTML to PDF.
+     *
+     * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/">https://pdfcrowd.com/api/html-to-pdf-java/</a>
+     */
     public static final class HtmlToPdfClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -497,11 +499,8 @@ public final class Pdfcrowd {
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#HtmlToPdfClient">https://pdfcrowd.com/api/html-to-pdf-java/ref/#HtmlToPdfClient</a>
+         */
         public HtmlToPdfClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "html");
@@ -509,11 +508,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a web page.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -523,11 +519,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a web page and write the result to an output stream.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "html-to-pdf", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -537,11 +530,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a web page and write the result to a local file.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -559,11 +549,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "html-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
@@ -573,11 +560,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "html-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -587,11 +571,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -609,11 +590,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a string.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string</a>
+         */
         public byte[] convertString(String text) {
             if (!(text != null && !text.isEmpty()))
                 throw new Error(createInvalidValueMessage(text, "convertString", "html-to-pdf", "The string must not be empty.", "convert_string"), 470);
@@ -623,11 +601,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a string and write the output to an output stream.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string_to_stream">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string_to_stream</a>
+         */
         public void convertStringToStream(String text, OutputStream outStream) {
             if (!(text != null && !text.isEmpty()))
                 throw new Error(createInvalidValueMessage(text, "convertStringToStream::text", "html-to-pdf", "The string must not be empty.", "convert_string_to_stream"), 470);
@@ -637,11 +612,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert a string and write the output to a file.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string_to_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_string_to_file</a>
+         */
         public void convertStringToFile(String text, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStringToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_string_to_file"), 470);
@@ -659,33 +631,24 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "html-to-pdf", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -703,22 +666,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the file name of the main HTML document stored in the input archive. If not specified, the first HTML file in the archive is used for conversion. Use this method if the input archive contains multiple HTML documents.
-        *
-        * @param filename The file name.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_main_filename">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_main_filename</a>
+         */
         public HtmlToPdfClient setZipMainFilename(String filename) {
             fields.put("zip_main_filename", filename);
             return this;
         }
 
         /**
-        * Set the output page size.
-        *
-        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_size">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_size</a>
+         */
         public HtmlToPdfClient setPageSize(String size) {
             if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
                 throw new Error(createInvalidValueMessage(size, "setPageSize", "html-to-pdf", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_page_size"), 470);
@@ -728,11 +685,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page width. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_width">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_width</a>
+         */
         public HtmlToPdfClient setPageWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setPageWidth", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_page_width"), 470);
@@ -742,11 +696,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page height. Use <code>-1</code> for a single page PDF. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF.
-        *
-        * @param height The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_height</a>
+         */
         public HtmlToPdfClient setPageHeight(String height) {
             if (!height.matches("(?i)^0$|^\\-1$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setPageHeight", "html-to-pdf", "The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_page_height"), 470);
@@ -756,12 +707,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page dimensions.
-        *
-        * @param width Set the output page width. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the output page height. Use <code>-1</code> for a single page PDF. The safe maximum is <code>200in</code> otherwise some PDF viewers may be unable to open the PDF. The value must be -1 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_dimensions">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_dimensions</a>
+         */
         public HtmlToPdfClient setPageDimensions(String width, String height) {
             this.setPageWidth(width);
             this.setPageHeight(height);
@@ -769,11 +716,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page orientation.
-        *
-        * @param orientation Allowed values are landscape, portrait.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_orientation">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_orientation</a>
+         */
         public HtmlToPdfClient setOrientation(String orientation) {
             if (!orientation.matches("(?i)^(landscape|portrait)$"))
                 throw new Error(createInvalidValueMessage(orientation, "setOrientation", "html-to-pdf", "Allowed values are landscape, portrait.", "set_orientation"), 470);
@@ -783,11 +727,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page top margin.
-        *
-        * @param top The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_top">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_top</a>
+         */
         public HtmlToPdfClient setMarginTop(String top) {
             if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(top, "setMarginTop", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_top"), 470);
@@ -797,11 +738,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page right margin.
-        *
-        * @param right The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_right">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_right</a>
+         */
         public HtmlToPdfClient setMarginRight(String right) {
             if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(right, "setMarginRight", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_right"), 470);
@@ -811,11 +749,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page bottom margin.
-        *
-        * @param bottom The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_bottom">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_bottom</a>
+         */
         public HtmlToPdfClient setMarginBottom(String bottom) {
             if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_bottom"), 470);
@@ -825,11 +760,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the output page left margin.
-        *
-        * @param left The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_left">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_margin_left</a>
+         */
         public HtmlToPdfClient setMarginLeft(String left) {
             if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(left, "setMarginLeft", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_left"), 470);
@@ -839,25 +771,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Disable page margins.
-        *
-        * @param value Set to <code>true</code> to disable margins.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_margins">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_margins</a>
+         */
         public HtmlToPdfClient setNoMargins(boolean value) {
             fields.put("no_margins", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the output page margins.
-        *
-        * @param top Set the output page top margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param right Set the output page right margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param bottom Set the output page bottom margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param left Set the output page left margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_margins">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_margins</a>
+         */
         public HtmlToPdfClient setPageMargins(String top, String right, String bottom, String left) {
             this.setMarginTop(top);
             this.setMarginRight(right);
@@ -867,11 +790,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the page range to print.
-        *
-        * @param pages A comma separated list of page numbers or ranges. Special strings may be used, such as 'odd', 'even' and 'last'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_print_page_range">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_print_page_range</a>
+         */
         public HtmlToPdfClient setPrintPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*)|odd|even|last)\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*)|odd|even|last)\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "html-to-pdf", "A comma separated list of page numbers or ranges. Special strings may be used, such as 'odd', 'even' and 'last'.", "set_print_page_range"), 470);
@@ -881,11 +801,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the viewport width for formatting the HTML content when generating a PDF. By specifying a viewport width, you can control how the content is rendered, ensuring it mimics the appearance on various devices or matches specific design requirements.
-        *
-        * @param width The width of the viewport. The value must be 'balanced', 'small', 'medium', 'large', 'extra-large', or a number in the range 96-65000px.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_viewport_width">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_viewport_width</a>
+         */
         public HtmlToPdfClient setContentViewportWidth(String width) {
             if (!width.matches("(?i)^(balanced|small|medium|large|extra-large|[0-9]+(px)?)$"))
                 throw new Error(createInvalidValueMessage(width, "setContentViewportWidth", "html-to-pdf", "The value must be 'balanced', 'small', 'medium', 'large', 'extra-large', or a number in the range 96-65000px.", "set_content_viewport_width"), 470);
@@ -895,11 +812,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the viewport height for formatting the HTML content when generating a PDF. By specifying a viewport height, you can enforce loading of lazy-loaded images and also affect vertical positioning of absolutely positioned elements within the content.
-        *
-        * @param height The viewport height. The value must be 'auto', 'large', or a number.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_viewport_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_viewport_height</a>
+         */
         public HtmlToPdfClient setContentViewportHeight(String height) {
             if (!height.matches("(?i)^(auto|large|[0-9]+(px)?)$"))
                 throw new Error(createInvalidValueMessage(height, "setContentViewportHeight", "html-to-pdf", "The value must be 'auto', 'large', or a number.", "set_content_viewport_height"), 470);
@@ -909,11 +823,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies the mode for fitting the HTML content to the print area by upscaling or downscaling it.
-        *
-        * @param mode The fitting mode. Allowed values are auto, smart-scaling, no-scaling, viewport-width, content-width, single-page, single-page-ratio.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_fit_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_fit_mode</a>
+         */
         public HtmlToPdfClient setContentFitMode(String mode) {
             if (!mode.matches("(?i)^(auto|smart-scaling|no-scaling|viewport-width|content-width|single-page|single-page-ratio)$"))
                 throw new Error(createInvalidValueMessage(mode, "setContentFitMode", "html-to-pdf", "Allowed values are auto, smart-scaling, no-scaling, viewport-width, content-width, single-page, single-page-ratio.", "set_content_fit_mode"), 470);
@@ -923,11 +834,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies which blank pages to exclude from the output document.
-        *
-        * @param pages The empty page behavior. Allowed values are trailing, all, none.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_remove_blank_pages">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_remove_blank_pages</a>
+         */
         public HtmlToPdfClient setRemoveBlankPages(String pages) {
             if (!pages.matches("(?i)^(trailing|all|none)$"))
                 throw new Error(createInvalidValueMessage(pages, "setRemoveBlankPages", "html-to-pdf", "Allowed values are trailing, all, none.", "set_remove_blank_pages"), 470);
@@ -937,11 +845,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load an HTML code from the specified URL and use it as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_url</a>
+         */
         public HtmlToPdfClient setHeaderUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setHeaderUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_header_url"), 470);
@@ -951,11 +856,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the specified HTML code as the page header. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
-        *
-        * @param html The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_html">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_html</a>
+         */
         public HtmlToPdfClient setHeaderHtml(String html) {
             if (!(html != null && !html.isEmpty()))
                 throw new Error(createInvalidValueMessage(html, "setHeaderHtml", "html-to-pdf", "The string must not be empty.", "set_header_html"), 470);
@@ -965,11 +867,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the header height.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_height</a>
+         */
         public HtmlToPdfClient setHeaderHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setHeaderHeight", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_header_height"), 470);
@@ -979,22 +878,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the file name of the header HTML document stored in the input archive. Use this method if the input archive contains multiple HTML documents.
-        *
-        * @param filename The file name.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_header_filename">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_header_filename</a>
+         */
         public HtmlToPdfClient setZipHeaderFilename(String filename) {
             fields.put("zip_header_filename", filename);
             return this;
         }
 
         /**
-        * Load an HTML code from the specified URL and use it as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_url</a>
+         */
         public HtmlToPdfClient setFooterUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setFooterUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_footer_url"), 470);
@@ -1004,11 +897,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the specified HTML as the page footer. The following classes can be used in the HTML. The content of the respective elements will be expanded as follows: <ul> <li><code>pdfcrowd-page-count</code> - the total page count of printed pages</li> <li><code>pdfcrowd-page-number</code> - the current page number</li> <li><code>pdfcrowd-source-url</code> - the source URL of the converted document</li> <li><code>pdfcrowd-source-title</code> - the title of the converted document</li> </ul> The following attributes can be used: <ul> <li><code>data-pdfcrowd-number-format</code> - specifies the type of the used numerals. Allowed values: <ul> <li><code>arabic</code> - Arabic numerals, they are used by default</li> <li><code>roman</code> - Roman numerals</li> <li><code>eastern-arabic</code> - Eastern Arabic numerals</li> <li><code>bengali</code> - Bengali numerals</li> <li><code>devanagari</code> - Devanagari numerals</li> <li><code>thai</code> - Thai numerals</li> <li><code>east-asia</code> - Chinese, Vietnamese, Japanese and Korean numerals</li> <li><code>chinese-formal</code> - Chinese formal numerals</li> </ul> Please contact us if you need another type of numerals.<br> Example:<br> <code>&lt;span class='pdfcrowd-page-number' data-pdfcrowd-number-format='roman'&gt;&lt;/span&gt;</code> </li> <li><code>data-pdfcrowd-placement</code> - specifies where to place the source URL. Allowed values: <ul> <li>The URL is inserted to the content <ul> <li> Example: <code>&lt;span class='pdfcrowd-source-url'&gt;&lt;/span&gt;</code><br> will produce <code>&lt;span&gt;http://example.com&lt;/span&gt;</code> </li> </ul> </li> <li><code>href</code> - the URL is set to the href attribute <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href'&gt;Link to source&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;Link to source&lt;/a&gt;</code> </li> </ul> </li> <li><code>href-and-content</code> - the URL is set to the href attribute and to the content <ul> <li> Example: <code>&lt;a class='pdfcrowd-source-url' data-pdfcrowd-placement='href-and-content'&gt;&lt;/a&gt;</code><br> will produce <code>&lt;a href='http://example.com'&gt;http://example.com&lt;/a&gt;</code> </li> </ul> </li> </ul> </li> </ul>
-        *
-        * @param html The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_html">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_html</a>
+         */
         public HtmlToPdfClient setFooterHtml(String html) {
             if (!(html != null && !html.isEmpty()))
                 throw new Error(createInvalidValueMessage(html, "setFooterHtml", "html-to-pdf", "The string must not be empty.", "set_footer_html"), 470);
@@ -1018,11 +908,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the footer height.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_height</a>
+         */
         public HtmlToPdfClient setFooterHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setFooterHeight", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_footer_height"), 470);
@@ -1032,33 +919,24 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the file name of the footer HTML document stored in the input archive. Use this method if the input archive contains multiple HTML documents.
-        *
-        * @param filename The file name.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_footer_filename">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_zip_footer_filename</a>
+         */
         public HtmlToPdfClient setZipFooterFilename(String filename) {
             fields.put("zip_footer_filename", filename);
             return this;
         }
 
         /**
-        * Disable horizontal page margins for header and footer. The header/footer contents width will be equal to the physical page width.
-        *
-        * @param value Set to <code>true</code> to disable horizontal margins for header and footer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_header_footer_horizontal_margins">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_header_footer_horizontal_margins</a>
+         */
         public HtmlToPdfClient setNoHeaderFooterHorizontalMargins(boolean value) {
             fields.put("no_header_footer_horizontal_margins", value ? "true" : null);
             return this;
         }
 
         /**
-        * The page header content is not printed on the specified pages. To remove the entire header area, use the <a href="#set_conversion_config">conversion config</a>.
-        *
-        * @param pages List of physical page numbers. Negative numbers count backwards from the last page: -1 is the last page, -2 is the last but one page, and so on. A comma separated list of page numbers.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_exclude_header_on_pages">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_exclude_header_on_pages</a>
+         */
         public HtmlToPdfClient setExcludeHeaderOnPages(String pages) {
             if (!pages.matches("^(?:\\s*\\-?\\d+\\s*,)*\\s*\\-?\\d+\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setExcludeHeaderOnPages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_header_on_pages"), 470);
@@ -1068,11 +946,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The page footer content is not printed on the specified pages. To remove the entire footer area, use the <a href="#set_conversion_config">conversion config</a>.
-        *
-        * @param pages List of physical page numbers. Negative numbers count backwards from the last page: -1 is the last page, -2 is the last but one page, and so on. A comma separated list of page numbers.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_exclude_footer_on_pages">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_exclude_footer_on_pages</a>
+         */
         public HtmlToPdfClient setExcludeFooterOnPages(String pages) {
             if (!pages.matches("^(?:\\s*\\-?\\d+\\s*,)*\\s*\\-?\\d+\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setExcludeFooterOnPages", "html-to-pdf", "A comma separated list of page numbers.", "set_exclude_footer_on_pages"), 470);
@@ -1082,11 +957,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the scaling factor (zoom) for the header and footer.
-        *
-        * @param factor The percentage value. The accepted range is 10-500.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_footer_scale_factor">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_footer_scale_factor</a>
+         */
         public HtmlToPdfClient setHeaderFooterScaleFactor(int factor) {
             if (!(factor >= 10 && factor <= 500))
                 throw new Error(createInvalidValueMessage(factor, "setHeaderFooterScaleFactor", "html-to-pdf", "The accepted range is 10-500.", "set_header_footer_scale_factor"), 470);
@@ -1096,22 +968,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set an offset between physical and logical page numbers.
-        *
-        * @param offset Integer specifying page offset.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_numbering_offset">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_numbering_offset</a>
+         */
         public HtmlToPdfClient setPageNumberingOffset(int offset) {
             fields.put("page_numbering_offset", Integer.toString(offset));
             return this;
         }
 
         /**
-        * Apply a watermark to each page of the output PDF file. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_watermark">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_watermark</a>
+         */
         public HtmlToPdfClient setPageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "html-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
@@ -1121,11 +987,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a watermark to each page of the output PDF. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_watermark_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_watermark_url</a>
+         */
         public HtmlToPdfClient setPageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
@@ -1135,11 +998,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Apply each page of a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_watermark">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_watermark</a>
+         */
         public HtmlToPdfClient setMultipageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
@@ -1149,11 +1009,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_watermark_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_watermark_url</a>
+         */
         public HtmlToPdfClient setMultipageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
@@ -1163,11 +1020,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Apply a background to each page of the output PDF file. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background</a>
+         */
         public HtmlToPdfClient setPageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setPageBackground", "html-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
@@ -1177,11 +1031,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a background to each page of the output PDF. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background_url</a>
+         */
         public HtmlToPdfClient setPageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_page_background_url"), 470);
@@ -1191,11 +1042,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Apply each page of a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_background">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_background</a>
+         */
         public HtmlToPdfClient setMultipageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "html-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
@@ -1205,11 +1053,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_background_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_multipage_background_url</a>
+         */
         public HtmlToPdfClient setMultipageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "html-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
@@ -1219,11 +1064,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins.
-        *
-        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background_color">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_background_color</a>
+         */
         public HtmlToPdfClient setPageBackgroundColor(String color) {
             if (!color.matches("^[0-9a-fA-F]{6,8}$"))
                 throw new Error(createInvalidValueMessage(color, "setPageBackgroundColor", "html-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
@@ -1233,77 +1075,56 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Use the print version of the page if available (@media print).
-        *
-        * @param value Set to <code>true</code> to use the print version of the page.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_print_media">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_print_media</a>
+         */
         public HtmlToPdfClient setUsePrintMedia(boolean value) {
             fields.put("use_print_media", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not print the background graphics.
-        *
-        * @param value Set to <code>true</code> to disable the background graphics.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_background">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_background</a>
+         */
         public HtmlToPdfClient setNoBackground(boolean value) {
             fields.put("no_background", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not execute JavaScript.
-        *
-        * @param value Set to <code>true</code> to disable JavaScript in web pages.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_javascript">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_javascript</a>
+         */
         public HtmlToPdfClient setDisableJavascript(boolean value) {
             fields.put("disable_javascript", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not load images.
-        *
-        * @param value Set to <code>true</code> to disable loading of images.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_image_loading">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_image_loading</a>
+         */
         public HtmlToPdfClient setDisableImageLoading(boolean value) {
             fields.put("disable_image_loading", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disable loading fonts from remote sources.
-        *
-        * @param value Set to <code>true</code> disable loading remote fonts.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_remote_fonts">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_remote_fonts</a>
+         */
         public HtmlToPdfClient setDisableRemoteFonts(boolean value) {
             fields.put("disable_remote_fonts", value ? "true" : null);
             return this;
         }
 
         /**
-        * Use a mobile user agent.
-        *
-        * @param value Set to <code>true</code> to use a mobile user agent.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_mobile_user_agent">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_mobile_user_agent</a>
+         */
         public HtmlToPdfClient setUseMobileUserAgent(boolean value) {
             fields.put("use_mobile_user_agent", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specifies how iframes are handled.
-        *
-        * @param iframes Allowed values are all, same-origin, none.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_load_iframes">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_load_iframes</a>
+         */
         public HtmlToPdfClient setLoadIframes(String iframes) {
             if (!iframes.matches("(?i)^(all|same-origin|none)$"))
                 throw new Error(createInvalidValueMessage(iframes, "setLoadIframes", "html-to-pdf", "Allowed values are all, same-origin, none.", "set_load_iframes"), 470);
@@ -1313,33 +1134,24 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
-        *
-        * @param value Set to <code>true</code> to block ads in web pages.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_block_ads">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_block_ads</a>
+         */
         public HtmlToPdfClient setBlockAds(boolean value) {
             fields.put("block_ads", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the default HTML content text encoding.
-        *
-        * @param encoding The text encoding of the HTML content.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_default_encoding">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_default_encoding</a>
+         */
         public HtmlToPdfClient setDefaultEncoding(String encoding) {
             fields.put("default_encoding", encoding);
             return this;
         }
 
         /**
-        * Set the locale for the conversion. This may affect the output format of dates, times and numbers.
-        *
-        * @param locale The locale code according to ISO 639.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_locale">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_locale</a>
+         */
         public HtmlToPdfClient setLocale(String locale) {
             fields.put("locale", locale);
             return this;
@@ -1358,12 +1170,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set credentials to access HTTP base authentication protected websites.
-        *
-        * @param userName Set the HTTP authentication user name.
-        * @param password Set the HTTP authentication password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_http_auth">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_http_auth</a>
+         */
         public HtmlToPdfClient setHttpAuth(String userName, String password) {
             this.setHttpAuthUserName(userName);
             this.setHttpAuthPassword(password);
@@ -1371,66 +1179,48 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set HTTP cookies to be included in all requests made by the converter.
-        *
-        * @param cookies The cookie string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_cookies">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_cookies</a>
+         */
         public HtmlToPdfClient setCookies(String cookies) {
             fields.put("cookies", cookies);
             return this;
         }
 
         /**
-        * Do not allow insecure HTTPS connections.
-        *
-        * @param value Set to <code>true</code> to enable SSL certificate verification.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_verify_ssl_certificates">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_verify_ssl_certificates</a>
+         */
         public HtmlToPdfClient setVerifySslCertificates(boolean value) {
             fields.put("verify_ssl_certificates", value ? "true" : null);
             return this;
         }
 
         /**
-        * Abort the conversion if the main URL HTTP status code is greater than or equal to 400.
-        *
-        * @param failOnError Set to <code>true</code> to abort the conversion.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fail_on_main_url_error">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fail_on_main_url_error</a>
+         */
         public HtmlToPdfClient setFailOnMainUrlError(boolean failOnError) {
             fields.put("fail_on_main_url_error", failOnError ? "true" : null);
             return this;
         }
 
         /**
-        * Abort the conversion if any of the sub-request HTTP status code is greater than or equal to 400 or if some sub-requests are still pending. See details in a debug log.
-        *
-        * @param failOnError Set to <code>true</code> to abort the conversion.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fail_on_any_url_error">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fail_on_any_url_error</a>
+         */
         public HtmlToPdfClient setFailOnAnyUrlError(boolean failOnError) {
             fields.put("fail_on_any_url_error", failOnError ? "true" : null);
             return this;
         }
 
         /**
-        * Do not send the X-Pdfcrowd HTTP header in PDFCrowd HTTP requests.
-        *
-        * @param value Set to <code>true</code> to disable sending X-Pdfcrowd HTTP header.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_xpdfcrowd_header">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_xpdfcrowd_header</a>
+         */
         public HtmlToPdfClient setNoXpdfcrowdHeader(boolean value) {
             fields.put("no_xpdfcrowd_header", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specifies behavior in presence of CSS @page rules. It may affect the page size, margins and orientation.
-        *
-        * @param mode The page rule mode. Allowed values are default, mode1, mode2.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_css_page_rule_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_css_page_rule_mode</a>
+         */
         public HtmlToPdfClient setCssPageRuleMode(String mode) {
             if (!mode.matches("(?i)^(default|mode1|mode2)$"))
                 throw new Error(createInvalidValueMessage(mode, "setCssPageRuleMode", "html-to-pdf", "Allowed values are default, mode1, mode2.", "set_css_page_rule_mode"), 470);
@@ -1440,11 +1230,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
-        *
-        * @param css A string containing valid CSS. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_css">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_css</a>
+         */
         public HtmlToPdfClient setCustomCss(String css) {
             if (!(css != null && !css.isEmpty()))
                 throw new Error(createInvalidValueMessage(css, "setCustomCss", "html-to-pdf", "The string must not be empty.", "set_custom_css"), 470);
@@ -1454,11 +1241,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
-        *
-        * @param javascript A string containing a JavaScript code. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_javascript">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_javascript</a>
+         */
         public HtmlToPdfClient setCustomJavascript(String javascript) {
             if (!(javascript != null && !javascript.isEmpty()))
                 throw new Error(createInvalidValueMessage(javascript, "setCustomJavascript", "html-to-pdf", "The string must not be empty.", "set_custom_javascript"), 470);
@@ -1468,11 +1252,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
-        *
-        * @param javascript A string containing a JavaScript code. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_on_load_javascript">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_on_load_javascript</a>
+         */
         public HtmlToPdfClient setOnLoadJavascript(String javascript) {
             if (!(javascript != null && !javascript.isEmpty()))
                 throw new Error(createInvalidValueMessage(javascript, "setOnLoadJavascript", "html-to-pdf", "The string must not be empty.", "set_on_load_javascript"), 470);
@@ -1482,11 +1263,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set a custom HTTP header to be included in all requests made by the converter.
-        *
-        * @param header A string containing the header name and value separated by a colon.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_http_header">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_custom_http_header</a>
+         */
         public HtmlToPdfClient setCustomHttpHeader(String header) {
             if (!header.matches("^.+:.+$"))
                 throw new Error(createInvalidValueMessage(header, "setCustomHttpHeader", "html-to-pdf", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
@@ -1496,11 +1274,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Wait the specified number of milliseconds to finish all JavaScript after the document is loaded. Your license defines the maximum wait time by "Max Delay" parameter.
-        *
-        * @param delay The number of milliseconds to wait. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_javascript_delay">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_javascript_delay</a>
+         */
         public HtmlToPdfClient setJavascriptDelay(int delay) {
             if (!(delay >= 0))
                 throw new Error(createInvalidValueMessage(delay, "setJavascriptDelay", "html-to-pdf", "Must be a positive integer or 0.", "set_javascript_delay"), 470);
@@ -1510,11 +1285,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert only the specified element from the main document and its children. The element is specified by one or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a>. If the element is not found, the conversion fails. If multiple elements are found, the first one is used.
-        *
-        * @param selectors One or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a> separated by commas. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_element_to_convert">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_element_to_convert</a>
+         */
         public HtmlToPdfClient setElementToConvert(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
                 throw new Error(createInvalidValueMessage(selectors, "setElementToConvert", "html-to-pdf", "The string must not be empty.", "set_element_to_convert"), 470);
@@ -1524,11 +1296,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify the DOM handling when only a part of the document is converted. This can affect the CSS rules used.
-        *
-        * @param mode Allowed values are cut-out, remove-siblings, hide-siblings.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_element_to_convert_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_element_to_convert_mode</a>
+         */
         public HtmlToPdfClient setElementToConvertMode(String mode) {
             if (!mode.matches("(?i)^(cut-out|remove-siblings|hide-siblings)$"))
                 throw new Error(createInvalidValueMessage(mode, "setElementToConvertMode", "html-to-pdf", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
@@ -1538,11 +1307,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Wait for the specified element in a source document. The element is specified by one or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a>. The element is searched for in the main document and all iframes. If the element is not found, the conversion fails. Your license defines the maximum wait time by "Max Delay" parameter.
-        *
-        * @param selectors One or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a> separated by commas. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_wait_for_element">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_wait_for_element</a>
+         */
         public HtmlToPdfClient setWaitForElement(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
                 throw new Error(createInvalidValueMessage(selectors, "setWaitForElement", "html-to-pdf", "The string must not be empty.", "set_wait_for_element"), 470);
@@ -1552,22 +1318,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * The main HTML element for conversion is detected automatically.
-        *
-        * @param value Set to <code>true</code> to detect the main element.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_auto_detect_element_to_convert">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_auto_detect_element_to_convert</a>
+         */
         public HtmlToPdfClient setAutoDetectElementToConvert(boolean value) {
             fields.put("auto_detect_element_to_convert", value ? "true" : null);
             return this;
         }
 
         /**
-        * The input HTML is automatically enhanced to improve the readability.
-        *
-        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_readability_enhancements">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_readability_enhancements</a>
+         */
         public HtmlToPdfClient setReadabilityEnhancements(String enhancements) {
             if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3|readability-v4)$"))
                 throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-pdf", "Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.", "set_readability_enhancements"), 470);
@@ -1577,11 +1337,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the viewport width in pixels. The viewport is the user's visible area of the page.
-        *
-        * @param width The accepted range is 96-65000.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport_width">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport_width</a>
+         */
         public HtmlToPdfClient setViewportWidth(int width) {
             if (!(width >= 96 && width <= 65000))
                 throw new Error(createInvalidValueMessage(width, "setViewportWidth", "html-to-pdf", "The accepted range is 96-65000.", "set_viewport_width"), 470);
@@ -1591,11 +1348,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the viewport height in pixels. The viewport is the user's visible area of the page. If the input HTML uses lazily loaded images, try using a large value that covers the entire height of the HTML, e.g. 100000.
-        *
-        * @param height Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport_height</a>
+         */
         public HtmlToPdfClient setViewportHeight(int height) {
             if (!(height > 0))
                 throw new Error(createInvalidValueMessage(height, "setViewportHeight", "html-to-pdf", "Must be a positive integer.", "set_viewport_height"), 470);
@@ -1605,12 +1359,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the viewport size. The viewport is the user's visible area of the page.
-        *
-        * @param width Set the viewport width in pixels. The viewport is the user's visible area of the page. The accepted range is 96-65000.
-        * @param height Set the viewport height in pixels. The viewport is the user's visible area of the page. If the input HTML uses lazily loaded images, try using a large value that covers the entire height of the HTML, e.g. 100000. Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_viewport</a>
+         */
         public HtmlToPdfClient setViewport(int width, int height) {
             this.setViewportWidth(width);
             this.setViewportHeight(height);
@@ -1618,11 +1368,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the rendering mode of the page, allowing control over how content is displayed.
-        *
-        * @param mode The rendering mode. Allowed values are default, viewport.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_rendering_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_rendering_mode</a>
+         */
         public HtmlToPdfClient setRenderingMode(String mode) {
             if (!mode.matches("(?i)^(default|viewport)$"))
                 throw new Error(createInvalidValueMessage(mode, "setRenderingMode", "html-to-pdf", "Allowed values are default, viewport.", "set_rendering_mode"), 470);
@@ -1632,11 +1379,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specifies the scaling mode used for fitting the HTML contents to the print area.
-        *
-        * @param mode The smart scaling mode. Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, single-page-fit-ex, mode1.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_smart_scaling_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_smart_scaling_mode</a>
+         */
         public HtmlToPdfClient setSmartScalingMode(String mode) {
             if (!mode.matches("(?i)^(default|disabled|viewport-fit|content-fit|single-page-fit|single-page-fit-ex|mode1)$"))
                 throw new Error(createInvalidValueMessage(mode, "setSmartScalingMode", "html-to-pdf", "Allowed values are default, disabled, viewport-fit, content-fit, single-page-fit, single-page-fit-ex, mode1.", "set_smart_scaling_mode"), 470);
@@ -1646,11 +1390,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the scaling factor (zoom) for the main page area.
-        *
-        * @param factor The percentage value. The accepted range is 10-500.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_scale_factor">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_scale_factor</a>
+         */
         public HtmlToPdfClient setScaleFactor(int factor) {
             if (!(factor >= 10 && factor <= 500))
                 throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-pdf", "The accepted range is 10-500.", "set_scale_factor"), 470);
@@ -1660,11 +1401,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the quality of embedded JPEG images. A lower quality results in a smaller PDF file but can lead to compression artifacts.
-        *
-        * @param quality The percentage value. The accepted range is 1-100.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_jpeg_quality">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_jpeg_quality</a>
+         */
         public HtmlToPdfClient setJpegQuality(int quality) {
             if (!(quality >= 1 && quality <= 100))
                 throw new Error(createInvalidValueMessage(quality, "setJpegQuality", "html-to-pdf", "The accepted range is 1-100.", "set_jpeg_quality"), 470);
@@ -1674,11 +1412,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify which image types will be converted to JPEG. Converting lossless compression image formats (PNG, GIF, ...) to JPEG may result in a smaller PDF file.
-        *
-        * @param images The image category. Allowed values are none, opaque, all.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_convert_images_to_jpeg">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_convert_images_to_jpeg</a>
+         */
         public HtmlToPdfClient setConvertImagesToJpeg(String images) {
             if (!images.matches("(?i)^(none|opaque|all)$"))
                 throw new Error(createInvalidValueMessage(images, "setConvertImagesToJpeg", "html-to-pdf", "Allowed values are none, opaque, all.", "set_convert_images_to_jpeg"), 470);
@@ -1688,11 +1423,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the DPI of images in PDF. A lower DPI may result in a smaller PDF file.  If the specified DPI is higher than the actual image DPI, the original image DPI is retained (no upscaling is performed). Use <code>0</code> to leave the images unaltered.
-        *
-        * @param dpi The DPI value. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_image_dpi">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_image_dpi</a>
+         */
         public HtmlToPdfClient setImageDpi(int dpi) {
             if (!(dpi >= 0))
                 throw new Error(createInvalidValueMessage(dpi, "setImageDpi", "html-to-pdf", "Must be a positive integer or 0.", "set_image_dpi"), 470);
@@ -1702,154 +1434,112 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Convert HTML forms to fillable PDF forms. Details can be found in the <a href='https://pdfcrowd.com/blog/create-fillable-pdf-form/'>blog post</a>.
-        *
-        * @param value Set to <code>true</code> to make fillable PDF forms.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_enable_pdf_forms">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_enable_pdf_forms</a>
+         */
         public HtmlToPdfClient setEnablePdfForms(boolean value) {
             fields.put("enable_pdf_forms", value ? "true" : null);
             return this;
         }
 
         /**
-        * Create linearized PDF. This is also known as Fast Web View.
-        *
-        * @param value Set to <code>true</code> to create linearized PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_linearize">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_linearize</a>
+         */
         public HtmlToPdfClient setLinearize(boolean value) {
             fields.put("linearize", value ? "true" : null);
             return this;
         }
 
         /**
-        * Encrypt the PDF. This prevents search engines from indexing the contents.
-        *
-        * @param value Set to <code>true</code> to enable PDF encryption.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_encrypt">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_encrypt</a>
+         */
         public HtmlToPdfClient setEncrypt(boolean value) {
             fields.put("encrypt", value ? "true" : null);
             return this;
         }
 
         /**
-        * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
-        *
-        * @param password The user password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_user_password">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_user_password</a>
+         */
         public HtmlToPdfClient setUserPassword(String password) {
             fields.put("user_password", password);
             return this;
         }
 
         /**
-        * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
-        *
-        * @param password The owner password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_owner_password">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_owner_password</a>
+         */
         public HtmlToPdfClient setOwnerPassword(String password) {
             fields.put("owner_password", password);
             return this;
         }
 
         /**
-        * Disallow printing of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_print">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_print</a>
+         */
         public HtmlToPdfClient setNoPrint(boolean value) {
             fields.put("no_print", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow modification of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_modify">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_modify</a>
+         */
         public HtmlToPdfClient setNoModify(boolean value) {
             fields.put("no_modify", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow text and graphics extraction from the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_copy">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_no_copy</a>
+         */
         public HtmlToPdfClient setNoCopy(boolean value) {
             fields.put("no_copy", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the title of the PDF.
-        *
-        * @param title The title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_title">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_title</a>
+         */
         public HtmlToPdfClient setTitle(String title) {
             fields.put("title", title);
             return this;
         }
 
         /**
-        * Set the subject of the PDF.
-        *
-        * @param subject The subject.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_subject">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_subject</a>
+         */
         public HtmlToPdfClient setSubject(String subject) {
             fields.put("subject", subject);
             return this;
         }
 
         /**
-        * Set the author of the PDF.
-        *
-        * @param author The author.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_author">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_author</a>
+         */
         public HtmlToPdfClient setAuthor(String author) {
             fields.put("author", author);
             return this;
         }
 
         /**
-        * Associate keywords with the document.
-        *
-        * @param keywords The string with the keywords.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_keywords">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_keywords</a>
+         */
         public HtmlToPdfClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
             return this;
         }
 
         /**
-        * Extract meta tags (author, keywords and description) from the input HTML and use them in the output PDF.
-        *
-        * @param value Set to <code>true</code> to extract meta tags.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_extract_meta_tags">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_extract_meta_tags</a>
+         */
         public HtmlToPdfClient setExtractMetaTags(boolean value) {
             fields.put("extract_meta_tags", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify the page layout to be used when the document is opened.
-        *
-        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_layout">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_layout</a>
+         */
         public HtmlToPdfClient setPageLayout(String layout) {
             if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
                 throw new Error(createInvalidValueMessage(layout, "setPageLayout", "html-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
@@ -1859,11 +1549,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify how the document should be displayed when opened.
-        *
-        * @param mode Allowed values are full-screen, thumbnails, outlines.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_mode">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_page_mode</a>
+         */
         public HtmlToPdfClient setPageMode(String mode) {
             if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPageMode", "html-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
@@ -1873,11 +1560,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify how the page should be displayed when opened.
-        *
-        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_zoom_type">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_zoom_type</a>
+         */
         public HtmlToPdfClient setInitialZoomType(String zoomType) {
             if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
                 throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "html-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
@@ -1887,11 +1571,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Display the specified page when the document is opened.
-        *
-        * @param page Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_page">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_page</a>
+         */
         public HtmlToPdfClient setInitialPage(int page) {
             if (!(page > 0))
                 throw new Error(createInvalidValueMessage(page, "setInitialPage", "html-to-pdf", "Must be a positive integer.", "set_initial_page"), 470);
@@ -1901,11 +1582,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify the initial page zoom in percents when the document is opened.
-        *
-        * @param zoom Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_zoom">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_initial_zoom</a>
+         */
         public HtmlToPdfClient setInitialZoom(int zoom) {
             if (!(zoom > 0))
                 throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "html-to-pdf", "Must be a positive integer.", "set_initial_zoom"), 470);
@@ -1915,110 +1593,80 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Specify whether to hide the viewer application's tool bars when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide tool bars.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_toolbar">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_toolbar</a>
+         */
         public HtmlToPdfClient setHideToolbar(boolean value) {
             fields.put("hide_toolbar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide the viewer application's menu bar when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide the menu bar.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_menubar">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_menubar</a>
+         */
         public HtmlToPdfClient setHideMenubar(boolean value) {
             fields.put("hide_menubar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
-        *
-        * @param value Set to <code>true</code> to hide ui elements.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_window_ui">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_hide_window_ui</a>
+         */
         public HtmlToPdfClient setHideWindowUi(boolean value) {
             fields.put("hide_window_ui", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to resize the document's window to fit the size of the first displayed page.
-        *
-        * @param value Set to <code>true</code> to resize the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fit_window">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_fit_window</a>
+         */
         public HtmlToPdfClient setFitWindow(boolean value) {
             fields.put("fit_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to position the document's window in the center of the screen.
-        *
-        * @param value Set to <code>true</code> to center the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_center_window">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_center_window</a>
+         */
         public HtmlToPdfClient setCenterWindow(boolean value) {
             fields.put("center_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
-        *
-        * @param value Set to <code>true</code> to display the title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_display_title">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_display_title</a>
+         */
         public HtmlToPdfClient setDisplayTitle(boolean value) {
             fields.put("display_title", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
-        *
-        * @param value Set to <code>true</code> to set right-to-left reading order.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_right_to_left">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_right_to_left</a>
+         */
         public HtmlToPdfClient setRightToLeft(boolean value) {
             fields.put("right_to_left", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the input data for template rendering. The data format can be JSON, XML, YAML or CSV.
-        *
-        * @param dataString The input data string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_string">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_string</a>
+         */
         public HtmlToPdfClient setDataString(String dataString) {
             fields.put("data_string", dataString);
             return this;
         }
 
         /**
-        * Load the input data for template rendering from the specified file. The data format can be JSON, XML, YAML or CSV.
-        *
-        * @param dataFile The file path to a local file containing the input data.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_file</a>
+         */
         public HtmlToPdfClient setDataFile(String dataFile) {
             files.put("data_file", dataFile);
             return this;
         }
 
         /**
-        * Specify the input data format.
-        *
-        * @param dataFormat The data format. Allowed values are auto, json, xml, yaml, csv.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_format">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_format</a>
+         */
         public HtmlToPdfClient setDataFormat(String dataFormat) {
             if (!dataFormat.matches("(?i)^(auto|json|xml|yaml|csv)$"))
                 throw new Error(createInvalidValueMessage(dataFormat, "setDataFormat", "html-to-pdf", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
@@ -2028,155 +1676,120 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the encoding of the data file set by <a href='#set_data_file'>setDataFile</a>.
-        *
-        * @param encoding The data file encoding.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_encoding">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_encoding</a>
+         */
         public HtmlToPdfClient setDataEncoding(String encoding) {
             fields.put("data_encoding", encoding);
             return this;
         }
 
         /**
-        * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
-        *
-        * @param value Set to <code>true</code> to ignore undefined variables.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_ignore_undefined">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_ignore_undefined</a>
+         */
         public HtmlToPdfClient setDataIgnoreUndefined(boolean value) {
             fields.put("data_ignore_undefined", value ? "true" : null);
             return this;
         }
 
         /**
-        * Auto escape HTML symbols in the input data before placing them into the output.
-        *
-        * @param value Set to <code>true</code> to turn auto escaping on.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_auto_escape">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_auto_escape</a>
+         */
         public HtmlToPdfClient setDataAutoEscape(boolean value) {
             fields.put("data_auto_escape", value ? "true" : null);
             return this;
         }
 
         /**
-        * Auto trim whitespace around each template command block.
-        *
-        * @param value Set to <code>true</code> to turn auto trimming on.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_trim_blocks">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_trim_blocks</a>
+         */
         public HtmlToPdfClient setDataTrimBlocks(boolean value) {
             fields.put("data_trim_blocks", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the advanced data options:<ul><li><code>csv_delimiter</code> - The CSV data delimiter, the default is <code>,</code>.</li><li><code>xml_remove_root</code> - Remove the root XML element from the input data.</li><li><code>data_root</code> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <code>data</code>.</li></ul>
-        *
-        * @param options Comma separated list of options.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_options">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_options</a>
+         */
         public HtmlToPdfClient setDataOptions(String options) {
             fields.put("data_options", options);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_debug_log">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_debug_log</a>
+         */
         public HtmlToPdfClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_job_id">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the number of pages in the output document.
-        * @return The page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_page_count">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_page_count</a>
+         */
         public int getPageCount() {
             return helper.getPageCount();
         }
 
         /**
-        * Get the total number of pages in the original output document, including the pages excluded by <a href='#set_print_page_range'>setPrintPageRange()</a>.
-        * @return The total page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_total_page_count">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_total_page_count</a>
+         */
         public int getTotalPageCount() {
             return helper.getTotalPageCount();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_output_size">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_version">https://pdfcrowd.com/api/html-to-pdf-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_tag">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_tag</a>
+         */
         public HtmlToPdfClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_http_proxy">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_http_proxy</a>
+         */
         public HtmlToPdfClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -2186,11 +1799,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_https_proxy">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_https_proxy</a>
+         */
         public HtmlToPdfClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "html-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -2200,11 +1810,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * A client certificate to authenticate the converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
-        *
-        * @param certificate The file must be in PKCS12 format. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_certificate">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_certificate</a>
+         */
         public HtmlToPdfClient setClientCertificate(String certificate) {
             if (!(new File(certificate).length() > 0))
                 throw new Error(createInvalidValueMessage(certificate, "setClientCertificate", "html-to-pdf", "The file must exist and not be empty.", "set_client_certificate"), 470);
@@ -2214,22 +1821,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * A password for PKCS12 file with a client certificate if it is needed.
-        *
-        * @param password
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_certificate_password">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_certificate_password</a>
+         */
         public HtmlToPdfClient setClientCertificatePassword(String password) {
             fields.put("client_certificate_password", password);
             return this;
         }
 
         /**
-        * Set the internal DPI resolution used for positioning of PDF contents. It can help in situations when there are small inaccuracies in the PDF. It is recommended to use values that are a multiple of 72, such as 288 or 360.
-        *
-        * @param dpi The DPI value. The accepted range is 72-600.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_layout_dpi">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_layout_dpi</a>
+         */
         public HtmlToPdfClient setLayoutDpi(int dpi) {
             if (!(dpi >= 72 && dpi <= 600))
                 throw new Error(createInvalidValueMessage(dpi, "setLayoutDpi", "html-to-pdf", "The accepted range is 72-600.", "set_layout_dpi"), 470);
@@ -2239,11 +1840,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
-        *
-        * @param x The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_x">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_x</a>
+         */
         public HtmlToPdfClient setContentAreaX(String x) {
             if (!x.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(x, "setContentAreaX", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.", "set_content_area_x"), 470);
@@ -2253,11 +1851,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area.
-        *
-        * @param y The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_y">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_y</a>
+         */
         public HtmlToPdfClient setContentAreaY(String y) {
             if (!y.matches("(?i)^0$|^\\-?[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(y, "setContentAreaY", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.", "set_content_area_y"), 470);
@@ -2267,11 +1862,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the width of the content area. It should be at least 1 inch.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_width">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_width</a>
+         */
         public HtmlToPdfClient setContentAreaWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setContentAreaWidth", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_content_area_width"), 470);
@@ -2281,11 +1873,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the height of the content area. It should be at least 1 inch.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_height">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area_height</a>
+         */
         public HtmlToPdfClient setContentAreaHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setContentAreaHeight", "html-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_content_area_height"), 470);
@@ -2295,14 +1884,8 @@ public final class Pdfcrowd {
         }
 
         /**
-        * Set the content area position and size. The content area enables to specify a web page area to be converted.
-        *
-        * @param x Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.
-        * @param y Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'. It may contain a negative value.
-        * @param width Set the width of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the height of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_content_area</a>
+         */
         public HtmlToPdfClient setContentArea(String x, String y, String width, String height) {
             this.setContentAreaX(x);
             this.setContentAreaY(y);
@@ -2312,91 +1895,56 @@ public final class Pdfcrowd {
         }
 
         /**
-        * A 2D transformation matrix applied to the main contents on each page. The origin [0,0] is located at the top-left corner of the contents. The resolution is 72 dpi.
-        *
-        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_contents_matrix">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_contents_matrix</a>
+         */
         public HtmlToPdfClient setContentsMatrix(String matrix) {
             fields.put("contents_matrix", matrix);
             return this;
         }
 
         /**
-        * A 2D transformation matrix applied to the page header contents. The origin [0,0] is located at the top-left corner of the header. The resolution is 72 dpi.
-        *
-        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_matrix">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_matrix</a>
+         */
         public HtmlToPdfClient setHeaderMatrix(String matrix) {
             fields.put("header_matrix", matrix);
             return this;
         }
 
         /**
-        * A 2D transformation matrix applied to the page footer contents. The origin [0,0] is located at the top-left corner of the footer. The resolution is 72 dpi.
-        *
-        * @param matrix A comma separated string of matrix elements: "scaleX,skewX,transX,skewY,scaleY,transY"
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_matrix">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_footer_matrix</a>
+         */
         public HtmlToPdfClient setFooterMatrix(String matrix) {
             fields.put("footer_matrix", matrix);
             return this;
         }
 
         /**
-        * Disable automatic height adjustment that compensates for pixel to point rounding errors.
-        *
-        * @param value Set to <code>true</code> to disable automatic height scale.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_page_height_optimization">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_disable_page_height_optimization</a>
+         */
         public HtmlToPdfClient setDisablePageHeightOptimization(boolean value) {
             fields.put("disable_page_height_optimization", value ? "true" : null);
             return this;
         }
 
         /**
-        * Add special CSS classes to the main document's body element. This allows applying custom styling based on these classes:
-  <ul>
-    <li><code>pdfcrowd-page-X</code> - where X is the current page number</li>
-    <li><code>pdfcrowd-page-odd</code> - odd page</li>
-    <li><code>pdfcrowd-page-even</code> - even page</li>
-  </ul>
-        * Warning: If your custom styling affects the contents area size (e.g. by using different margins, padding, border width), the resulting PDF may contain duplicit contents or some contents may be missing.
-        *
-        * @param value Set to <code>true</code> to add the special CSS classes.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_main_document_css_annotation">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_main_document_css_annotation</a>
+         */
         public HtmlToPdfClient setMainDocumentCssAnnotation(boolean value) {
             fields.put("main_document_css_annotation", value ? "true" : null);
             return this;
         }
 
         /**
-        * Add special CSS classes to the header/footer's body element. This allows applying custom styling based on these classes:
-  <ul>
-    <li><code>pdfcrowd-page-X</code> - where X is the current page number</li>
-    <li><code>pdfcrowd-page-count-X</code> - where X is the total page count</li>
-    <li><code>pdfcrowd-page-first</code> - the first page</li>
-    <li><code>pdfcrowd-page-last</code> - the last page</li>
-    <li><code>pdfcrowd-page-odd</code> - odd page</li>
-    <li><code>pdfcrowd-page-even</code> - even page</li>
-  </ul>
-        *
-        * @param value Set to <code>true</code> to add the special CSS classes.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_footer_css_annotation">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_header_footer_css_annotation</a>
+         */
         public HtmlToPdfClient setHeaderFooterCssAnnotation(boolean value) {
             fields.put("header_footer_css_annotation", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the maximum time to load the page and its resources. After this time, all requests will be considered successful. This can be useful to ensure that the conversion does not timeout. Use this method if there is no other way to fix page loading.
-        *
-        * @param maxTime The number of seconds to wait. The accepted range is 10-30.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_max_loading_time">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_max_loading_time</a>
+         */
         public HtmlToPdfClient setMaxLoadingTime(int maxTime) {
             if (!(maxTime >= 10 && maxTime <= 30))
                 throw new Error(createInvalidValueMessage(maxTime, "setMaxLoadingTime", "html-to-pdf", "The accepted range is 10-30.", "set_max_loading_time"), 470);
@@ -2406,80 +1954,16 @@ public final class Pdfcrowd {
         }
 
         /**
-        * <p id="json-format">
-Allows to configure conversion via JSON. The configuration defines various page settings for individual PDF pages or ranges of pages. It provides flexibility in designing each page of the PDF, giving control over each page's size, header, footer etc. If a page or parameter is not explicitly specified, the system will use the default settings for that page or attribute. If a JSON configuration is provided, the settings in the JSON will take precedence over the global options.
-</p>
-
-<p>
-The structure of the JSON must be:
-</p>
-<ul>
-  <li><em>pageSetup</em>: An array of objects where each object defines the configuration for a specific page or range of pages. The following properties can be set for each page object:
-    <ul>
-      <li>
-      <em>pages</em>:
-        A comma-separated list of page numbers or ranges.
-        Special strings may be used, such as `odd`, `even` and `last`.
-        For example:
-      <ul>
-      <li><em>1-</em>: from page 1 to the end of the document</li>
-      <li><em>2</em>: only the 2nd page</li>
-      <li><em>2,4,6</em>: pages 2, 4, and 6</li>
-      <li><em>2-5</em>: pages 2 through 5</li>
-      <li><em>odd,2</em>: the 2nd page and all odd pages</li>
-      </ul>
-      </li>
-      <li><em>pageSize</em>: The page size (optional).
-      Possible values: A0, A1, A2, A3, A4, A5, A6, Letter.
-      </li>
-      <li><em>pageWidth</em>: The width of the page (optional).</li>
-      <li><em>pageHeight</em>: The height of the page (optional).</li>
-      <li><em>marginLeft</em>: Left margin (optional).</li>
-      <li><em>marginRight</em>: Right margin (optional).</li>
-      <li><em>marginTop</em>: Top margin (optional).</li>
-      <li><em>marginBottom</em>: Bottom margin (optional).</li>
-      <li>
-      <em>displayHeader</em>: Header appearance (optional). Possible values:
-      <ul>
-      <li><em>none</em>: completely excluded</li>
-      <li><em>space</em>: only the content is excluded, the space is used</li>
-      <li><em>content</em>: the content is printed (default)</li>
-      </ul>
-      </li>
-      <li>
-      <em>displayFooter</em>: Footer appearance (optional). Possible values:
-      <ul>
-      <li><em>none</em>: completely excluded</li>
-      <li><em>space</em>: only the content is excluded, the space is used</li>
-      <li><em>content</em>: the content is printed (default)</li>
-      </ul>
-      </li>
-      <li><em>headerHeight</em>: Height of the header (optional).</li>
-      <li><em>footerHeight</em>: Height of the footer (optional).</li>
-      <li><em>orientation</em>: Page orientation, such as "portrait" or "landscape" (optional).</li>
-      <li><em>backgroundColor</em>: Page background color in RRGGBB or RRGGBBAA hexadecimal format (optional).</li>
-    </ul>
-  </li>
-</ul>
-
-<p>
-Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-</p>
-        *
-        * @param jsonString The JSON string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conversion_config">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conversion_config</a>
+         */
         public HtmlToPdfClient setConversionConfig(String jsonString) {
             fields.put("conversion_config", jsonString);
             return this;
         }
 
         /**
-        * Allows to configure the conversion process via JSON file. See details of the <a href="#json-format">JSON string</a>.
-        *
-        * @param filepath The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conversion_config_file">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conversion_config_file</a>
+         */
         public HtmlToPdfClient setConversionConfigFile(String filepath) {
             if (!(new File(filepath).length() > 0))
                 throw new Error(createInvalidValueMessage(filepath, "setConversionConfigFile", "html-to-pdf", "The file must exist and not be empty.", "set_conversion_config_file"), 470);
@@ -2495,22 +1979,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies the User-Agent HTTP header that will be used by the converter when a request is made to the converted web page.
-        *
-        * @param agent The user agent.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_converter_user_agent">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_converter_user_agent</a>
+         */
         public HtmlToPdfClient setConverterUserAgent(String agent) {
             fields.put("converter_user_agent", agent);
             return this;
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_converter_version">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_converter_version</a>
+         */
         public HtmlToPdfClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -2520,59 +1998,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_http">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_use_http</a>
+         */
         public HtmlToPdfClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_client_user_agent</a>
+         */
         public HtmlToPdfClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_user_agent">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_user_agent</a>
+         */
         public HtmlToPdfClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_proxy">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_proxy</a>
+         */
         public HtmlToPdfClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_retry_count">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_retry_count</a>
+         */
         public HtmlToPdfClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -2581,8 +2040,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from HTML to image.
-    */
+     * Conversion from HTML to image.
+     *
+     * @see <a href="https://pdfcrowd.com/api/html-to-image-java/">https://pdfcrowd.com/api/html-to-image-java/</a>
+     */
     public static final class HtmlToImageClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -2591,11 +2052,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#HtmlToImageClient">https://pdfcrowd.com/api/html-to-image-java/ref/#HtmlToImageClient</a>
+         */
         public HtmlToImageClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "html");
@@ -2603,11 +2061,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The format of the output file.
-        *
-        * @param outputFormat Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_output_format">https://pdfcrowd.com/api/html-to-image-java/ref/#set_output_format</a>
+         */
         public HtmlToImageClient setOutputFormat(String outputFormat) {
             if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
                 throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "html-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
@@ -2617,11 +2072,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a web page.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "html-to-image", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -2631,11 +2083,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a web page and write the result to an output stream.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "html-to-image", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -2645,11 +2094,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a web page and write the result to a local file.
-        *
-        * @param url The address of the web page to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "html-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -2667,11 +2113,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "html-to-image", "The file must exist and not be empty.", "convert_file"), 470);
@@ -2681,11 +2124,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "html-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -2695,11 +2135,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br> The file can be either a single file or an archive (.tar.gz, .tar.bz2, or .zip).<br> If the HTML document refers to local external assets (images, style sheets, javascript), zip the document together with the assets. The file must exist and not be empty. The file name must have a valid extension.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "html-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -2717,11 +2154,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a string.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string</a>
+         */
         public byte[] convertString(String text) {
             if (!(text != null && !text.isEmpty()))
                 throw new Error(createInvalidValueMessage(text, "convertString", "html-to-image", "The string must not be empty.", "convert_string"), 470);
@@ -2731,11 +2165,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a string and write the output to an output stream.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string_to_stream">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string_to_stream</a>
+         */
         public void convertStringToStream(String text, OutputStream outStream) {
             if (!(text != null && !text.isEmpty()))
                 throw new Error(createInvalidValueMessage(text, "convertStringToStream::text", "html-to-image", "The string must not be empty.", "convert_string_to_stream"), 470);
@@ -2745,11 +2176,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a string and write the output to a file.
-        *
-        * @param text The string content to convert. The string must not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string_to_file">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_string_to_file</a>
+         */
         public void convertStringToFile(String text, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStringToFile::file_path", "html-to-image", "The string must not be empty.", "convert_string_to_file"), 470);
@@ -2767,33 +2195,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br> The stream can contain either HTML code or an archive (.zip, .tar.gz, .tar.bz2).<br>The archive can contain HTML code and its external assets (images, style sheets, javascript).
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/html-to-image-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "html-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -2811,22 +2230,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the file name of the main HTML document stored in the input archive. If not specified, the first HTML file in the archive is used for conversion. Use this method if the input archive contains multiple HTML documents.
-        *
-        * @param filename The file name.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_zip_main_filename">https://pdfcrowd.com/api/html-to-image-java/ref/#set_zip_main_filename</a>
+         */
         public HtmlToImageClient setZipMainFilename(String filename) {
             fields.put("zip_main_filename", filename);
             return this;
         }
 
         /**
-        * Set the output image width in pixels.
-        *
-        * @param width The accepted range is 96-65000.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_screenshot_width">https://pdfcrowd.com/api/html-to-image-java/ref/#set_screenshot_width</a>
+         */
         public HtmlToImageClient setScreenshotWidth(int width) {
             if (!(width >= 96 && width <= 65000))
                 throw new Error(createInvalidValueMessage(width, "setScreenshotWidth", "html-to-image", "The accepted range is 96-65000.", "set_screenshot_width"), 470);
@@ -2836,11 +2249,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output image height in pixels. If it is not specified, actual document height is used.
-        *
-        * @param height Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_screenshot_height">https://pdfcrowd.com/api/html-to-image-java/ref/#set_screenshot_height</a>
+         */
         public HtmlToImageClient setScreenshotHeight(int height) {
             if (!(height > 0))
                 throw new Error(createInvalidValueMessage(height, "setScreenshotHeight", "html-to-image", "Must be a positive integer.", "set_screenshot_height"), 470);
@@ -2850,11 +2260,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the scaling factor (zoom) for the output image.
-        *
-        * @param factor The percentage value. Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_scale_factor">https://pdfcrowd.com/api/html-to-image-java/ref/#set_scale_factor</a>
+         */
         public HtmlToImageClient setScaleFactor(int factor) {
             if (!(factor > 0))
                 throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "html-to-image", "Must be a positive integer.", "set_scale_factor"), 470);
@@ -2864,11 +2271,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The output image background color.
-        *
-        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_background_color">https://pdfcrowd.com/api/html-to-image-java/ref/#set_background_color</a>
+         */
         public HtmlToImageClient setBackgroundColor(String color) {
             if (!color.matches("^[0-9a-fA-F]{6,8}$"))
                 throw new Error(createInvalidValueMessage(color, "setBackgroundColor", "html-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_background_color"), 470);
@@ -2878,77 +2282,56 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Use the print version of the page if available (@media print).
-        *
-        * @param value Set to <code>true</code> to use the print version of the page.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_print_media">https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_print_media</a>
+         */
         public HtmlToImageClient setUsePrintMedia(boolean value) {
             fields.put("use_print_media", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not print the background graphics.
-        *
-        * @param value Set to <code>true</code> to disable the background graphics.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_no_background">https://pdfcrowd.com/api/html-to-image-java/ref/#set_no_background</a>
+         */
         public HtmlToImageClient setNoBackground(boolean value) {
             fields.put("no_background", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not execute JavaScript.
-        *
-        * @param value Set to <code>true</code> to disable JavaScript in web pages.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_javascript">https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_javascript</a>
+         */
         public HtmlToImageClient setDisableJavascript(boolean value) {
             fields.put("disable_javascript", value ? "true" : null);
             return this;
         }
 
         /**
-        * Do not load images.
-        *
-        * @param value Set to <code>true</code> to disable loading of images.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_image_loading">https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_image_loading</a>
+         */
         public HtmlToImageClient setDisableImageLoading(boolean value) {
             fields.put("disable_image_loading", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disable loading fonts from remote sources.
-        *
-        * @param value Set to <code>true</code> disable loading remote fonts.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_remote_fonts">https://pdfcrowd.com/api/html-to-image-java/ref/#set_disable_remote_fonts</a>
+         */
         public HtmlToImageClient setDisableRemoteFonts(boolean value) {
             fields.put("disable_remote_fonts", value ? "true" : null);
             return this;
         }
 
         /**
-        * Use a mobile user agent.
-        *
-        * @param value Set to <code>true</code> to use a mobile user agent.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_mobile_user_agent">https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_mobile_user_agent</a>
+         */
         public HtmlToImageClient setUseMobileUserAgent(boolean value) {
             fields.put("use_mobile_user_agent", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specifies how iframes are handled.
-        *
-        * @param iframes Allowed values are all, same-origin, none.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_load_iframes">https://pdfcrowd.com/api/html-to-image-java/ref/#set_load_iframes</a>
+         */
         public HtmlToImageClient setLoadIframes(String iframes) {
             if (!iframes.matches("(?i)^(all|same-origin|none)$"))
                 throw new Error(createInvalidValueMessage(iframes, "setLoadIframes", "html-to-image", "Allowed values are all, same-origin, none.", "set_load_iframes"), 470);
@@ -2958,33 +2341,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Try to block ads. Enabling this option can produce smaller output and speed up the conversion.
-        *
-        * @param value Set to <code>true</code> to block ads in web pages.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_block_ads">https://pdfcrowd.com/api/html-to-image-java/ref/#set_block_ads</a>
+         */
         public HtmlToImageClient setBlockAds(boolean value) {
             fields.put("block_ads", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the default HTML content text encoding.
-        *
-        * @param encoding The text encoding of the HTML content.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_default_encoding">https://pdfcrowd.com/api/html-to-image-java/ref/#set_default_encoding</a>
+         */
         public HtmlToImageClient setDefaultEncoding(String encoding) {
             fields.put("default_encoding", encoding);
             return this;
         }
 
         /**
-        * Set the locale for the conversion. This may affect the output format of dates, times and numbers.
-        *
-        * @param locale The locale code according to ISO 639.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_locale">https://pdfcrowd.com/api/html-to-image-java/ref/#set_locale</a>
+         */
         public HtmlToImageClient setLocale(String locale) {
             fields.put("locale", locale);
             return this;
@@ -3003,12 +2377,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set credentials to access HTTP base authentication protected websites.
-        *
-        * @param userName Set the HTTP authentication user name.
-        * @param password Set the HTTP authentication password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_http_auth">https://pdfcrowd.com/api/html-to-image-java/ref/#set_http_auth</a>
+         */
         public HtmlToImageClient setHttpAuth(String userName, String password) {
             this.setHttpAuthUserName(userName);
             this.setHttpAuthPassword(password);
@@ -3016,66 +2386,48 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set HTTP cookies to be included in all requests made by the converter.
-        *
-        * @param cookies The cookie string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_cookies">https://pdfcrowd.com/api/html-to-image-java/ref/#set_cookies</a>
+         */
         public HtmlToImageClient setCookies(String cookies) {
             fields.put("cookies", cookies);
             return this;
         }
 
         /**
-        * Do not allow insecure HTTPS connections.
-        *
-        * @param value Set to <code>true</code> to enable SSL certificate verification.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_verify_ssl_certificates">https://pdfcrowd.com/api/html-to-image-java/ref/#set_verify_ssl_certificates</a>
+         */
         public HtmlToImageClient setVerifySslCertificates(boolean value) {
             fields.put("verify_ssl_certificates", value ? "true" : null);
             return this;
         }
 
         /**
-        * Abort the conversion if the main URL HTTP status code is greater than or equal to 400.
-        *
-        * @param failOnError Set to <code>true</code> to abort the conversion.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_fail_on_main_url_error">https://pdfcrowd.com/api/html-to-image-java/ref/#set_fail_on_main_url_error</a>
+         */
         public HtmlToImageClient setFailOnMainUrlError(boolean failOnError) {
             fields.put("fail_on_main_url_error", failOnError ? "true" : null);
             return this;
         }
 
         /**
-        * Abort the conversion if any of the sub-request HTTP status code is greater than or equal to 400 or if some sub-requests are still pending. See details in a debug log.
-        *
-        * @param failOnError Set to <code>true</code> to abort the conversion.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_fail_on_any_url_error">https://pdfcrowd.com/api/html-to-image-java/ref/#set_fail_on_any_url_error</a>
+         */
         public HtmlToImageClient setFailOnAnyUrlError(boolean failOnError) {
             fields.put("fail_on_any_url_error", failOnError ? "true" : null);
             return this;
         }
 
         /**
-        * Do not send the X-Pdfcrowd HTTP header in PDFCrowd HTTP requests.
-        *
-        * @param value Set to <code>true</code> to disable sending X-Pdfcrowd HTTP header.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_no_xpdfcrowd_header">https://pdfcrowd.com/api/html-to-image-java/ref/#set_no_xpdfcrowd_header</a>
+         */
         public HtmlToImageClient setNoXpdfcrowdHeader(boolean value) {
             fields.put("no_xpdfcrowd_header", value ? "true" : null);
             return this;
         }
 
         /**
-        * Apply custom CSS to the input HTML document. It allows you to modify the visual appearance and layout of your HTML content dynamically. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
-        *
-        * @param css A string containing valid CSS. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_css">https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_css</a>
+         */
         public HtmlToImageClient setCustomCss(String css) {
             if (!(css != null && !css.isEmpty()))
                 throw new Error(createInvalidValueMessage(css, "setCustomCss", "html-to-image", "The string must not be empty.", "set_custom_css"), 470);
@@ -3085,11 +2437,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Run a custom JavaScript after the document is loaded and ready to print. The script is intended for post-load DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
-        *
-        * @param javascript A string containing a JavaScript code. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_javascript">https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_javascript</a>
+         */
         public HtmlToImageClient setCustomJavascript(String javascript) {
             if (!(javascript != null && !javascript.isEmpty()))
                 throw new Error(createInvalidValueMessage(javascript, "setCustomJavascript", "html-to-image", "The string must not be empty.", "set_custom_javascript"), 470);
@@ -3099,11 +2448,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Run a custom JavaScript right after the document is loaded. The script is intended for early DOM manipulation (add/remove elements, update CSS, ...). In addition to the standard browser APIs, the custom JavaScript code can use helper functions from our <a href='/api/libpdfcrowd/'>JavaScript library</a>.
-        *
-        * @param javascript A string containing a JavaScript code. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_on_load_javascript">https://pdfcrowd.com/api/html-to-image-java/ref/#set_on_load_javascript</a>
+         */
         public HtmlToImageClient setOnLoadJavascript(String javascript) {
             if (!(javascript != null && !javascript.isEmpty()))
                 throw new Error(createInvalidValueMessage(javascript, "setOnLoadJavascript", "html-to-image", "The string must not be empty.", "set_on_load_javascript"), 470);
@@ -3113,11 +2459,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set a custom HTTP header to be included in all requests made by the converter.
-        *
-        * @param header A string containing the header name and value separated by a colon.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_http_header">https://pdfcrowd.com/api/html-to-image-java/ref/#set_custom_http_header</a>
+         */
         public HtmlToImageClient setCustomHttpHeader(String header) {
             if (!header.matches("^.+:.+$"))
                 throw new Error(createInvalidValueMessage(header, "setCustomHttpHeader", "html-to-image", "A string containing the header name and value separated by a colon.", "set_custom_http_header"), 470);
@@ -3127,11 +2470,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Wait the specified number of milliseconds to finish all JavaScript after the document is loaded. Your license defines the maximum wait time by "Max Delay" parameter.
-        *
-        * @param delay The number of milliseconds to wait. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_javascript_delay">https://pdfcrowd.com/api/html-to-image-java/ref/#set_javascript_delay</a>
+         */
         public HtmlToImageClient setJavascriptDelay(int delay) {
             if (!(delay >= 0))
                 throw new Error(createInvalidValueMessage(delay, "setJavascriptDelay", "html-to-image", "Must be a positive integer or 0.", "set_javascript_delay"), 470);
@@ -3141,11 +2481,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert only the specified element from the main document and its children. The element is specified by one or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a>. If the element is not found, the conversion fails. If multiple elements are found, the first one is used.
-        *
-        * @param selectors One or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a> separated by commas. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_element_to_convert">https://pdfcrowd.com/api/html-to-image-java/ref/#set_element_to_convert</a>
+         */
         public HtmlToImageClient setElementToConvert(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
                 throw new Error(createInvalidValueMessage(selectors, "setElementToConvert", "html-to-image", "The string must not be empty.", "set_element_to_convert"), 470);
@@ -3155,11 +2492,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the DOM handling when only a part of the document is converted. This can affect the CSS rules used.
-        *
-        * @param mode Allowed values are cut-out, remove-siblings, hide-siblings.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_element_to_convert_mode">https://pdfcrowd.com/api/html-to-image-java/ref/#set_element_to_convert_mode</a>
+         */
         public HtmlToImageClient setElementToConvertMode(String mode) {
             if (!mode.matches("(?i)^(cut-out|remove-siblings|hide-siblings)$"))
                 throw new Error(createInvalidValueMessage(mode, "setElementToConvertMode", "html-to-image", "Allowed values are cut-out, remove-siblings, hide-siblings.", "set_element_to_convert_mode"), 470);
@@ -3169,11 +2503,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Wait for the specified element in a source document. The element is specified by one or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a>. The element is searched for in the main document and all iframes. If the element is not found, the conversion fails. Your license defines the maximum wait time by "Max Delay" parameter.
-        *
-        * @param selectors One or more <a href='https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors'>CSS selectors</a> separated by commas. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_wait_for_element">https://pdfcrowd.com/api/html-to-image-java/ref/#set_wait_for_element</a>
+         */
         public HtmlToImageClient setWaitForElement(String selectors) {
             if (!(selectors != null && !selectors.isEmpty()))
                 throw new Error(createInvalidValueMessage(selectors, "setWaitForElement", "html-to-image", "The string must not be empty.", "set_wait_for_element"), 470);
@@ -3183,22 +2514,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The main HTML element for conversion is detected automatically.
-        *
-        * @param value Set to <code>true</code> to detect the main element.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_auto_detect_element_to_convert">https://pdfcrowd.com/api/html-to-image-java/ref/#set_auto_detect_element_to_convert</a>
+         */
         public HtmlToImageClient setAutoDetectElementToConvert(boolean value) {
             fields.put("auto_detect_element_to_convert", value ? "true" : null);
             return this;
         }
 
         /**
-        * The input HTML is automatically enhanced to improve the readability.
-        *
-        * @param enhancements Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_readability_enhancements">https://pdfcrowd.com/api/html-to-image-java/ref/#set_readability_enhancements</a>
+         */
         public HtmlToImageClient setReadabilityEnhancements(String enhancements) {
             if (!enhancements.matches("(?i)^(none|readability-v1|readability-v2|readability-v3|readability-v4)$"))
                 throw new Error(createInvalidValueMessage(enhancements, "setReadabilityEnhancements", "html-to-image", "Allowed values are none, readability-v1, readability-v2, readability-v3, readability-v4.", "set_readability_enhancements"), 470);
@@ -3208,33 +2533,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the input data for template rendering. The data format can be JSON, XML, YAML or CSV.
-        *
-        * @param dataString The input data string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_string">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_string</a>
+         */
         public HtmlToImageClient setDataString(String dataString) {
             fields.put("data_string", dataString);
             return this;
         }
 
         /**
-        * Load the input data for template rendering from the specified file. The data format can be JSON, XML, YAML or CSV.
-        *
-        * @param dataFile The file path to a local file containing the input data.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_file">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_file</a>
+         */
         public HtmlToImageClient setDataFile(String dataFile) {
             files.put("data_file", dataFile);
             return this;
         }
 
         /**
-        * Specify the input data format.
-        *
-        * @param dataFormat The data format. Allowed values are auto, json, xml, yaml, csv.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_format">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_format</a>
+         */
         public HtmlToImageClient setDataFormat(String dataFormat) {
             if (!dataFormat.matches("(?i)^(auto|json|xml|yaml|csv)$"))
                 throw new Error(createInvalidValueMessage(dataFormat, "setDataFormat", "html-to-image", "Allowed values are auto, json, xml, yaml, csv.", "set_data_format"), 470);
@@ -3244,139 +2560,106 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the encoding of the data file set by <a href='#set_data_file'>setDataFile</a>.
-        *
-        * @param encoding The data file encoding.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_encoding">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_encoding</a>
+         */
         public HtmlToImageClient setDataEncoding(String encoding) {
             fields.put("data_encoding", encoding);
             return this;
         }
 
         /**
-        * Ignore undefined variables in the HTML template. The default mode is strict so any undefined variable causes the conversion to fail. You can use <span class='field-value text-nowrap'>&#x007b;&#x0025; if variable is defined &#x0025;&#x007d;</span> to check if the variable is defined.
-        *
-        * @param value Set to <code>true</code> to ignore undefined variables.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_ignore_undefined">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_ignore_undefined</a>
+         */
         public HtmlToImageClient setDataIgnoreUndefined(boolean value) {
             fields.put("data_ignore_undefined", value ? "true" : null);
             return this;
         }
 
         /**
-        * Auto escape HTML symbols in the input data before placing them into the output.
-        *
-        * @param value Set to <code>true</code> to turn auto escaping on.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_auto_escape">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_auto_escape</a>
+         */
         public HtmlToImageClient setDataAutoEscape(boolean value) {
             fields.put("data_auto_escape", value ? "true" : null);
             return this;
         }
 
         /**
-        * Auto trim whitespace around each template command block.
-        *
-        * @param value Set to <code>true</code> to turn auto trimming on.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_trim_blocks">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_trim_blocks</a>
+         */
         public HtmlToImageClient setDataTrimBlocks(boolean value) {
             fields.put("data_trim_blocks", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the advanced data options:<ul><li><code>csv_delimiter</code> - The CSV data delimiter, the default is <code>,</code>.</li><li><code>xml_remove_root</code> - Remove the root XML element from the input data.</li><li><code>data_root</code> - The name of the root element inserted into the input data without a root node (e.g. CSV), the default is <code>data</code>.</li></ul>
-        *
-        * @param options Comma separated list of options.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_options">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_options</a>
+         */
         public HtmlToImageClient setDataOptions(String options) {
             fields.put("data_options", options);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_debug_log">https://pdfcrowd.com/api/html-to-image-java/ref/#set_debug_log</a>
+         */
         public HtmlToImageClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/html-to-image-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/html-to-image-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/html-to-image-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_job_id">https://pdfcrowd.com/api/html-to-image-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_output_size">https://pdfcrowd.com/api/html-to-image-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#get_version">https://pdfcrowd.com/api/html-to-image-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_tag">https://pdfcrowd.com/api/html-to-image-java/ref/#set_tag</a>
+         */
         public HtmlToImageClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_http_proxy">https://pdfcrowd.com/api/html-to-image-java/ref/#set_http_proxy</a>
+         */
         public HtmlToImageClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -3386,11 +2669,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_https_proxy">https://pdfcrowd.com/api/html-to-image-java/ref/#set_https_proxy</a>
+         */
         public HtmlToImageClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "html-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -3400,11 +2680,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A client certificate to authenticate the converter on your web server. The certificate is used for two-way SSL/TLS authentication and adds extra security.
-        *
-        * @param certificate The file must be in PKCS12 format. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_certificate">https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_certificate</a>
+         */
         public HtmlToImageClient setClientCertificate(String certificate) {
             if (!(new File(certificate).length() > 0))
                 throw new Error(createInvalidValueMessage(certificate, "setClientCertificate", "html-to-image", "The file must exist and not be empty.", "set_client_certificate"), 470);
@@ -3414,22 +2691,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A password for PKCS12 file with a client certificate if it is needed.
-        *
-        * @param password
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_certificate_password">https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_certificate_password</a>
+         */
         public HtmlToImageClient setClientCertificatePassword(String password) {
             fields.put("client_certificate_password", password);
             return this;
         }
 
         /**
-        * Set the maximum time to load the page and its resources. After this time, all requests will be considered successful. This can be useful to ensure that the conversion does not timeout. Use this method if there is no other way to fix page loading.
-        *
-        * @param maxTime The number of seconds to wait. The accepted range is 10-30.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_max_loading_time">https://pdfcrowd.com/api/html-to-image-java/ref/#set_max_loading_time</a>
+         */
         public HtmlToImageClient setMaxLoadingTime(int maxTime) {
             if (!(maxTime >= 10 && maxTime <= 30))
                 throw new Error(createInvalidValueMessage(maxTime, "setMaxLoadingTime", "html-to-image", "The accepted range is 10-30.", "set_max_loading_time"), 470);
@@ -3445,22 +2716,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies the User-Agent HTTP header that will be used by the converter when a request is made to the converted web page.
-        *
-        * @param agent The user agent.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_converter_user_agent">https://pdfcrowd.com/api/html-to-image-java/ref/#set_converter_user_agent</a>
+         */
         public HtmlToImageClient setConverterUserAgent(String agent) {
             fields.put("converter_user_agent", agent);
             return this;
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_converter_version">https://pdfcrowd.com/api/html-to-image-java/ref/#set_converter_version</a>
+         */
         public HtmlToImageClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "html-to-image", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -3470,59 +2735,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_http">https://pdfcrowd.com/api/html-to-image-java/ref/#set_use_http</a>
+         */
         public HtmlToImageClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/html-to-image-java/ref/#set_client_user_agent</a>
+         */
         public HtmlToImageClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_user_agent">https://pdfcrowd.com/api/html-to-image-java/ref/#set_user_agent</a>
+         */
         public HtmlToImageClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_proxy">https://pdfcrowd.com/api/html-to-image-java/ref/#set_proxy</a>
+         */
         public HtmlToImageClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_retry_count">https://pdfcrowd.com/api/html-to-image-java/ref/#set_retry_count</a>
+         */
         public HtmlToImageClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -3531,8 +2777,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from one image format to another image format.
-    */
+     * Conversion from one image format to another image format.
+     *
+     * @see <a href="https://pdfcrowd.com/api/image-to-image-java/">https://pdfcrowd.com/api/image-to-image-java/</a>
+     */
     public static final class ImageToImageClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -3541,11 +2789,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#ImageToImageClient">https://pdfcrowd.com/api/image-to-image-java/ref/#ImageToImageClient</a>
+         */
         public ImageToImageClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "image");
@@ -3553,11 +2798,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "image-to-image", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -3567,11 +2809,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to an output stream.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "image-to-image", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -3581,11 +2820,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to a local file.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "image-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -3603,11 +2839,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "image-to-image", "The file must exist and not be empty.", "convert_file"), 470);
@@ -3617,11 +2850,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "image-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -3631,11 +2861,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "image-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -3653,33 +2880,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert raw data.
-        *
-        * @param data The raw content to be converted.
-        * @return Byte array with the output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data</a>
+         */
         public byte[] convertRawData(byte[] data) {
             rawData.put("file", data);
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert raw data and write the result to an output stream.
-        *
-        * @param data The raw content to be converted.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data_to_stream">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data_to_stream</a>
+         */
         public void convertRawDataToStream(byte[] data, OutputStream outStream) {
             rawData.put("file", data);
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert raw data to a file.
-        *
-        * @param data The raw content to be converted.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data_to_file">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_raw_data_to_file</a>
+         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "image-to-image", "The string must not be empty.", "convert_raw_data_to_file"), 470);
@@ -3697,33 +2915,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/image-to-image-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "image-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -3741,11 +2950,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The format of the output file.
-        *
-        * @param outputFormat Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_output_format">https://pdfcrowd.com/api/image-to-image-java/ref/#set_output_format</a>
+         */
         public ImageToImageClient setOutputFormat(String outputFormat) {
             if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
                 throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "image-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
@@ -3755,33 +2961,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Resize the image.
-        *
-        * @param resize The resize percentage or new image dimensions.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_resize">https://pdfcrowd.com/api/image-to-image-java/ref/#set_resize</a>
+         */
         public ImageToImageClient setResize(String resize) {
             fields.put("resize", resize);
             return this;
         }
 
         /**
-        * Rotate the image.
-        *
-        * @param rotate The rotation specified in degrees.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_rotate">https://pdfcrowd.com/api/image-to-image-java/ref/#set_rotate</a>
+         */
         public ImageToImageClient setRotate(String rotate) {
             fields.put("rotate", rotate);
             return this;
         }
 
         /**
-        * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
-        *
-        * @param x The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_x">https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_x</a>
+         */
         public ImageToImageClient setCropAreaX(String x) {
             if (!x.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(x, "setCropAreaX", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_x"), 470);
@@ -3791,11 +2988,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area.
-        *
-        * @param y The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_y">https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_y</a>
+         */
         public ImageToImageClient setCropAreaY(String y) {
             if (!y.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(y, "setCropAreaY", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_y"), 470);
@@ -3805,11 +2999,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the width of the content area. It should be at least 1 inch.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_width">https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_width</a>
+         */
         public ImageToImageClient setCropAreaWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_width"), 470);
@@ -3819,11 +3010,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the height of the content area. It should be at least 1 inch.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_height">https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area_height</a>
+         */
         public ImageToImageClient setCropAreaHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_height"), 470);
@@ -3833,14 +3021,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the content area position and size. The content area enables to specify the part to be converted.
-        *
-        * @param x Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param y Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param width Set the width of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the height of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area">https://pdfcrowd.com/api/image-to-image-java/ref/#set_crop_area</a>
+         */
         public ImageToImageClient setCropArea(String x, String y, String width, String height) {
             this.setCropAreaX(x);
             this.setCropAreaY(y);
@@ -3850,22 +3032,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Remove borders of an image which does not change in color.
-        *
-        * @param value Set to <code>true</code> to remove borders.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_remove_borders">https://pdfcrowd.com/api/image-to-image-java/ref/#set_remove_borders</a>
+         */
         public ImageToImageClient setRemoveBorders(boolean value) {
             fields.put("remove_borders", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the output canvas size.
-        *
-        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_size">https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_size</a>
+         */
         public ImageToImageClient setCanvasSize(String size) {
             if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
                 throw new Error(createInvalidValueMessage(size, "setCanvasSize", "image-to-image", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_canvas_size"), 470);
@@ -3875,11 +3051,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas width.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_width">https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_width</a>
+         */
         public ImageToImageClient setCanvasWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setCanvasWidth", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_canvas_width"), 470);
@@ -3889,11 +3062,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas height.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_height">https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_height</a>
+         */
         public ImageToImageClient setCanvasHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setCanvasHeight", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_canvas_height"), 470);
@@ -3903,12 +3073,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas dimensions. If no canvas size is specified, margins are applied as a border around the image.
-        *
-        * @param width Set the output canvas width. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the output canvas height. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_dimensions">https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_dimensions</a>
+         */
         public ImageToImageClient setCanvasDimensions(String width, String height) {
             this.setCanvasWidth(width);
             this.setCanvasHeight(height);
@@ -3916,11 +3082,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas orientation.
-        *
-        * @param orientation Allowed values are landscape, portrait.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_orientation">https://pdfcrowd.com/api/image-to-image-java/ref/#set_orientation</a>
+         */
         public ImageToImageClient setOrientation(String orientation) {
             if (!orientation.matches("(?i)^(landscape|portrait)$"))
                 throw new Error(createInvalidValueMessage(orientation, "setOrientation", "image-to-image", "Allowed values are landscape, portrait.", "set_orientation"), 470);
@@ -3930,11 +3093,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the image position on the canvas.
-        *
-        * @param position Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_position">https://pdfcrowd.com/api/image-to-image-java/ref/#set_position</a>
+         */
         public ImageToImageClient setPosition(String position) {
             if (!position.matches("(?i)^(center|top|bottom|left|right|top-left|top-right|bottom-left|bottom-right)$"))
                 throw new Error(createInvalidValueMessage(position, "setPosition", "image-to-image", "Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.", "set_position"), 470);
@@ -3944,11 +3104,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the mode to print the image on the canvas.
-        *
-        * @param mode Allowed values are default, fit, stretch.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_print_canvas_mode">https://pdfcrowd.com/api/image-to-image-java/ref/#set_print_canvas_mode</a>
+         */
         public ImageToImageClient setPrintCanvasMode(String mode) {
             if (!mode.matches("(?i)^(default|fit|stretch)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPrintCanvasMode", "image-to-image", "Allowed values are default, fit, stretch.", "set_print_canvas_mode"), 470);
@@ -3958,11 +3115,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas top margin.
-        *
-        * @param top The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_top">https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_top</a>
+         */
         public ImageToImageClient setMarginTop(String top) {
             if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(top, "setMarginTop", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_top"), 470);
@@ -3972,11 +3126,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas right margin.
-        *
-        * @param right The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_right">https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_right</a>
+         */
         public ImageToImageClient setMarginRight(String right) {
             if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(right, "setMarginRight", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_right"), 470);
@@ -3986,11 +3137,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas bottom margin.
-        *
-        * @param bottom The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_bottom">https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_bottom</a>
+         */
         public ImageToImageClient setMarginBottom(String bottom) {
             if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_bottom"), 470);
@@ -4000,11 +3148,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas left margin.
-        *
-        * @param left The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_left">https://pdfcrowd.com/api/image-to-image-java/ref/#set_margin_left</a>
+         */
         public ImageToImageClient setMarginLeft(String left) {
             if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(left, "setMarginLeft", "image-to-image", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_left"), 470);
@@ -4014,14 +3159,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output canvas margins.
-        *
-        * @param top Set the output canvas top margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param right Set the output canvas right margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param bottom Set the output canvas bottom margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param left Set the output canvas left margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_margins">https://pdfcrowd.com/api/image-to-image-java/ref/#set_margins</a>
+         */
         public ImageToImageClient setMargins(String top, String right, String bottom, String left) {
             this.setMarginTop(top);
             this.setMarginRight(right);
@@ -4031,11 +3170,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The canvas background color in RGB or RGBA hexadecimal format. The color fills the entire canvas regardless of margins. If no canvas size is specified and the image format supports background (e.g. PDF, PNG), the background color is applied too.
-        *
-        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_background_color">https://pdfcrowd.com/api/image-to-image-java/ref/#set_canvas_background_color</a>
+         */
         public ImageToImageClient setCanvasBackgroundColor(String color) {
             if (!color.matches("^[0-9a-fA-F]{6,8}$"))
                 throw new Error(createInvalidValueMessage(color, "setCanvasBackgroundColor", "image-to-image", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_canvas_background_color"), 470);
@@ -4045,95 +3181,74 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the DPI resolution of the input image. The DPI affects margin options specified in points too (e.g. 1 point is equal to 1 pixel in 96 DPI).
-        *
-        * @param dpi The DPI value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_dpi">https://pdfcrowd.com/api/image-to-image-java/ref/#set_dpi</a>
+         */
         public ImageToImageClient setDpi(int dpi) {
             fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_debug_log">https://pdfcrowd.com/api/image-to-image-java/ref/#set_debug_log</a>
+         */
         public ImageToImageClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/image-to-image-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/image-to-image-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/image-to-image-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_job_id">https://pdfcrowd.com/api/image-to-image-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_output_size">https://pdfcrowd.com/api/image-to-image-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#get_version">https://pdfcrowd.com/api/image-to-image-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_tag">https://pdfcrowd.com/api/image-to-image-java/ref/#set_tag</a>
+         */
         public ImageToImageClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_http_proxy">https://pdfcrowd.com/api/image-to-image-java/ref/#set_http_proxy</a>
+         */
         public ImageToImageClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -4143,11 +3258,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_https_proxy">https://pdfcrowd.com/api/image-to-image-java/ref/#set_https_proxy</a>
+         */
         public ImageToImageClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "image-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -4157,11 +3269,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_converter_version">https://pdfcrowd.com/api/image-to-image-java/ref/#set_converter_version</a>
+         */
         public ImageToImageClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-image", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -4171,59 +3280,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_use_http">https://pdfcrowd.com/api/image-to-image-java/ref/#set_use_http</a>
+         */
         public ImageToImageClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/image-to-image-java/ref/#set_client_user_agent</a>
+         */
         public ImageToImageClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_user_agent">https://pdfcrowd.com/api/image-to-image-java/ref/#set_user_agent</a>
+         */
         public ImageToImageClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_proxy">https://pdfcrowd.com/api/image-to-image-java/ref/#set_proxy</a>
+         */
         public ImageToImageClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-image-java/ref/#set_retry_count">https://pdfcrowd.com/api/image-to-image-java/ref/#set_retry_count</a>
+         */
         public ImageToImageClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -4232,8 +3322,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from PDF to PDF.
-    */
+     * Conversion from PDF to PDF.
+     *
+     * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/">https://pdfcrowd.com/api/pdf-to-pdf-java/</a>
+     */
     public static final class PdfToPdfClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -4242,11 +3334,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#PdfToPdfClient">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#PdfToPdfClient</a>
+         */
         public PdfToPdfClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "pdf");
@@ -4254,11 +3343,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies the action to be performed on the input PDFs.
-        *
-        * @param action Allowed values are join, shuffle, extract, delete.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_action">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_action</a>
+         */
         public PdfToPdfClient setAction(String action) {
             if (!action.matches("(?i)^(join|shuffle|extract|delete)$"))
                 throw new Error(createInvalidValueMessage(action, "setAction", "pdf-to-pdf", "Allowed values are join, shuffle, extract, delete.", "set_action"), 470);
@@ -4268,27 +3354,22 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Perform an action on the input files.
-        * @return Byte array containing the output PDF.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert</a>
+         */
         public byte[] convert() {
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Perform an action on the input files and write the output PDF to an output stream.
-        *
-        * @param outStream The output stream that will contain the output PDF.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert_to_stream">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert_to_stream</a>
+         */
         public void convertToStream(OutputStream outStream) {
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Perform an action on the input files and write the output PDF to a file.
-        *
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert_to_file">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#convert_to_file</a>
+         */
         public void convertToFile(String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertToFile", "pdf-to-pdf", "The string must not be empty.", "convert_to_file"), 470);
@@ -4299,11 +3380,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Add a PDF file to the list of the input PDFs.
-        *
-        * @param filePath The file path to a local PDF file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_pdf_file">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_pdf_file</a>
+         */
         public PdfToPdfClient addPdfFile(String filePath) {
             if (!(new File(filePath).length() > 0))
                 throw new Error(createInvalidValueMessage(filePath, "addPdfFile", "pdf-to-pdf", "The file must exist and not be empty.", "add_pdf_file"), 470);
@@ -4314,11 +3392,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Add in-memory raw PDF data to the list of the input PDFs.<br>Typical usage is for adding PDF created by another PDFCrowd converter.<br><br> Example in PHP:<br> <b>$clientPdf2Pdf</b>-&gt;addPdfRawData(<b>$clientHtml2Pdf</b>-&gt;convertUrl('http://www.example.com'));
-        *
-        * @param data The raw PDF data. The input data must be PDF content.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_pdf_raw_data">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_pdf_raw_data</a>
+         */
         public PdfToPdfClient addPdfRawData(byte[] data) {
             if (!(data != null && data.length > 300 && (new String(data, 0, 4).equals("%PDF"))))
                 throw new Error(createInvalidValueMessage("raw PDF data", "addPdfRawData", "pdf-to-pdf", "The input data must be PDF content.", "add_pdf_raw_data"), 470);
@@ -4329,22 +3404,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Password to open the encrypted PDF file.
-        *
-        * @param password The input PDF password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_input_pdf_password">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_input_pdf_password</a>
+         */
         public PdfToPdfClient setInputPdfPassword(String password) {
             fields.put("input_pdf_password", password);
             return this;
         }
 
         /**
-        * Set the page range for <code>extract</code> or <code>delete</code> action.
-        *
-        * @param pages A comma separated list of page numbers or ranges.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_range">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_range</a>
+         */
         public PdfToPdfClient setPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setPageRange", "pdf-to-pdf", "A comma separated list of page numbers or ranges.", "set_page_range"), 470);
@@ -4354,11 +3423,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply a watermark to each page of the output PDF file. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_watermark">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_watermark</a>
+         */
         public PdfToPdfClient setPageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
@@ -4368,11 +3434,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a watermark to each page of the output PDF. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_watermark_url">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_watermark_url</a>
+         */
         public PdfToPdfClient setPageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "pdf-to-pdf", "Supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
@@ -4382,11 +3445,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply each page of a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_watermark">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_watermark</a>
+         */
         public PdfToPdfClient setMultipageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
@@ -4396,11 +3456,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_watermark_url">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_watermark_url</a>
+         */
         public PdfToPdfClient setMultipageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "pdf-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
@@ -4410,11 +3467,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply a background to each page of the output PDF file. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_background">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_background</a>
+         */
         public PdfToPdfClient setPageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setPageBackground", "pdf-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
@@ -4424,11 +3478,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a background to each page of the output PDF. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_background_url">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_background_url</a>
+         */
         public PdfToPdfClient setPageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "pdf-to-pdf", "Supported protocols are http:// and https://.", "set_page_background_url"), 470);
@@ -4438,11 +3489,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply each page of a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_background">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_background</a>
+         */
         public PdfToPdfClient setMultipageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "pdf-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
@@ -4452,11 +3500,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_background_url">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_multipage_background_url</a>
+         */
         public PdfToPdfClient setMultipageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "pdf-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
@@ -4466,132 +3511,96 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Create linearized PDF. This is also known as Fast Web View.
-        *
-        * @param value Set to <code>true</code> to create linearized PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_linearize">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_linearize</a>
+         */
         public PdfToPdfClient setLinearize(boolean value) {
             fields.put("linearize", value ? "true" : null);
             return this;
         }
 
         /**
-        * Encrypt the PDF. This prevents search engines from indexing the contents.
-        *
-        * @param value Set to <code>true</code> to enable PDF encryption.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_encrypt">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_encrypt</a>
+         */
         public PdfToPdfClient setEncrypt(boolean value) {
             fields.put("encrypt", value ? "true" : null);
             return this;
         }
 
         /**
-        * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
-        *
-        * @param password The user password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_user_password">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_user_password</a>
+         */
         public PdfToPdfClient setUserPassword(String password) {
             fields.put("user_password", password);
             return this;
         }
 
         /**
-        * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
-        *
-        * @param password The owner password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_owner_password">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_owner_password</a>
+         */
         public PdfToPdfClient setOwnerPassword(String password) {
             fields.put("owner_password", password);
             return this;
         }
 
         /**
-        * Disallow printing of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_print">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_print</a>
+         */
         public PdfToPdfClient setNoPrint(boolean value) {
             fields.put("no_print", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow modification of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_modify">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_modify</a>
+         */
         public PdfToPdfClient setNoModify(boolean value) {
             fields.put("no_modify", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow text and graphics extraction from the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_copy">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_no_copy</a>
+         */
         public PdfToPdfClient setNoCopy(boolean value) {
             fields.put("no_copy", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the title of the PDF.
-        *
-        * @param title The title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_title">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_title</a>
+         */
         public PdfToPdfClient setTitle(String title) {
             fields.put("title", title);
             return this;
         }
 
         /**
-        * Set the subject of the PDF.
-        *
-        * @param subject The subject.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_subject">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_subject</a>
+         */
         public PdfToPdfClient setSubject(String subject) {
             fields.put("subject", subject);
             return this;
         }
 
         /**
-        * Set the author of the PDF.
-        *
-        * @param author The author.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_author">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_author</a>
+         */
         public PdfToPdfClient setAuthor(String author) {
             fields.put("author", author);
             return this;
         }
 
         /**
-        * Associate keywords with the document.
-        *
-        * @param keywords The string with the keywords.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_keywords">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_keywords</a>
+         */
         public PdfToPdfClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
             return this;
         }
 
         /**
-        * Use metadata (title, subject, author and keywords) from the n-th input PDF.
-        *
-        * @param index Set the index of the input PDF file from which to use the metadata. 0 means no metadata. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_use_metadata_from">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_use_metadata_from</a>
+         */
         public PdfToPdfClient setUseMetadataFrom(int index) {
             if (!(index >= 0))
                 throw new Error(createInvalidValueMessage(index, "setUseMetadataFrom", "pdf-to-pdf", "Must be a positive integer or 0.", "set_use_metadata_from"), 470);
@@ -4601,11 +3610,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the page layout to be used when the document is opened.
-        *
-        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_layout">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_layout</a>
+         */
         public PdfToPdfClient setPageLayout(String layout) {
             if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
                 throw new Error(createInvalidValueMessage(layout, "setPageLayout", "pdf-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
@@ -4615,11 +3621,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify how the document should be displayed when opened.
-        *
-        * @param mode Allowed values are full-screen, thumbnails, outlines.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_mode">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_mode</a>
+         */
         public PdfToPdfClient setPageMode(String mode) {
             if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPageMode", "pdf-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
@@ -4629,11 +3632,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify how the page should be displayed when opened.
-        *
-        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_zoom_type">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_zoom_type</a>
+         */
         public PdfToPdfClient setInitialZoomType(String zoomType) {
             if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
                 throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "pdf-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
@@ -4643,11 +3643,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Display the specified page when the document is opened.
-        *
-        * @param page Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_page">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_page</a>
+         */
         public PdfToPdfClient setInitialPage(int page) {
             if (!(page > 0))
                 throw new Error(createInvalidValueMessage(page, "setInitialPage", "pdf-to-pdf", "Must be a positive integer.", "set_initial_page"), 470);
@@ -4657,11 +3654,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the initial page zoom in percents when the document is opened.
-        *
-        * @param zoom Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_zoom">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_initial_zoom</a>
+         */
         public PdfToPdfClient setInitialZoom(int zoom) {
             if (!(zoom > 0))
                 throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "pdf-to-pdf", "Must be a positive integer.", "set_initial_zoom"), 470);
@@ -4671,169 +3665,129 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to hide the viewer application's tool bars when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide tool bars.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_toolbar">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_toolbar</a>
+         */
         public PdfToPdfClient setHideToolbar(boolean value) {
             fields.put("hide_toolbar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide the viewer application's menu bar when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide the menu bar.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_menubar">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_menubar</a>
+         */
         public PdfToPdfClient setHideMenubar(boolean value) {
             fields.put("hide_menubar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
-        *
-        * @param value Set to <code>true</code> to hide ui elements.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_window_ui">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_hide_window_ui</a>
+         */
         public PdfToPdfClient setHideWindowUi(boolean value) {
             fields.put("hide_window_ui", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to resize the document's window to fit the size of the first displayed page.
-        *
-        * @param value Set to <code>true</code> to resize the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_fit_window">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_fit_window</a>
+         */
         public PdfToPdfClient setFitWindow(boolean value) {
             fields.put("fit_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to position the document's window in the center of the screen.
-        *
-        * @param value Set to <code>true</code> to center the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_center_window">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_center_window</a>
+         */
         public PdfToPdfClient setCenterWindow(boolean value) {
             fields.put("center_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
-        *
-        * @param value Set to <code>true</code> to display the title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_display_title">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_display_title</a>
+         */
         public PdfToPdfClient setDisplayTitle(boolean value) {
             fields.put("display_title", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the predominant reading order for text to right-to-left. This option has no direct effect on the document's contents or page numbering but can be used to determine the relative positioning of pages when displayed side by side or printed n-up
-        *
-        * @param value Set to <code>true</code> to set right-to-left reading order.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_right_to_left">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_right_to_left</a>
+         */
         public PdfToPdfClient setRightToLeft(boolean value) {
             fields.put("right_to_left", value ? "true" : null);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_debug_log">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_debug_log</a>
+         */
         public PdfToPdfClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_job_id">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the number of pages in the output document.
-        * @return The page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_page_count">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_page_count</a>
+         */
         public int getPageCount() {
             return helper.getPageCount();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_output_size">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_version">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_tag">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_tag</a>
+         */
         public PdfToPdfClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_converter_version">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_converter_version</a>
+         */
         public PdfToPdfClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -4843,59 +3797,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_use_http">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_use_http</a>
+         */
         public PdfToPdfClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_client_user_agent</a>
+         */
         public PdfToPdfClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_user_agent">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_user_agent</a>
+         */
         public PdfToPdfClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_proxy">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_proxy</a>
+         */
         public PdfToPdfClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_retry_count">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_retry_count</a>
+         */
         public PdfToPdfClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -4904,8 +3839,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from an image to PDF.
-    */
+     * Conversion from an image to PDF.
+     *
+     * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/">https://pdfcrowd.com/api/image-to-pdf-java/</a>
+     */
     public static final class ImageToPdfClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -4914,11 +3851,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#ImageToPdfClient">https://pdfcrowd.com/api/image-to-pdf-java/ref/#ImageToPdfClient</a>
+         */
         public ImageToPdfClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "image");
@@ -4926,11 +3860,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "image-to-pdf", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -4940,11 +3871,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to an output stream.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "image-to-pdf", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -4954,11 +3882,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to a local file.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -4976,11 +3901,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "image-to-pdf", "The file must exist and not be empty.", "convert_file"), 470);
@@ -4990,11 +3912,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "image-to-pdf", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -5004,11 +3923,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -5026,33 +3942,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert raw data.
-        *
-        * @param data The raw content to be converted.
-        * @return Byte array with the output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data</a>
+         */
         public byte[] convertRawData(byte[] data) {
             rawData.put("file", data);
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert raw data and write the result to an output stream.
-        *
-        * @param data The raw content to be converted.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data_to_stream">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data_to_stream</a>
+         */
         public void convertRawDataToStream(byte[] data, OutputStream outStream) {
             rawData.put("file", data);
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert raw data to a file.
-        *
-        * @param data The raw content to be converted.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data_to_file">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_raw_data_to_file</a>
+         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_raw_data_to_file"), 470);
@@ -5070,33 +3977,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/image-to-pdf-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "image-to-pdf", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -5114,33 +4012,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Resize the image.
-        *
-        * @param resize The resize percentage or new image dimensions.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_resize">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_resize</a>
+         */
         public ImageToPdfClient setResize(String resize) {
             fields.put("resize", resize);
             return this;
         }
 
         /**
-        * Rotate the image.
-        *
-        * @param rotate The rotation specified in degrees.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_rotate">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_rotate</a>
+         */
         public ImageToPdfClient setRotate(String rotate) {
             fields.put("rotate", rotate);
             return this;
         }
 
         /**
-        * Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area.
-        *
-        * @param x The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_x">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_x</a>
+         */
         public ImageToPdfClient setCropAreaX(String x) {
             if (!x.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(x, "setCropAreaX", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_x"), 470);
@@ -5150,11 +4039,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area.
-        *
-        * @param y The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_y">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_y</a>
+         */
         public ImageToPdfClient setCropAreaY(String y) {
             if (!y.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(y, "setCropAreaY", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_y"), 470);
@@ -5164,11 +4050,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the width of the content area. It should be at least 1 inch.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_width">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_width</a>
+         */
         public ImageToPdfClient setCropAreaWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_width"), 470);
@@ -5178,11 +4061,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the height of the content area. It should be at least 1 inch.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_height">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area_height</a>
+         */
         public ImageToPdfClient setCropAreaHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_crop_area_height"), 470);
@@ -5192,14 +4072,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the content area position and size. The content area enables to specify the part to be converted.
-        *
-        * @param x Set the top left X coordinate of the content area. It is relative to the top left X coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param y Set the top left Y coordinate of the content area. It is relative to the top left Y coordinate of the print area. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param width Set the width of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the height of the content area. It should be at least 1 inch. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_crop_area</a>
+         */
         public ImageToPdfClient setCropArea(String x, String y, String width, String height) {
             this.setCropAreaX(x);
             this.setCropAreaY(y);
@@ -5209,22 +4083,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Remove borders of an image which does not change in color.
-        *
-        * @param value Set to <code>true</code> to remove borders.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_remove_borders">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_remove_borders</a>
+         */
         public ImageToPdfClient setRemoveBorders(boolean value) {
             fields.put("remove_borders", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the output page size.
-        *
-        * @param size Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_size">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_size</a>
+         */
         public ImageToPdfClient setPageSize(String size) {
             if (!size.matches("(?i)^(A0|A1|A2|A3|A4|A5|A6|Letter)$"))
                 throw new Error(createInvalidValueMessage(size, "setPageSize", "image-to-pdf", "Allowed values are A0, A1, A2, A3, A4, A5, A6, Letter.", "set_page_size"), 470);
@@ -5234,11 +4102,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page width.
-        *
-        * @param width The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_width">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_width</a>
+         */
         public ImageToPdfClient setPageWidth(String width) {
             if (!width.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(width, "setPageWidth", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_page_width"), 470);
@@ -5248,11 +4113,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page height.
-        *
-        * @param height The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_height">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_height</a>
+         */
         public ImageToPdfClient setPageHeight(String height) {
             if (!height.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(height, "setPageHeight", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_page_height"), 470);
@@ -5262,12 +4124,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page dimensions. If no page size is specified, margins are applied as a border around the image.
-        *
-        * @param width Set the output page width. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param height Set the output page height. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_dimensions">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_dimensions</a>
+         */
         public ImageToPdfClient setPageDimensions(String width, String height) {
             this.setPageWidth(width);
             this.setPageHeight(height);
@@ -5275,11 +4133,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page orientation.
-        *
-        * @param orientation Allowed values are landscape, portrait.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_orientation">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_orientation</a>
+         */
         public ImageToPdfClient setOrientation(String orientation) {
             if (!orientation.matches("(?i)^(landscape|portrait)$"))
                 throw new Error(createInvalidValueMessage(orientation, "setOrientation", "image-to-pdf", "Allowed values are landscape, portrait.", "set_orientation"), 470);
@@ -5289,11 +4144,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the image position on the page.
-        *
-        * @param position Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_position">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_position</a>
+         */
         public ImageToPdfClient setPosition(String position) {
             if (!position.matches("(?i)^(center|top|bottom|left|right|top-left|top-right|bottom-left|bottom-right)$"))
                 throw new Error(createInvalidValueMessage(position, "setPosition", "image-to-pdf", "Allowed values are center, top, bottom, left, right, top-left, top-right, bottom-left, bottom-right.", "set_position"), 470);
@@ -5303,11 +4155,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the mode to print the image on the content area of the page.
-        *
-        * @param mode Allowed values are default, fit, stretch.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_print_page_mode">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_print_page_mode</a>
+         */
         public ImageToPdfClient setPrintPageMode(String mode) {
             if (!mode.matches("(?i)^(default|fit|stretch)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPrintPageMode", "image-to-pdf", "Allowed values are default, fit, stretch.", "set_print_page_mode"), 470);
@@ -5317,11 +4166,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page top margin.
-        *
-        * @param top The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_top">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_top</a>
+         */
         public ImageToPdfClient setMarginTop(String top) {
             if (!top.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(top, "setMarginTop", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_top"), 470);
@@ -5331,11 +4177,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page right margin.
-        *
-        * @param right The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_right">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_right</a>
+         */
         public ImageToPdfClient setMarginRight(String right) {
             if (!right.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(right, "setMarginRight", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_right"), 470);
@@ -5345,11 +4188,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page bottom margin.
-        *
-        * @param bottom The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_bottom">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_bottom</a>
+         */
         public ImageToPdfClient setMarginBottom(String bottom) {
             if (!bottom.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(bottom, "setMarginBottom", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_bottom"), 470);
@@ -5359,11 +4199,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page left margin.
-        *
-        * @param left The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_left">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_margin_left</a>
+         */
         public ImageToPdfClient setMarginLeft(String left) {
             if (!left.matches("(?i)^0$|^[0-9]*\\.?[0-9]+(pt|px|mm|cm|in)$"))
                 throw new Error(createInvalidValueMessage(left, "setMarginLeft", "image-to-pdf", "The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.", "set_margin_left"), 470);
@@ -5373,14 +4210,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output page margins.
-        *
-        * @param top Set the output page top margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param right Set the output page right margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param bottom Set the output page bottom margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @param left Set the output page left margin. The value must be specified in inches 'in', millimeters 'mm', centimeters 'cm', pixels 'px', or points 'pt'.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_margins">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_margins</a>
+         */
         public ImageToPdfClient setPageMargins(String top, String right, String bottom, String left) {
             this.setMarginTop(top);
             this.setMarginRight(right);
@@ -5390,11 +4221,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The page background color in RGB or RGBA hexadecimal format. The color fills the entire page regardless of the margins. If not page size is specified and the image format supports background (e.g. PDF, PNG), the background color is applied too.
-        *
-        * @param color The value must be in RRGGBB or RRGGBBAA hexadecimal format.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background_color">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background_color</a>
+         */
         public ImageToPdfClient setPageBackgroundColor(String color) {
             if (!color.matches("^[0-9a-fA-F]{6,8}$"))
                 throw new Error(createInvalidValueMessage(color, "setPageBackgroundColor", "image-to-pdf", "The value must be in RRGGBB or RRGGBBAA hexadecimal format.", "set_page_background_color"), 470);
@@ -5404,22 +4232,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the DPI resolution of the input image. The DPI affects margin options specified in points too (e.g. 1 point is equal to 1 pixel in 96 DPI).
-        *
-        * @param dpi The DPI value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_dpi">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_dpi</a>
+         */
         public ImageToPdfClient setDpi(int dpi) {
             fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
         /**
-        * Apply a watermark to each page of the output PDF file. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_watermark">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_watermark</a>
+         */
         public ImageToPdfClient setPageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setPageWatermark", "image-to-pdf", "The file must exist and not be empty.", "set_page_watermark"), 470);
@@ -5429,11 +4251,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a watermark to each page of the output PDF. A watermark can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the watermark.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_watermark_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_watermark_url</a>
+         */
         public ImageToPdfClient setPageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageWatermarkUrl", "image-to-pdf", "Supported protocols are http:// and https://.", "set_page_watermark_url"), 470);
@@ -5443,11 +4262,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply each page of a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param watermark The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_watermark">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_watermark</a>
+         */
         public ImageToPdfClient setMultipageWatermark(String watermark) {
             if (!(new File(watermark).length() > 0))
                 throw new Error(createInvalidValueMessage(watermark, "setMultipageWatermark", "image-to-pdf", "The file must exist and not be empty.", "set_multipage_watermark"), 470);
@@ -5457,11 +4273,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a watermark to the corresponding page of the output PDF. A watermark can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_watermark_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_watermark_url</a>
+         */
         public ImageToPdfClient setMultipageWatermarkUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageWatermarkUrl", "image-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_watermark_url"), 470);
@@ -5471,11 +4284,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply a background to each page of the output PDF file. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background</a>
+         */
         public ImageToPdfClient setPageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setPageBackground", "image-to-pdf", "The file must exist and not be empty.", "set_page_background"), 470);
@@ -5485,11 +4295,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply the file as a background to each page of the output PDF. A background can be either a PDF or an image. If a multi-page file (PDF or TIFF) is used, the first page is used as the background.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_background_url</a>
+         */
         public ImageToPdfClient setPageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setPageBackgroundUrl", "image-to-pdf", "Supported protocols are http:// and https://.", "set_page_background_url"), 470);
@@ -5499,11 +4306,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Apply each page of a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param background The file path to a local file. The file must exist and not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_background">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_background</a>
+         */
         public ImageToPdfClient setMultipageBackground(String background) {
             if (!(new File(background).length() > 0))
                 throw new Error(createInvalidValueMessage(background, "setMultipageBackground", "image-to-pdf", "The file must exist and not be empty.", "set_multipage_background"), 470);
@@ -5513,11 +4317,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Load a file from the specified URL and apply each page of the file as a background to the corresponding page of the output PDF. A background can be either a PDF or an image.
-        *
-        * @param url Supported protocols are http:// and https://.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_background_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_multipage_background_url</a>
+         */
         public ImageToPdfClient setMultipageBackgroundUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "setMultipageBackgroundUrl", "image-to-pdf", "Supported protocols are http:// and https://.", "set_multipage_background_url"), 470);
@@ -5527,132 +4328,96 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Create linearized PDF. This is also known as Fast Web View.
-        *
-        * @param value Set to <code>true</code> to create linearized PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_linearize">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_linearize</a>
+         */
         public ImageToPdfClient setLinearize(boolean value) {
             fields.put("linearize", value ? "true" : null);
             return this;
         }
 
         /**
-        * Encrypt the PDF. This prevents search engines from indexing the contents.
-        *
-        * @param value Set to <code>true</code> to enable PDF encryption.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_encrypt">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_encrypt</a>
+         */
         public ImageToPdfClient setEncrypt(boolean value) {
             fields.put("encrypt", value ? "true" : null);
             return this;
         }
 
         /**
-        * Protect the PDF with a user password. When a PDF has a user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions.
-        *
-        * @param password The user password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_user_password">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_user_password</a>
+         */
         public ImageToPdfClient setUserPassword(String password) {
             fields.put("user_password", password);
             return this;
         }
 
         /**
-        * Protect the PDF with an owner password.  Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions.
-        *
-        * @param password The owner password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_owner_password">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_owner_password</a>
+         */
         public ImageToPdfClient setOwnerPassword(String password) {
             fields.put("owner_password", password);
             return this;
         }
 
         /**
-        * Disallow printing of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-print flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_print">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_print</a>
+         */
         public ImageToPdfClient setNoPrint(boolean value) {
             fields.put("no_print", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow modification of the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the read-only only flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_modify">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_modify</a>
+         */
         public ImageToPdfClient setNoModify(boolean value) {
             fields.put("no_modify", value ? "true" : null);
             return this;
         }
 
         /**
-        * Disallow text and graphics extraction from the output PDF.
-        *
-        * @param value Set to <code>true</code> to set the no-copy flag in the output PDF.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_copy">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_no_copy</a>
+         */
         public ImageToPdfClient setNoCopy(boolean value) {
             fields.put("no_copy", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the title of the PDF.
-        *
-        * @param title The title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_title">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_title</a>
+         */
         public ImageToPdfClient setTitle(String title) {
             fields.put("title", title);
             return this;
         }
 
         /**
-        * Set the subject of the PDF.
-        *
-        * @param subject The subject.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_subject">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_subject</a>
+         */
         public ImageToPdfClient setSubject(String subject) {
             fields.put("subject", subject);
             return this;
         }
 
         /**
-        * Set the author of the PDF.
-        *
-        * @param author The author.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_author">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_author</a>
+         */
         public ImageToPdfClient setAuthor(String author) {
             fields.put("author", author);
             return this;
         }
 
         /**
-        * Associate keywords with the document.
-        *
-        * @param keywords The string with the keywords.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_keywords">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_keywords</a>
+         */
         public ImageToPdfClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
             return this;
         }
 
         /**
-        * Specify the page layout to be used when the document is opened.
-        *
-        * @param layout Allowed values are single-page, one-column, two-column-left, two-column-right.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_layout">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_layout</a>
+         */
         public ImageToPdfClient setPageLayout(String layout) {
             if (!layout.matches("(?i)^(single-page|one-column|two-column-left|two-column-right)$"))
                 throw new Error(createInvalidValueMessage(layout, "setPageLayout", "image-to-pdf", "Allowed values are single-page, one-column, two-column-left, two-column-right.", "set_page_layout"), 470);
@@ -5662,11 +4427,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify how the document should be displayed when opened.
-        *
-        * @param mode Allowed values are full-screen, thumbnails, outlines.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_mode">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_page_mode</a>
+         */
         public ImageToPdfClient setPageMode(String mode) {
             if (!mode.matches("(?i)^(full-screen|thumbnails|outlines)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPageMode", "image-to-pdf", "Allowed values are full-screen, thumbnails, outlines.", "set_page_mode"), 470);
@@ -5676,11 +4438,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify how the page should be displayed when opened.
-        *
-        * @param zoomType Allowed values are fit-width, fit-height, fit-page.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_zoom_type">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_zoom_type</a>
+         */
         public ImageToPdfClient setInitialZoomType(String zoomType) {
             if (!zoomType.matches("(?i)^(fit-width|fit-height|fit-page)$"))
                 throw new Error(createInvalidValueMessage(zoomType, "setInitialZoomType", "image-to-pdf", "Allowed values are fit-width, fit-height, fit-page.", "set_initial_zoom_type"), 470);
@@ -5690,11 +4449,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Display the specified page when the document is opened.
-        *
-        * @param page Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_page">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_page</a>
+         */
         public ImageToPdfClient setInitialPage(int page) {
             if (!(page > 0))
                 throw new Error(createInvalidValueMessage(page, "setInitialPage", "image-to-pdf", "Must be a positive integer.", "set_initial_page"), 470);
@@ -5704,11 +4460,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the initial page zoom in percents when the document is opened.
-        *
-        * @param zoom Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_zoom">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_initial_zoom</a>
+         */
         public ImageToPdfClient setInitialZoom(int zoom) {
             if (!(zoom > 0))
                 throw new Error(createInvalidValueMessage(zoom, "setInitialZoom", "image-to-pdf", "Must be a positive integer.", "set_initial_zoom"), 470);
@@ -5718,150 +4471,114 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to hide the viewer application's tool bars when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide tool bars.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_toolbar">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_toolbar</a>
+         */
         public ImageToPdfClient setHideToolbar(boolean value) {
             fields.put("hide_toolbar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide the viewer application's menu bar when the document is active.
-        *
-        * @param value Set to <code>true</code> to hide the menu bar.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_menubar">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_menubar</a>
+         */
         public ImageToPdfClient setHideMenubar(boolean value) {
             fields.put("hide_menubar", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to hide user interface elements in the document's window (such as scroll bars and navigation controls), leaving only the document's contents displayed.
-        *
-        * @param value Set to <code>true</code> to hide ui elements.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_window_ui">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_hide_window_ui</a>
+         */
         public ImageToPdfClient setHideWindowUi(boolean value) {
             fields.put("hide_window_ui", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to resize the document's window to fit the size of the first displayed page.
-        *
-        * @param value Set to <code>true</code> to resize the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_fit_window">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_fit_window</a>
+         */
         public ImageToPdfClient setFitWindow(boolean value) {
             fields.put("fit_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether to position the document's window in the center of the screen.
-        *
-        * @param value Set to <code>true</code> to center the window.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_center_window">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_center_window</a>
+         */
         public ImageToPdfClient setCenterWindow(boolean value) {
             fields.put("center_window", value ? "true" : null);
             return this;
         }
 
         /**
-        * Specify whether the window's title bar should display the document title. If false , the title bar should instead display the name of the PDF file containing the document.
-        *
-        * @param value Set to <code>true</code> to display the title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_display_title">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_display_title</a>
+         */
         public ImageToPdfClient setDisplayTitle(boolean value) {
             fields.put("display_title", value ? "true" : null);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_debug_log">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_debug_log</a>
+         */
         public ImageToPdfClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_job_id">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_output_size">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_version">https://pdfcrowd.com/api/image-to-pdf-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_tag">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_tag</a>
+         */
         public ImageToPdfClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_http_proxy">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_http_proxy</a>
+         */
         public ImageToPdfClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -5871,11 +4588,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_https_proxy">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_https_proxy</a>
+         */
         public ImageToPdfClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "image-to-pdf", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -5885,11 +4599,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_converter_version">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_converter_version</a>
+         */
         public ImageToPdfClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "image-to-pdf", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -5899,59 +4610,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_use_http">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_use_http</a>
+         */
         public ImageToPdfClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_client_user_agent</a>
+         */
         public ImageToPdfClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_user_agent">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_user_agent</a>
+         */
         public ImageToPdfClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_proxy">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_proxy</a>
+         */
         public ImageToPdfClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_retry_count">https://pdfcrowd.com/api/image-to-pdf-java/ref/#set_retry_count</a>
+         */
         public ImageToPdfClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -5960,8 +4652,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from PDF to HTML.
-    */
+     * Conversion from PDF to HTML.
+     *
+     * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/">https://pdfcrowd.com/api/pdf-to-html-java/</a>
+     */
     public static final class PdfToHtmlClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -5970,11 +4664,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#PdfToHtmlClient">https://pdfcrowd.com/api/pdf-to-html-java/ref/#PdfToHtmlClient</a>
+         */
         public PdfToHtmlClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "pdf");
@@ -5982,11 +4673,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "pdf-to-html", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -5996,11 +4684,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF and write the result to an output stream.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "pdf-to-html", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -6010,11 +4695,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF and write the result to a local file.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty. The converter generates an HTML or ZIP file. If ZIP file is generated, the file path must have a ZIP or zip extension.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "pdf-to-html", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -6035,11 +4717,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "pdf-to-html", "The file must exist and not be empty.", "convert_file"), 470);
@@ -6049,11 +4728,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "pdf-to-html", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -6063,11 +4739,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param filePath The output file path. The string must not be empty. The converter generates an HTML or ZIP file. If ZIP file is generated, the file path must have a ZIP or zip extension.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "pdf-to-html", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -6088,33 +4761,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert raw data.
-        *
-        * @param data The raw content to be converted.
-        * @return Byte array with the output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data</a>
+         */
         public byte[] convertRawData(byte[] data) {
             rawData.put("file", data);
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert raw data and write the result to an output stream.
-        *
-        * @param data The raw content to be converted.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data_to_stream">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data_to_stream</a>
+         */
         public void convertRawDataToStream(byte[] data, OutputStream outStream) {
             rawData.put("file", data);
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert raw data to a file.
-        *
-        * @param data The raw content to be converted.
-        * @param filePath The output file path. The string must not be empty. The converter generates an HTML or ZIP file. If ZIP file is generated, the file path must have a ZIP or zip extension.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data_to_file">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_raw_data_to_file</a>
+         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "pdf-to-html", "The string must not be empty.", "convert_raw_data_to_file"), 470);
@@ -6135,33 +4799,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param filePath The output file path. The string must not be empty. The converter generates an HTML or ZIP file. If ZIP file is generated, the file path must have a ZIP or zip extension.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/pdf-to-html-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "pdf-to-html", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -6182,22 +4837,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Password to open the encrypted PDF file.
-        *
-        * @param password The input PDF password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_pdf_password">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_pdf_password</a>
+         */
         public PdfToHtmlClient setPdfPassword(String password) {
             fields.put("pdf_password", password);
             return this;
         }
 
         /**
-        * Set the scaling factor (zoom) for the main page area.
-        *
-        * @param factor The percentage value. Must be a positive integer.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_scale_factor">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_scale_factor</a>
+         */
         public PdfToHtmlClient setScaleFactor(int factor) {
             if (!(factor > 0))
                 throw new Error(createInvalidValueMessage(factor, "setScaleFactor", "pdf-to-html", "Must be a positive integer.", "set_scale_factor"), 470);
@@ -6207,11 +4856,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the page range to print.
-        *
-        * @param pages A comma separated list of page numbers or ranges.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_print_page_range">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_print_page_range</a>
+         */
         public PdfToHtmlClient setPrintPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-html", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
@@ -6221,22 +4867,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output graphics DPI.
-        *
-        * @param dpi The DPI value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_dpi">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_dpi</a>
+         */
         public PdfToHtmlClient setDpi(int dpi) {
             fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
         /**
-        * Specifies where the images are stored.
-        *
-        * @param mode The image storage mode. Allowed values are embed, separate, none.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_image_mode">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_image_mode</a>
+         */
         public PdfToHtmlClient setImageMode(String mode) {
             if (!mode.matches("(?i)^(embed|separate|none)$"))
                 throw new Error(createInvalidValueMessage(mode, "setImageMode", "pdf-to-html", "Allowed values are embed, separate, none.", "set_image_mode"), 470);
@@ -6246,11 +4886,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies the format for the output images.
-        *
-        * @param imageFormat The image format. Allowed values are png, jpg, svg.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_image_format">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_image_format</a>
+         */
         public PdfToHtmlClient setImageFormat(String imageFormat) {
             if (!imageFormat.matches("(?i)^(png|jpg|svg)$"))
                 throw new Error(createInvalidValueMessage(imageFormat, "setImageFormat", "pdf-to-html", "Allowed values are png, jpg, svg.", "set_image_format"), 470);
@@ -6260,11 +4897,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies where the style sheets are stored.
-        *
-        * @param mode The style sheet storage mode. Allowed values are embed, separate.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_css_mode">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_css_mode</a>
+         */
         public PdfToHtmlClient setCssMode(String mode) {
             if (!mode.matches("(?i)^(embed|separate)$"))
                 throw new Error(createInvalidValueMessage(mode, "setCssMode", "pdf-to-html", "Allowed values are embed, separate.", "set_css_mode"), 470);
@@ -6274,11 +4908,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specifies where the fonts are stored.
-        *
-        * @param mode The font storage mode. Allowed values are embed, separate.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_font_mode">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_font_mode</a>
+         */
         public PdfToHtmlClient setFontMode(String mode) {
             if (!mode.matches("(?i)^(embed|separate)$"))
                 throw new Error(createInvalidValueMessage(mode, "setFontMode", "pdf-to-html", "Allowed values are embed, separate.", "set_font_mode"), 470);
@@ -6288,11 +4919,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Sets the processing mode for handling Type 3 fonts.
-        *
-        * @param mode The type3 font mode. Allowed values are raster, convert.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_type3_mode">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_type3_mode</a>
+         */
         public PdfToHtmlClient setType3Mode(String mode) {
             if (!mode.matches("(?i)^(raster|convert)$"))
                 throw new Error(createInvalidValueMessage(mode, "setType3Mode", "pdf-to-html", "Allowed values are raster, convert.", "set_type3_mode"), 470);
@@ -6302,22 +4930,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Converts ligatures, two or more letters combined into a single glyph, back into their individual ASCII characters.
-        *
-        * @param value Set to <code>true</code> to split ligatures.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_split_ligatures">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_split_ligatures</a>
+         */
         public PdfToHtmlClient setSplitLigatures(boolean value) {
             fields.put("split_ligatures", value ? "true" : null);
             return this;
         }
 
         /**
-        * Apply custom CSS to the output HTML document. It allows you to modify the visual appearance and layout. Tip: Using <code>!important</code> in custom CSS provides a way to prioritize and override conflicting styles.
-        *
-        * @param css A string containing valid CSS. The string must not be empty.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_custom_css">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_custom_css</a>
+         */
         public PdfToHtmlClient setCustomCss(String css) {
             if (!(css != null && !css.isEmpty()))
                 throw new Error(createInvalidValueMessage(css, "setCustomCss", "pdf-to-html", "The string must not be empty.", "set_custom_css"), 470);
@@ -6327,11 +4949,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Add the specified prefix to all id and class attributes in the HTML content, creating a namespace for safe integration into another HTML document. This ensures unique identifiers, preventing conflicts when merging with other HTML.
-        *
-        * @param prefix The prefix to add before each id and class attribute name. Start with a letter or underscore, and use only letters, numbers, hyphens, underscores, or colons.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_html_namespace">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_html_namespace</a>
+         */
         public PdfToHtmlClient setHtmlNamespace(String prefix) {
             if (!prefix.matches("(?i)^[a-z_][a-z0-9_:-]*$"))
                 throw new Error(createInvalidValueMessage(prefix, "setHtmlNamespace", "pdf-to-html", "Start with a letter or underscore, and use only letters, numbers, hyphens, underscores, or colons.", "set_html_namespace"), 470);
@@ -6341,155 +4960,120 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A helper method to determine if the output file is a zip archive. The output of the conversion may be either an HTML file or a zip file containing the HTML and its external assets.
-        * @return <code>True</code> if the conversion output is a zip file, otherwise <code>False</code>.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#is_zipped_output">https://pdfcrowd.com/api/pdf-to-html-java/ref/#is_zipped_output</a>
+         */
         public boolean isZippedOutput() {
             return "separate".equals(fields.get("image_mode")) || "separate".equals(fields.get("css_mode")) || "separate".equals(fields.get("font_mode")) || "true".equals(fields.get("force_zip"));
         }
 
         /**
-        * Enforces the zip output format.
-        *
-        * @param value Set to <code>true</code> to get the output as a zip archive.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_force_zip">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_force_zip</a>
+         */
         public PdfToHtmlClient setForceZip(boolean value) {
             fields.put("force_zip", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the HTML title. The title from the input PDF is used by default.
-        *
-        * @param title The HTML title.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_title">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_title</a>
+         */
         public PdfToHtmlClient setTitle(String title) {
             fields.put("title", title);
             return this;
         }
 
         /**
-        * Set the HTML subject. The subject from the input PDF is used by default.
-        *
-        * @param subject The HTML subject.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_subject">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_subject</a>
+         */
         public PdfToHtmlClient setSubject(String subject) {
             fields.put("subject", subject);
             return this;
         }
 
         /**
-        * Set the HTML author. The author from the input PDF is used by default.
-        *
-        * @param author The HTML author.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_author">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_author</a>
+         */
         public PdfToHtmlClient setAuthor(String author) {
             fields.put("author", author);
             return this;
         }
 
         /**
-        * Associate keywords with the HTML document. Keywords from the input PDF are used by default.
-        *
-        * @param keywords The string containing the keywords.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_keywords">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_keywords</a>
+         */
         public PdfToHtmlClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_debug_log">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_debug_log</a>
+         */
         public PdfToHtmlClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_job_id">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the number of pages in the output document.
-        * @return The page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_page_count">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_page_count</a>
+         */
         public int getPageCount() {
             return helper.getPageCount();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_output_size">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_version">https://pdfcrowd.com/api/pdf-to-html-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_tag">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_tag</a>
+         */
         public PdfToHtmlClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_http_proxy">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_http_proxy</a>
+         */
         public PdfToHtmlClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "pdf-to-html", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -6499,11 +5083,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_https_proxy">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_https_proxy</a>
+         */
         public PdfToHtmlClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-html", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -6513,11 +5094,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the converter version. Different versions may produce different output. Choose which one provides the best output for your case.
-        *
-        * @param version The version identifier. Allowed values are 24.04, 20.10, 18.10, latest.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_converter_version">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_converter_version</a>
+         */
         public PdfToHtmlClient setConverterVersion(String version) {
             if (!version.matches("(?i)^(24.04|20.10|18.10|latest)$"))
                 throw new Error(createInvalidValueMessage(version, "setConverterVersion", "pdf-to-html", "Allowed values are 24.04, 20.10, 18.10, latest.", "set_converter_version"), 470);
@@ -6527,59 +5105,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_use_http">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_use_http</a>
+         */
         public PdfToHtmlClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_client_user_agent</a>
+         */
         public PdfToHtmlClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_user_agent">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_user_agent</a>
+         */
         public PdfToHtmlClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_proxy">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_proxy</a>
+         */
         public PdfToHtmlClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_retry_count">https://pdfcrowd.com/api/pdf-to-html-java/ref/#set_retry_count</a>
+         */
         public PdfToHtmlClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -6596,8 +5155,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from PDF to text.
-    */
+     * Conversion from PDF to text.
+     *
+     * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/">https://pdfcrowd.com/api/pdf-to-text-java/</a>
+     */
     public static final class PdfToTextClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -6606,11 +5167,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#PdfToTextClient">https://pdfcrowd.com/api/pdf-to-text-java/ref/#PdfToTextClient</a>
+         */
         public PdfToTextClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "pdf");
@@ -6618,11 +5176,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "pdf-to-text", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -6632,11 +5187,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF and write the result to an output stream.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "pdf-to-text", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -6646,11 +5198,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a PDF and write the result to a local file.
-        *
-        * @param url The address of the PDF to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -6668,11 +5217,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "pdf-to-text", "The file must exist and not be empty.", "convert_file"), 470);
@@ -6682,11 +5228,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "pdf-to-text", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -6696,11 +5239,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -6718,33 +5258,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert raw data.
-        *
-        * @param data The raw content to be converted.
-        * @return Byte array with the output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data</a>
+         */
         public byte[] convertRawData(byte[] data) {
             rawData.put("file", data);
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert raw data and write the result to an output stream.
-        *
-        * @param data The raw content to be converted.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data_to_stream">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data_to_stream</a>
+         */
         public void convertRawDataToStream(byte[] data, OutputStream outStream) {
             rawData.put("file", data);
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert raw data to a file.
-        *
-        * @param data The raw content to be converted.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data_to_file">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_raw_data_to_file</a>
+         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_raw_data_to_file"), 470);
@@ -6762,33 +5293,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/pdf-to-text-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "pdf-to-text", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -6806,22 +5328,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The password to open the encrypted PDF file.
-        *
-        * @param password The input PDF password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_pdf_password">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_pdf_password</a>
+         */
         public PdfToTextClient setPdfPassword(String password) {
             fields.put("pdf_password", password);
             return this;
         }
 
         /**
-        * Set the page range to print.
-        *
-        * @param pages A comma separated list of page numbers or ranges.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_print_page_range">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_print_page_range</a>
+         */
         public PdfToTextClient setPrintPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-text", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
@@ -6831,22 +5347,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Ignore the original PDF layout.
-        *
-        * @param value Set to <code>true</code> to ignore the layout.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_no_layout">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_no_layout</a>
+         */
         public PdfToTextClient setNoLayout(boolean value) {
             fields.put("no_layout", value ? "true" : null);
             return this;
         }
 
         /**
-        * The end-of-line convention for the text output.
-        *
-        * @param eol Allowed values are unix, dos, mac.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_eol">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_eol</a>
+         */
         public PdfToTextClient setEol(String eol) {
             if (!eol.matches("(?i)^(unix|dos|mac)$"))
                 throw new Error(createInvalidValueMessage(eol, "setEol", "pdf-to-text", "Allowed values are unix, dos, mac.", "set_eol"), 470);
@@ -6856,11 +5366,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the page break mode for the text output.
-        *
-        * @param mode Allowed values are none, default, custom.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_page_break_mode">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_page_break_mode</a>
+         */
         public PdfToTextClient setPageBreakMode(String mode) {
             if (!mode.matches("(?i)^(none|default|custom)$"))
                 throw new Error(createInvalidValueMessage(mode, "setPageBreakMode", "pdf-to-text", "Allowed values are none, default, custom.", "set_page_break_mode"), 470);
@@ -6870,22 +5377,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify the custom page break.
-        *
-        * @param pageBreak String to insert between the pages.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_custom_page_break">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_custom_page_break</a>
+         */
         public PdfToTextClient setCustomPageBreak(String pageBreak) {
             fields.put("custom_page_break", pageBreak);
             return this;
         }
 
         /**
-        * Specify the paragraph detection mode.
-        *
-        * @param mode Allowed values are none, bounding-box, characters.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_paragraph_mode">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_paragraph_mode</a>
+         */
         public PdfToTextClient setParagraphMode(String mode) {
             if (!mode.matches("(?i)^(none|bounding-box|characters)$"))
                 throw new Error(createInvalidValueMessage(mode, "setParagraphMode", "pdf-to-text", "Allowed values are none, bounding-box, characters.", "set_paragraph_mode"), 470);
@@ -6895,11 +5396,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the maximum line spacing when the paragraph detection mode is enabled.
-        *
-        * @param threshold The value must be a positive integer percentage.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_line_spacing_threshold">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_line_spacing_threshold</a>
+         */
         public PdfToTextClient setLineSpacingThreshold(String threshold) {
             if (!threshold.matches("(?i)^0$|^[0-9]+%$"))
                 throw new Error(createInvalidValueMessage(threshold, "setLineSpacingThreshold", "pdf-to-text", "The value must be a positive integer percentage.", "set_line_spacing_threshold"), 470);
@@ -6909,33 +5407,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Remove the hyphen character from the end of lines.
-        *
-        * @param value Set to <code>true</code> to remove hyphens.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_remove_hyphenation">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_remove_hyphenation</a>
+         */
         public PdfToTextClient setRemoveHyphenation(boolean value) {
             fields.put("remove_hyphenation", value ? "true" : null);
             return this;
         }
 
         /**
-        * Remove empty lines from the text output.
-        *
-        * @param value Set to <code>true</code> to remove empty lines.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_remove_empty_lines">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_remove_empty_lines</a>
+         */
         public PdfToTextClient setRemoveEmptyLines(boolean value) {
             fields.put("remove_empty_lines", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the top left X coordinate of the crop area in points.
-        *
-        * @param x Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_x">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_x</a>
+         */
         public PdfToTextClient setCropAreaX(int x) {
             if (!(x >= 0))
                 throw new Error(createInvalidValueMessage(x, "setCropAreaX", "pdf-to-text", "Must be a positive integer or 0.", "set_crop_area_x"), 470);
@@ -6945,11 +5434,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the top left Y coordinate of the crop area in points.
-        *
-        * @param y Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_y">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_y</a>
+         */
         public PdfToTextClient setCropAreaY(int y) {
             if (!(y >= 0))
                 throw new Error(createInvalidValueMessage(y, "setCropAreaY", "pdf-to-text", "Must be a positive integer or 0.", "set_crop_area_y"), 470);
@@ -6959,11 +5445,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the width of the crop area in points.
-        *
-        * @param width Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_width">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_width</a>
+         */
         public PdfToTextClient setCropAreaWidth(int width) {
             if (!(width >= 0))
                 throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "pdf-to-text", "Must be a positive integer or 0.", "set_crop_area_width"), 470);
@@ -6973,11 +5456,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the height of the crop area in points.
-        *
-        * @param height Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_height">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area_height</a>
+         */
         public PdfToTextClient setCropAreaHeight(int height) {
             if (!(height >= 0))
                 throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "pdf-to-text", "Must be a positive integer or 0.", "set_crop_area_height"), 470);
@@ -6987,14 +5467,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the crop area. It allows to extract just a part of a PDF page.
-        *
-        * @param x Set the top left X coordinate of the crop area in points. Must be a positive integer or 0.
-        * @param y Set the top left Y coordinate of the crop area in points. Must be a positive integer or 0.
-        * @param width Set the width of the crop area in points. Must be a positive integer or 0.
-        * @param height Set the height of the crop area in points. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_crop_area</a>
+         */
         public PdfToTextClient setCropArea(int x, int y, int width, int height) {
             this.setCropAreaX(x);
             this.setCropAreaY(y);
@@ -7004,92 +5478,73 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_debug_log">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_debug_log</a>
+         */
         public PdfToTextClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_job_id">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the number of pages in the output document.
-        * @return The page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_page_count">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_page_count</a>
+         */
         public int getPageCount() {
             return helper.getPageCount();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_output_size">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_version">https://pdfcrowd.com/api/pdf-to-text-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_tag">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_tag</a>
+         */
         public PdfToTextClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_http_proxy">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_http_proxy</a>
+         */
         public PdfToTextClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "pdf-to-text", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -7099,11 +5554,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_https_proxy">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_https_proxy</a>
+         */
         public PdfToTextClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-text", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -7113,59 +5565,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_use_http">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_use_http</a>
+         */
         public PdfToTextClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_client_user_agent</a>
+         */
         public PdfToTextClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_user_agent">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_user_agent</a>
+         */
         public PdfToTextClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_proxy">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_proxy</a>
+         */
         public PdfToTextClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_retry_count">https://pdfcrowd.com/api/pdf-to-text-java/ref/#set_retry_count</a>
+         */
         public PdfToTextClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
@@ -7174,8 +5607,10 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
     }
 
     /**
-    * Conversion from PDF to image.
-    */
+     * Conversion from PDF to image.
+     *
+     * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/">https://pdfcrowd.com/api/pdf-to-image-java/</a>
+     */
     public static final class PdfToImageClient {
         private ConnectionHelper helper;
         private HashMap<String,String> fields = new HashMap<String,String>();
@@ -7184,11 +5619,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         private int fileId = 1;
 
         /**
-        * Constructor for the PDFCrowd API client.
-        *
-        * @param userName Your username at PDFCrowd.
-        * @param apiKey Your API key.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#PdfToImageClient">https://pdfcrowd.com/api/pdf-to-image-java/ref/#PdfToImageClient</a>
+         */
         public PdfToImageClient(String userName, String apiKey) {
             this.helper = new ConnectionHelper(userName, apiKey);
             fields.put("input_format", "pdf");
@@ -7196,11 +5628,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url</a>
+         */
         public byte[] convertUrl(String url) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrl", "pdf-to-image", "Supported protocols are http:// and https://.", "convert_url"), 470);
@@ -7210,11 +5639,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to an output stream.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url_to_stream">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url_to_stream</a>
+         */
         public void convertUrlToStream(String url, OutputStream outStream) {
             if (!url.matches("(?i)^https?://.*$"))
                 throw new Error(createInvalidValueMessage(url, "convertUrlToStream::url", "pdf-to-image", "Supported protocols are http:// and https://.", "convert_url_to_stream"), 470);
@@ -7224,11 +5650,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert an image and write the result to a local file.
-        *
-        * @param url The address of the image to convert. Supported protocols are http:// and https://.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url_to_file">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_url_to_file</a>
+         */
         public void convertUrlToFile(String url, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertUrlToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_url_to_file"), 470);
@@ -7246,11 +5669,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file</a>
+         */
         public byte[] convertFile(String file) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFile", "pdf-to-image", "The file must exist and not be empty.", "convert_file"), 470);
@@ -7260,11 +5680,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to an output stream.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file_to_stream">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file_to_stream</a>
+         */
         public void convertFileToStream(String file, OutputStream outStream) {
             if (!(new File(file).length() > 0))
                 throw new Error(createInvalidValueMessage(file, "convertFileToStream::file", "pdf-to-image", "The file must exist and not be empty.", "convert_file_to_stream"), 470);
@@ -7274,11 +5691,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert a local file and write the result to a local file.
-        *
-        * @param file The path to a local file to convert.<br>  The file must exist and not be empty.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file_to_file">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_file_to_file</a>
+         */
         public void convertFileToFile(String file, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertFileToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_file_to_file"), 470);
@@ -7296,33 +5710,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert raw data.
-        *
-        * @param data The raw content to be converted.
-        * @return Byte array with the output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data</a>
+         */
         public byte[] convertRawData(byte[] data) {
             rawData.put("file", data);
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert raw data and write the result to an output stream.
-        *
-        * @param data The raw content to be converted.
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data_to_stream">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data_to_stream</a>
+         */
         public void convertRawDataToStream(byte[] data, OutputStream outStream) {
             rawData.put("file", data);
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert raw data to a file.
-        *
-        * @param data The raw content to be converted.
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data_to_file">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_raw_data_to_file</a>
+         */
         public void convertRawDataToFile(byte[] data, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertRawDataToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_raw_data_to_file"), 470);
@@ -7340,33 +5745,24 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Convert the contents of an input stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @return Byte array containing the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream</a>
+         */
         public byte[] convertStream(InputStream inStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             return helper.post(fields, files, rawData, null);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to an output stream.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param outStream The output stream that will contain the conversion output.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream_to_stream">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream_to_stream</a>
+         */
         public void convertStreamToStream(InputStream inStream, OutputStream outStream) throws IOException {
             rawData.put("stream", helper.getBytes(inStream));
             helper.post(fields, files, rawData, outStream);
         }
 
         /**
-        * Convert the contents of an input stream and write the result to a local file.
-        *
-        * @param inStream The input stream with source data.<br>
-        * @param filePath The output file path. The string must not be empty.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream_to_file">https://pdfcrowd.com/api/pdf-to-image-java/ref/#convert_stream_to_file</a>
+         */
         public void convertStreamToFile(InputStream inStream, String filePath) throws IOException {
             if (!(filePath != null && !filePath.isEmpty()))
                 throw new Error(createInvalidValueMessage(filePath, "convertStreamToFile::file_path", "pdf-to-image", "The string must not be empty.", "convert_stream_to_file"), 470);
@@ -7384,11 +5780,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * The format of the output file.
-        *
-        * @param outputFormat Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_output_format">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_output_format</a>
+         */
         public PdfToImageClient setOutputFormat(String outputFormat) {
             if (!outputFormat.matches("(?i)^(png|jpg|gif|tiff|bmp|ico|ppm|pgm|pbm|pnm|psb|pct|ras|tga|sgi|sun|webp)$"))
                 throw new Error(createInvalidValueMessage(outputFormat, "setOutputFormat", "pdf-to-image", "Allowed values are png, jpg, gif, tiff, bmp, ico, ppm, pgm, pbm, pnm, psb, pct, ras, tga, sgi, sun, webp.", "set_output_format"), 470);
@@ -7398,22 +5791,16 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Password to open the encrypted PDF file.
-        *
-        * @param password The input PDF password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_pdf_password">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_pdf_password</a>
+         */
         public PdfToImageClient setPdfPassword(String password) {
             fields.put("pdf_password", password);
             return this;
         }
 
         /**
-        * Set the page range to print.
-        *
-        * @param pages A comma separated list of page numbers or ranges.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_print_page_range">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_print_page_range</a>
+         */
         public PdfToImageClient setPrintPageRange(String pages) {
             if (!pages.matches("^(?:\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*,\\s*)*\\s*(?:\\d+|(?:\\d*\\s*\\-\\s*\\d+)|(?:\\d+\\s*\\-\\s*\\d*))\\s*$"))
                 throw new Error(createInvalidValueMessage(pages, "setPrintPageRange", "pdf-to-image", "A comma separated list of page numbers or ranges.", "set_print_page_range"), 470);
@@ -7423,52 +5810,39 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the output graphics DPI.
-        *
-        * @param dpi The DPI value.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_dpi">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_dpi</a>
+         */
         public PdfToImageClient setDpi(int dpi) {
             fields.put("dpi", Integer.toString(dpi));
             return this;
         }
 
         /**
-        * A helper method to determine if the output file from a conversion process is a zip archive. The conversion output can be either a single image file or a zip file containing one or more image files. This method should be called after the conversion has been successfully completed.
-        * @return <code>True</code> if the conversion output is a zip archive, otherwise <code>False</code>.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#is_zipped_output">https://pdfcrowd.com/api/pdf-to-image-java/ref/#is_zipped_output</a>
+         */
         public boolean isZippedOutput() {
             return "true".equals(fields.get("force_zip")) || this.getPageCount() > 1;
         }
 
         /**
-        * Enforces the zip output format.
-        *
-        * @param value Set to <code>true</code> to get the output as a zip archive.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_force_zip">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_force_zip</a>
+         */
         public PdfToImageClient setForceZip(boolean value) {
             fields.put("force_zip", value ? "true" : null);
             return this;
         }
 
         /**
-        * Use the crop box rather than media box.
-        *
-        * @param value Set to <code>true</code> to use crop box.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_cropbox">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_cropbox</a>
+         */
         public PdfToImageClient setUseCropbox(boolean value) {
             fields.put("use_cropbox", value ? "true" : null);
             return this;
         }
 
         /**
-        * Set the top left X coordinate of the crop area in points.
-        *
-        * @param x Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_x">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_x</a>
+         */
         public PdfToImageClient setCropAreaX(int x) {
             if (!(x >= 0))
                 throw new Error(createInvalidValueMessage(x, "setCropAreaX", "pdf-to-image", "Must be a positive integer or 0.", "set_crop_area_x"), 470);
@@ -7478,11 +5852,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the top left Y coordinate of the crop area in points.
-        *
-        * @param y Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_y">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_y</a>
+         */
         public PdfToImageClient setCropAreaY(int y) {
             if (!(y >= 0))
                 throw new Error(createInvalidValueMessage(y, "setCropAreaY", "pdf-to-image", "Must be a positive integer or 0.", "set_crop_area_y"), 470);
@@ -7492,11 +5863,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the width of the crop area in points.
-        *
-        * @param width Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_width">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_width</a>
+         */
         public PdfToImageClient setCropAreaWidth(int width) {
             if (!(width >= 0))
                 throw new Error(createInvalidValueMessage(width, "setCropAreaWidth", "pdf-to-image", "Must be a positive integer or 0.", "set_crop_area_width"), 470);
@@ -7506,11 +5874,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the height of the crop area in points.
-        *
-        * @param height Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_height">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area_height</a>
+         */
         public PdfToImageClient setCropAreaHeight(int height) {
             if (!(height >= 0))
                 throw new Error(createInvalidValueMessage(height, "setCropAreaHeight", "pdf-to-image", "Must be a positive integer or 0.", "set_crop_area_height"), 470);
@@ -7520,14 +5885,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Set the crop area. It allows to extract just a part of a PDF page.
-        *
-        * @param x Set the top left X coordinate of the crop area in points. Must be a positive integer or 0.
-        * @param y Set the top left Y coordinate of the crop area in points. Must be a positive integer or 0.
-        * @param width Set the width of the crop area in points. Must be a positive integer or 0.
-        * @param height Set the height of the crop area in points. Must be a positive integer or 0.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_crop_area</a>
+         */
         public PdfToImageClient setCropArea(int x, int y, int width, int height) {
             this.setCropAreaX(x);
             this.setCropAreaY(y);
@@ -7537,103 +5896,81 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Generate a grayscale image.
-        *
-        * @param value Set to <code>true</code> to generate a grayscale image.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_grayscale">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_grayscale</a>
+         */
         public PdfToImageClient setUseGrayscale(boolean value) {
             fields.put("use_grayscale", value ? "true" : null);
             return this;
         }
 
         /**
-        * Turn on the debug logging. Details about the conversion are stored in the debug log. The URL of the log can be obtained from the <a href='#get_debug_log_url'>getDebugLogUrl</a> method or available in <a href='/user/account/log/conversion/'>conversion statistics</a>.
-        *
-        * @param value Set to <code>true</code> to enable the debug logging.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_debug_log">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_debug_log</a>
+         */
         public PdfToImageClient setDebugLog(boolean value) {
             fields.put("debug_log", value ? "true" : null);
             return this;
         }
 
         /**
-        * Get the URL of the debug log for the last conversion.
-        * @return The link to the debug log.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_debug_log_url">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_debug_log_url</a>
+         */
         public String getDebugLogUrl() {
             return helper.getDebugLogUrl();
         }
 
         /**
-        * Get the number of conversion credits available in your <a href='/user/account/'>account</a>.
-        * This method can only be called after a call to one of the convertXtoY methods.
-        * The returned value can differ from the actual count if you run parallel conversions.
-        * The special value <code>999999</code> is returned if the information is not available.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_remaining_credit_count">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_remaining_credit_count</a>
+         */
         public int getRemainingCreditCount() {
             return helper.getRemainingCreditCount();
         }
 
         /**
-        * Get the number of credits consumed by the last conversion.
-        * @return The number of credits.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_consumed_credit_count">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_consumed_credit_count</a>
+         */
         public int getConsumedCreditCount() {
             return helper.getConsumedCreditCount();
         }
 
         /**
-        * Get the job id.
-        * @return The unique job identifier.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_job_id">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_job_id</a>
+         */
         public String getJobId() {
             return helper.getJobId();
         }
 
         /**
-        * Get the number of pages in the output document.
-        * @return The page count.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_page_count">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_page_count</a>
+         */
         public int getPageCount() {
             return helper.getPageCount();
         }
 
         /**
-        * Get the size of the output in bytes.
-        * @return The count of bytes.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_output_size">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_output_size</a>
+         */
         public int getOutputSize() {
             return helper.getOutputSize();
         }
 
         /**
-        * Get the version details.
-        * @return API version, converter version, and client version.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_version">https://pdfcrowd.com/api/pdf-to-image-java/ref/#get_version</a>
+         */
         public String getVersion() {
             return String.format("client %s, API v2, converter %s", CLIENT_VERSION, helper.getConverterVersion());
         }
 
         /**
-        * Tag the conversion with a custom value. The tag is used in <a href='/user/account/log/conversion/'>conversion statistics</a>. A value longer than 32 characters is cut off.
-        *
-        * @param tag A string with the custom tag.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_tag">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_tag</a>
+         */
         public PdfToImageClient setTag(String tag) {
             fields.put("tag", tag);
             return this;
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTP scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_http_proxy">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_http_proxy</a>
+         */
         public PdfToImageClient setHttpProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpProxy", "pdf-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_http_proxy"), 470);
@@ -7643,11 +5980,8 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * A proxy server used by the conversion process for accessing the source URLs with HTTPS scheme. It can help to circumvent regional restrictions or provide limited access to your intranet.
-        *
-        * @param proxy The value must have format DOMAIN_OR_IP_ADDRESS:PORT.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_https_proxy">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_https_proxy</a>
+         */
         public PdfToImageClient setHttpsProxy(String proxy) {
             if (!proxy.matches("(?i)^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z0-9]{1,}:\\d+$"))
                 throw new Error(createInvalidValueMessage(proxy, "setHttpsProxy", "pdf-to-image", "The value must have format DOMAIN_OR_IP_ADDRESS:PORT.", "set_https_proxy"), 470);
@@ -7657,59 +5991,40 @@ Dimensions may be empty, 0 or specified in inches 'in', millimeters 'mm', centim
         }
 
         /**
-        * Specify whether to use HTTP or HTTPS when connecting to the PDFCrowd API.
-        * Warning: Using HTTP is insecure as data sent over HTTP is not encrypted. Enable this option only if you know what you are doing.
-        *
-        * @param value Set to <code>true</code> to use HTTP.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_http">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_use_http</a>
+         */
         public PdfToImageClient setUseHttp(boolean value) {
             this.helper.setUseHttp(value);
             return this;
         }
 
         /**
-        * Specifies the User-Agent HTTP header that the client library will use when interacting with the API.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_client_user_agent">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_client_user_agent</a>
+         */
         public PdfToImageClient setClientUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Set a custom user agent HTTP header. It can be useful if you are behind a proxy or a firewall.
-        *
-        * @param agent The user agent string.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_user_agent">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_user_agent</a>
+         */
         public PdfToImageClient setUserAgent(String agent) {
             helper.setUserAgent(agent);
             return this;
         }
 
         /**
-        * Specifies an HTTP proxy that the API client library will use to connect to the internet.
-        *
-        * @param host The proxy hostname.
-        * @param port The proxy port.
-        * @param userName The username.
-        * @param password The password.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_proxy">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_proxy</a>
+         */
         public PdfToImageClient setProxy(String host, int port, String userName, String password) {
             helper.setProxy(host, port, userName, password);
             return this;
         }
 
         /**
-        * Specifies the number of automatic retries when the 502 or 503 HTTP status code is received. The status code indicates a temporary network issue. This feature can be disabled by setting to 0.
-        *
-        * @param count Number of retries.
-        * @return The converter object.
-        */
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_retry_count">https://pdfcrowd.com/api/pdf-to-image-java/ref/#set_retry_count</a>
+         */
         public PdfToImageClient setRetryCount(int count) {
             this.helper.setRetryCount(count);
             return this;
