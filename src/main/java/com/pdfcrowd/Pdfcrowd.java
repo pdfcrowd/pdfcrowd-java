@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.5.4";
+    public static final String CLIENT_VERSION = "6.6.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -145,7 +145,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.5.4 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.6.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -1708,6 +1708,17 @@ public final class Pdfcrowd {
         }
 
         /**
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_variable_markers">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_variable_markers</a>
+         */
+        public HtmlToPdfClient setDataVariableMarkers(String markers) {
+            if (!markers.matches("(?i)^(standard|square|angle)$"))
+                throw new Error(createInvalidValueMessage(markers, "setDataVariableMarkers", "html-to-pdf", "Allowed values are standard, square, angle.", "set_data_variable_markers"), 470);
+            
+            fields.put("data_variable_markers", markers);
+            return this;
+        }
+
+        /**
          * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_options">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_data_options</a>
          */
         public HtmlToPdfClient setDataOptions(String options) {
@@ -2588,6 +2599,17 @@ public final class Pdfcrowd {
          */
         public HtmlToImageClient setDataTrimBlocks(boolean value) {
             fields.put("data_trim_blocks", value ? "true" : null);
+            return this;
+        }
+
+        /**
+         * @see <a href="https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_variable_markers">https://pdfcrowd.com/api/html-to-image-java/ref/#set_data_variable_markers</a>
+         */
+        public HtmlToImageClient setDataVariableMarkers(String markers) {
+            if (!markers.matches("(?i)^(standard|square|angle)$"))
+                throw new Error(createInvalidValueMessage(markers, "setDataVariableMarkers", "html-to-image", "Allowed values are standard, square, angle.", "set_data_variable_markers"), 470);
+            
+            fields.put("data_variable_markers", markers);
             return this;
         }
 
