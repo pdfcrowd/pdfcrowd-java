@@ -33,7 +33,7 @@ public final class Pdfcrowd {
         ? System.getenv("PDFCROWD_HOST")
         : "api.pdfcrowd.com";
     private static final String MULTIPART_BOUNDARY = "----------ThIs_Is_tHe_bOUnDary_$";
-    public static final String CLIENT_VERSION = "6.6.0";
+    public static final String CLIENT_VERSION = "6.7.0";
 
     public static final class Error extends RuntimeException {
         private static final long serialVersionUID = 1L;
@@ -145,7 +145,7 @@ public final class Pdfcrowd {
             resetResponseData();
             setProxy(null, 0, null, null);
             setUseHttp(false);
-            setUserAgent("pdfcrowd_java_client/6.6.0 (https://pdfcrowd.com)");
+            setUserAgent("pdfcrowd_java_client/6.7.0 (https://pdfcrowd.com)");
 
             retryCount = 1;
             converterVersion = "24.04";
@@ -1534,6 +1534,37 @@ public final class Pdfcrowd {
          */
         public HtmlToPdfClient setExtractMetaTags(boolean value) {
             fields.put("extract_meta_tags", value ? "true" : null);
+            return this;
+        }
+
+        /**
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conformance">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_conformance</a>
+         */
+        public HtmlToPdfClient setConformance(String conformance) {
+            if (!conformance.matches("(?i)^(PDF/A-2a|PDF/A-2b|PDF/A-2u|PDF/A-3a|PDF/A-3b|PDF/A-3u|PDF/A-4|PDF/A-4e|PDF/A-4f)$"))
+                throw new Error(createInvalidValueMessage(conformance, "setConformance", "html-to-pdf", "Allowed values are PDF/A-2a, PDF/A-2b, PDF/A-2u, PDF/A-3a, PDF/A-3b, PDF/A-3u, PDF/A-4, PDF/A-4e, PDF/A-4f.", "set_conformance"), 470);
+            
+            fields.put("conformance", conformance);
+            return this;
+        }
+
+        /**
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_tagged_pdf">https://pdfcrowd.com/api/html-to-pdf-java/ref/#set_tagged_pdf</a>
+         */
+        public HtmlToPdfClient setTaggedPdf(boolean value) {
+            fields.put("tagged_pdf", value ? "true" : null);
+            return this;
+        }
+
+        /**
+         * @see <a href="https://pdfcrowd.com/api/html-to-pdf-java/ref/#add_attachment">https://pdfcrowd.com/api/html-to-pdf-java/ref/#add_attachment</a>
+         */
+        public HtmlToPdfClient addAttachment(String attachment) {
+            if (!(new File(attachment).length() > 0))
+                throw new Error(createInvalidValueMessage(attachment, "addAttachment", "html-to-pdf", "The file must exist and not be empty.", "add_attachment"), 470);
+            
+            files.put("attachment_" + Integer.toString(fileId), attachment);
+            fileId++;
             return this;
         }
 
@@ -3632,6 +3663,18 @@ public final class Pdfcrowd {
         }
 
         /**
+         * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_attachment">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#add_attachment</a>
+         */
+        public PdfToPdfClient addAttachment(String attachment) {
+            if (!(new File(attachment).length() > 0))
+                throw new Error(createInvalidValueMessage(attachment, "addAttachment", "pdf-to-pdf", "The file must exist and not be empty.", "add_attachment"), 470);
+            
+            files.put("attachment_" + Integer.toString(fileId), attachment);
+            fileId++;
+            return this;
+        }
+
+        /**
          * @see <a href="https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_layout">https://pdfcrowd.com/api/pdf-to-pdf-java/ref/#set_page_layout</a>
          */
         public PdfToPdfClient setPageLayout(String layout) {
@@ -4434,6 +4477,18 @@ public final class Pdfcrowd {
          */
         public ImageToPdfClient setKeywords(String keywords) {
             fields.put("keywords", keywords);
+            return this;
+        }
+
+        /**
+         * @see <a href="https://pdfcrowd.com/api/image-to-pdf-java/ref/#add_attachment">https://pdfcrowd.com/api/image-to-pdf-java/ref/#add_attachment</a>
+         */
+        public ImageToPdfClient addAttachment(String attachment) {
+            if (!(new File(attachment).length() > 0))
+                throw new Error(createInvalidValueMessage(attachment, "addAttachment", "image-to-pdf", "The file must exist and not be empty.", "add_attachment"), 470);
+            
+            files.put("attachment_" + Integer.toString(fileId), attachment);
+            fileId++;
             return this;
         }
 
